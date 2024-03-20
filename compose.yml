@@ -1,0 +1,39 @@
+services: #コンテナ定義開始
+  web: #コンテナ名
+    build: ./web #Dockerfileをビルド・反映
+    depends_on: #先にdbコンテナをビルドさせる
+      - db
+    #image: php:8.0-apache #使用するイメージを指定(今回はDockerfile「FROM」にて指定)
+    ports: #ポート番号の指定
+      - "8080:80"
+      - "5173:5173"
+    volumes: #指定したパスのデータを永続化するかつローカルディレクトリとコンテナディレクトリをマウントする
+      - ./project:/var/www/html
+  db: #コンテナ名
+    #image: mysql:8.0 #使用するイメージを指定(今回はDockerfile「FROM」にて指定)
+    build: ./db
+    environment: #環境変数の設定
+      MYSQL_DATABASE: learning_storage
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+    - "3306:3306"
+    volumes:
+    - mysql-data:/var/lib/mysql
+    - ./my.cnf:/etc/my.cnf
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=rootpass
+    links:
+      - db
+    ports:
+      - "4040:80"
+    volumes:
+      - ./phpmyadmin/sessions:/sessions
+volumes:
+  mysql-data:
