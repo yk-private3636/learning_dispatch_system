@@ -2,6 +2,7 @@
  
 namespace App\Console\Commands\make;
  
+use App\Services\Common\FilterService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
  
@@ -26,6 +27,7 @@ class ServiceCommand extends Command
     protected $description = 'Create a new service class';
  
     private string $base;
+    private array $splits;
     const LAYER = 'Services';
     const EXTENSION = '.php';
     const PERMISSION = 0755;
@@ -33,6 +35,7 @@ class ServiceCommand extends Command
     public function __construct(){
         parent::__construct();
         $this->base = app_path(self::LAYER);
+        $this->splits = [];
     }
  
     /**
@@ -79,8 +82,17 @@ class ServiceCommand extends Command
     {
         $_ = function($s){return $s;};
 
-        $addNameSpace = '\\' . str_replace('/', '\\', Str::beforeLast($name, '/'));
-        
+        if(count($this->splits) >= 1){
+            $addNameSpace = str_replace('/', '\\', Str::beforeLast($name, '/'));
+
+            if(boolVal(preg_match('/^\//', $name)) === false){
+                $addNameSpace = '\\' . $addNameSpace;
+            }
+        }
+        else{
+            $addNameSpace = '';   
+        }
+
         $name = Str::afterLast($name, '/');
  
         return <<<EOC
@@ -106,10 +118,10 @@ class ServiceCommand extends Command
         $judge = count(explode('/', $name)) > 1;
  
         if($judge === false) return;
+
+        $this->splits = FilterService::filled(explode('/', Str::beforeLast($name, '/'))) ?? [];
  
-        $splits = explode('/', Str::beforeLast($name, '/'));
- 
-        foreach($splits as $split){
+        foreach($this->splits as $split){
             $path .= "/$split";
             if(file_exists($path)) continue;
             mkdir($path, self::PERMISSION);

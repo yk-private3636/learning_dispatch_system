@@ -2,6 +2,7 @@
  
 namespace App\Console\Commands\make;
  
+use App\Services\Common\FilterService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
  
@@ -26,6 +27,7 @@ class RepositoryCommand extends Command
     protected $description = 'Create a new repository class';
  
     private string $base;
+    private array $splits;
     const LAYER = 'Repositories';
     const EXTENSION = '.php';
     const PERMISSION = 0755;
@@ -33,6 +35,7 @@ class RepositoryCommand extends Command
     public function __construct(){
         parent::__construct();
         $this->base = app_path(self::LAYER);
+        $this->splits = [];
     }
  
     /**
@@ -79,8 +82,17 @@ class RepositoryCommand extends Command
     {
         $_ = function($s){return $s;};
 
-        $addNameSpace = '\\' . str_replace('/', '\\', Str::beforeLast($name, '/'));
-        
+        if(count($this->splits) >= 1){
+            $addNameSpace = str_replace('/', '\\', Str::beforeLast($name, '/'));
+            
+            if(boolVal(preg_match('/^\//', $name)) === false){
+                $addNameSpace = '\\' . $addNameSpace;
+            }
+        }
+        else{
+            $addNameSpace = '';   
+        }
+
         $name = Str::afterLast($name, '/');
 
         return <<<EOC
@@ -112,9 +124,9 @@ class RepositoryCommand extends Command
 
         if($judge === false) return;
 
-        $splits = explode('/', Str::beforeLast($name, '/'));
+        $this->splits = FilterService::filled(explode('/', Str::beforeLast($name, '/')));
  
-        foreach($splits as $split){
+        foreach($this->splits as $split){
             $path .= "/{$split}";
             if(file_exists($path)) continue;
             mkdir($path, self::PERMISSION);

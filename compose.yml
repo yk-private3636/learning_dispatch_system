@@ -20,7 +20,7 @@ services: #コンテナ定義開始
     ports:
     - "3306:3306"
     volumes:
-    - mysql-data:/var/lib/mysql
+    - learning_storage-data:/var/lib/mysql
     - ./my.cnf:/etc/my.cnf
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -36,4 +36,4 @@ services: #コンテナ定義開始
     volumes:
       - ./phpmyadmin/sessions:/sessions
 volumes:
-  mysql-data:
+  learning_storage-data:
