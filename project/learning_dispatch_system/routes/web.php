@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Login\GeneralLoginContoroller;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn() => inertia('login/index'));
-Route::get('login', fn() => inertia('login/index'))->name('login');
+Route::get('/', [GeneralLoginContoroller::class, 'index']);
+Route::get('login', [GeneralLoginContoroller::class, 'index'])->name('generalLogin');
+Route::post('authentication', [GeneralLoginContoroller::class, 'authentication'])->name('generalUserAuth');
 
 
 // Route::fallback(fn() => );

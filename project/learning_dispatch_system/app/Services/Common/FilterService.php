@@ -11,7 +11,7 @@ class FilterService
     {
     	$judge = $datas instanceof Collection;
     	
-    	$filterFn = function($v){ return blank($v); };
+    	$filterFn = fn($v) => blank($v);
  
     	return $judge ? $datas->filter($filterFn) : Arr::where($datas, $filterFn);
     }
@@ -20,7 +20,7 @@ class FilterService
     {
     	$judge = $datas instanceof Collection;
  
-    	$filterFn = function($v){ return filled($v); };
+        $filterFn = fn($v) => filled($v);
  
     	return $judge ? $datas->filter($filterFn) : Arr::where($datas, $filterFn);	
     }
