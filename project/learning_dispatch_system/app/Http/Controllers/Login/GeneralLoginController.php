@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response as InertiaView;
 
-class GeneralLoginContoroller extends Controller
+class GeneralLoginController extends Controller
 {
 	private GeneralLoginService $service; 
 

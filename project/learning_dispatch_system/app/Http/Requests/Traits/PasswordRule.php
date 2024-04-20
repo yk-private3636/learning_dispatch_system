@@ -6,7 +6,7 @@ use Illuminate\Validation\Rules\Password;
 
 trait PasswordRule
 {
-	public function passwordRule(string $switch): array
+	public function getRuleOrMsg(string $switch): array
 	{
 		return match ($switch) {
 			\KeyConst::GET_VALID_RULE => [
