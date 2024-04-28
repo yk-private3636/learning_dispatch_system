@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class GeneralUserAuthProvider extends EloquentUserProvider implements UserProvider
+class UserAuthProvider extends EloquentUserProvider implements UserProvider
 {
     /**
      * retrieveByCredentials をオーバーライドし、$credentialsから認証対象のEloquentモデルを取得する処理をカスタマイズする。

@@ -2,34 +2,16 @@
 
 namespace App\Services\Login;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Login\LoginFormRequest;
 use Illuminate\Http\RedirectResponse;
 
 class GeneralLoginService
 {
-	private function indexUseParams(): array
+
+	public function authenticationVerdict(LoginFormRequest $req): bool
 	{
-		return [
-			'user_id',
-			'password'
-		];
-	}
+    	$credentials = $req->validated();
 
-	public function authenticationVerdict(Request $req): RedirectResponse
-	{
-		$useKeys = $this->indexUseParams();
-
-    	$credentials = $req->only($useKeys);
-    	
-    	$judge = auth()->attempt($credentials);
-
-    	if($judge === false){
-    		return back()->withErrors([
-    			'auth' => __('message.unsuccessful.auth')
-    		]);
-    	}
-
-    	dd(user());
-    	return to_route('generalLogin');
+    	return auth()->attempt($credentials);
 	}
 }

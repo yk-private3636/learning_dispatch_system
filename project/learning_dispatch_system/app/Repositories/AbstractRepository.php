@@ -14,6 +14,11 @@ abstract class AbstractRepository
  
     public function __construct(?object $model = null)
     {
-        $this->model = is_null($model) ? app()->make($this->getModelClass()) : $model;
+        if(is_null($model)){
+            $this->model = app()->make($this->getModelClass());
+        }
+        else{
+            $this->model = $model;
+        }
     }
 }

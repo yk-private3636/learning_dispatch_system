@@ -15,8 +15,8 @@ const vuetify = createVuetify({
 createInertiaApp({
     resolve: (name) =>
         resolvePageComponent(
-            `./shows/${name}.vue`,
-            import.meta.glob("./shows/**/*.vue")
+            `./views/${name}.vue`,
+            import.meta.glob("./views/**/*.vue")
         ),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })

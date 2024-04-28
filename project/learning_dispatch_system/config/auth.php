@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'general_users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin_users',  
+        ]
     ],
 
     /*
@@ -61,10 +65,13 @@ return [
 
     'providers' => [
         'general_users' => [
-            'driver' => 'general_user_provider',
+            'driver' => 'user_auth_provider',
             'model' => App\Models\GeneralUser::class,
         ],
-
+        'admin_users' => [
+            'driver' => 'user_auth_provider',            
+            'model' => App\Models\AdminUser::class 
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

@@ -11,10 +11,8 @@ use Inertia\Response as InertiaView;
 
 class GeneralLoginController extends Controller
 {
-	private GeneralLoginService $service; 
-
 	public function __construct(
-		GeneralLoginService $service
+		private GeneralLoginService $service
 	){
 		$this->service = $service;
 	}
@@ -26,8 +24,15 @@ class GeneralLoginController extends Controller
 
     public function authentication(LoginFormRequest $req): RedirectResponse
     {
-    	$redirect = $this->service->authenticationVerdict($req);
-    	
-    	return $redirect;
+    	$judge = $this->service->authenticationVerdict($req);
+
+    	if($judge === false){
+    		return back()->withErrors([
+    			'auth' => __('message.unsuccessful.auth')
+    		]);
+    	}
+
+    	dd(user());
+    	return to_route('generalLogin');
     }
 }

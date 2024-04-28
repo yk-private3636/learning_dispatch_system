@@ -19,6 +19,7 @@ class UserService
 
 		foreach($users as $user){
 			$guardName = $user->guardName();
+
 			$auth = Auth::guard($guardName)?->user();
 
 			if(is_null($auth) === false){

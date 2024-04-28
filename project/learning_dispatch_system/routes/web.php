@@ -21,13 +21,13 @@ Route::middleware(['guest'])->group(function() {
     Route::get('/', [GeneralLoginController::class, 'index']);
     Route::get('login', [GeneralLoginController::class, 'index'])->name('generalLogin');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('generalUserAuth');
-
-    /** 管理者 **/
-    Route::prefix('admin')->name('admin.')->group(function() {
-        Route::get('login', [LoginController::class, 'index'])->name('login');
-    });
 });
 
+/** 管理者 **/
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::get('/', [LoginController::class, 'index'])->name('login');
+    Route::get('{any}', [LoginController::class, 'index']);
+});
 
 
 // Route::fallback(fn() => );
