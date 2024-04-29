@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Login\LoginFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
@@ -15,7 +16,7 @@ class LoginController extends Controller
     public function __construct(
         private AdminLoginService $service
     ){
-        $this->service = $service;   
+        $this->service = $service;
     }
 
     public function index(): View
@@ -25,11 +26,35 @@ class LoginController extends Controller
 
     public function authentication(LoginFormRequest $req): JsonResponse
     {
-        $judge = $this->service->authenticationVerdict($req);
+        $validated = $req->validated();
 
-        $statusCode = $judge ? Response::HTTP_OK : Response::HTTP_UNAUTHORIZED;
+        $judge = $this->service->authenticationVerdict($validated);
 
-        return response()->json([], $statusCode);
+        if($judge){
+            $this->service->accountLockStateInit();
+            return response()->json([], Response::HTTP_OK);
+        }
+
+        try{
+            DB::beginTransaction();
+
+            $email = $validated['email'];
+            $statusCode = Response::HTTP_UNAUTHORIZED;
+
+            $adminUser = $this->service->accountLockState($email);
+
+            $msg = $this->service->authenticationFailMsg($adminUser); 
+
+            DB::commit();
+        } catch(\Throwable $e) {
+            DB::rollback();
+            $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $msg = __('message.err.system');
+        } finally {
+            return response()->json([
+                'err_msg' => $msg
+            ], $statusCode);
+        }
     }
 
 }

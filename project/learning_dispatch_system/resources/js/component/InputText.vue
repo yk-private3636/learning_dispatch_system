@@ -10,20 +10,19 @@
 		class: String,
 		disabled: Boolean,
 		rules: Array,
-		errorMessages: String
+		errorMessages: String,
+		modelValue: String
 	});
 
-	const input = ref(props.model);
-	const emit = defineEmits(['setInput']);
-	const inputText = (id) => {
-		emit('setInput', input.value, id);
+	const emit = defineEmits(['update:modelValue']);
+	const inputText = (e) => {
+		emit('update:modelValue', e.target.value);
 	};
 
 </script>
 
 <template>
 	<v-text-field 
-		v-model="input"
 		:id="id"
 		:type="type"
 		:label="label"
@@ -32,7 +31,7 @@
 		:disabled="disabled"
 		:rules="rules"
 		:error-messages="errorMessages"
-		@input="inputText(id)"
+		@input="inputText"
 	></v-text-field>
 </template>
 

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-// use App\Providers\Auth\UserAuthProvider;
-use Illuminate\Auth\EloquentUserProvider;
+use App\Providers\Auth\UserAuthProvider;
+// use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Application;
 // use Illuminate\Support\Facades\Gate;
@@ -28,7 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         Auth::provider(
             'user_auth_provider',
             function (Application $app, array $config) {
-                return new EloquentUserProvider($app['hash'], $config['model']);
+                // return new EloquentUserProvider($app['hash'], $config['model']);
+                return new UserAuthProvider($app['hash'], $config['model']);
             }
         );
     }

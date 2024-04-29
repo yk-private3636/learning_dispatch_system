@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('general_users', function (Blueprint $table) {
-            $table->string('user_id', 8)->comment('ユーザーID');
+            $table->string('user_id', 15)->comment('ユーザーID');
             $table->string('email')->comment('メールアドレス');
             $table->string('password')->comment('パスワード');
-            $table->unsignedTinyInteger('usage_status')->default(1)->comment('利用ステータス');
+            $table->string('family_name', 30)->comment('名字');
+            $table->string('name', 30)->comment('名前');
+            $table->unsignedTinyInteger('usage_status')->default(0)->comment('利用ステータス');
             $table->timestamps();
             $table->softDeletes()->comment('削除日時');
 

@@ -12,7 +12,6 @@
 	import * as button from '../../consts/button.js'
 	import * as label from '../../consts/label.js'
 	import * as text from '../../consts/text.js'
-	import * as message from '../../consts/message.js'
 
 	const email = ref('')
 	const password = ref('')
@@ -48,18 +47,19 @@
     		.catch(err => {
     			const statusCode = err.response?.status;
     			const errors = err.response.data?.errors;
+    			const errMsg = err.response.data?.err_msg;
     			valid.email.fails = false;
     			valid.password.fails = false;
 
     			if(statusCode === 401){
 					alertLabel.show = true;
-    				alertLabel.msg = message.err.authentication;
+    				alertLabel.msg = errMsg;
     				return;
     			}
 
     			if(statusCode !== 422 || errors === null){
     				alertLabel.show = true;
-    				alertLabel.msg = message.err.system;
+    				alertLabel.msg = errMsg;
     				return;
     			}
 

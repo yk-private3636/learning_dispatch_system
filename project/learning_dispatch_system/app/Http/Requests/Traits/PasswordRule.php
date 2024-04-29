@@ -6,16 +6,14 @@ use Illuminate\Validation\Rules\Password;
 
 trait PasswordRule
 {
-	public function getRuleOrMsg(string $switch): array
+
+	public function passwordCombinRule(): Password
 	{
-		return match ($switch) {
-			\KeyConst::GET_VALID_RULE => [
-				Password::min(12)->mixedCase()->numbers()->symbols()	
-			],
-			\KeyConst::GET_VALID_MSG => [
-            	'password.Illuminate\Validation\Rules\Password' => __('validate.rules.password')
-			]
-		};
+		return Password::min(12)->mixedCase()->numbers()->symbols();
 	}
 
+	public function passwordCombinMsg(): string
+	{
+		return __('validate.rules.password');
+	}
 }

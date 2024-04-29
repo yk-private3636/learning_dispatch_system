@@ -30,17 +30,6 @@
 		}
 	}
 
-	const setInput = (input, id) => {
-    	switch (id) {
-    		case 'user_id':
-    			form.user_id = input;
-    			break;
-    		case 'password': 
-    			form.password = input
-    			break;
-    	}
-	};
-
 	const submit = () => {
 		form.post(route('generalUserAuth'), {
 			user_id: form.user_id,
@@ -80,7 +69,7 @@
 	 		<v-container class="mt-5 mb-5">
 				<v-card class="mx-auto px-6 py-12" max-width="344">
 					<InputText
-						:model="form.user_id"
+						v-model="form.user_id"
 						id="user_id"
 						type="text"
 						:label="label.user_id"
@@ -89,7 +78,7 @@
 						@setInput="setInput"
 					></InputText>
 					<InputText
-						:model="form.password" 
+						v-model="form.password" 
 						id="password"
 						type="password"
 						:label="label.password"

@@ -1,6 +1,6 @@
 <?php
  
-namespace App\Repository;
+namespace App\Repositories;
  
 /**
  * 基本的にModelとRepositoryは一対一で作成

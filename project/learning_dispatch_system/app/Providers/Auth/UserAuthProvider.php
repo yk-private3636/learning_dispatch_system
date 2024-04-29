@@ -19,10 +19,13 @@ class UserAuthProvider extends EloquentUserProvider implements UserProvider
      * @param  array  $credentials
      * @return Authenticatable|null
      */
-    // public function retrieveByCredentials(array $credentials)
-    // {
-    //     return parent::retrieveByCredentials($credentials);
-    // }
+    public function retrieveByCredentials(array $credentials)
+    {
+        // $credentials = [...$credentials, ...['usage_status' => \CommonConst::ACCOUNT_USAGE]];
+        $credentials = $credentials + ['usage_status' => \CommonConst::ACCOUNT_USAGE];
+
+        return parent::retrieveByCredentials($credentials);
+    }
 
     /**
      * validateCredentials をオーバーライドして、$credentials に対する検査内容をカスタマイズする。

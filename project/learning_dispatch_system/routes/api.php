@@ -21,6 +21,5 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/authentication', [LoginController::class, 'authentication'])->name('authentication');
     
     Route::middleware('auth:sanctum')->group(function(){
-        
     });
 });
