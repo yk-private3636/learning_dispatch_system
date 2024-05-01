@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $guardName = UserEnum::ADMIN->guardName();
         $judge = auth()->guard($guardName)->user() !== null;
-
+        
         return response()->json([
             'judge' => $judge
         ], Response::HTTP_OK);
