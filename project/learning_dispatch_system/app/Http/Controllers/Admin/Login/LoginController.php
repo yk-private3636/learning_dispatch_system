@@ -19,11 +19,22 @@ class LoginController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * ログインページ表示
+     * 
+     * @return \Illuminate\View\View ログインページ
+     */
     public function index(): View
     {
         return view('admin.index');
     }
 
+    /**
+     * 認証ステップ
+     * 
+     * @param \App\Http\Requests\Admin\Login\LoginFormRequest $req リクエストパラメータ
+     * @return \Illuminate\Http\JsonResponse json形式で返却
+     */
     public function authentication(LoginFormRequest $req): JsonResponse
     {
         $validated = $req->validated();
@@ -43,7 +54,11 @@ class LoginController extends Controller
 
             $adminUser = $this->service->accountLockState($email);
 
-            $msg = $this->service->authenticationFailMsg($adminUser); 
+            if($adminUser === null){
+                $adminUser = $this->service->accountNotAvailable($email);
+            }
+
+            $msg = $this->service->authenticationFailMsg($adminUser?->mistake_num);
 
             DB::commit();
         } catch(\Throwable $e) {

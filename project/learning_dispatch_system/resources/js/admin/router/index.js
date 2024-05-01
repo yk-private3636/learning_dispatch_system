@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useLoginState } from '../stores/LoginState.js'
 import { prefix } from '../consts/common.js'
+import axios from 'axios'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,12 +34,33 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach((to, from, next) => {
+// router.beforeEach( async (to, from, next) => {
   
-//   // if(to.name !== prefix || to.name !== 'login') {
-//   // console.log('test')
-//   //   next();
-//   // }
+//   const loginState = useLoginState();
+//   const loginViewJudge = to.name === 'admin' || to.name  === 'login';
+
+//   await axios.get(route('admin.authenticating'))
+//   .then(response => {
+//       if(response.data.judge){
+//           loginState.setLogin();
+//       }
+//       else{
+//           loginState.setLogout();
+//       }
+//   })
+
+//   if(loginState?.login == false){
+//     next({
+//       path: '/admin/login',
+//       query: { redirect: to.fullPath }
+//     })
+//   }
+
+//   if(loginViewJudge && loginState?.login === true){
+//     router.go(-1)
+//   }
+
+//   next()
 // })
 
 // router.afterEach((to, from) => {

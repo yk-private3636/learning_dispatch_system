@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\Login\LoginController;
-
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,8 @@ use App\Http\Controllers\Admin\Login\LoginController;
 
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::post('/authentication', [LoginController::class, 'authentication'])->name('authentication');
-    
+    Route::get('/authenticating', [UserController::class, 'authenticating'])->name('authenticating');
+
     Route::middleware('auth:sanctum')->group(function(){
     });
 });

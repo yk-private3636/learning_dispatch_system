@@ -21,8 +21,7 @@ class UserAuthProvider extends EloquentUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        // $credentials = [...$credentials, ...['usage_status' => \CommonConst::ACCOUNT_USAGE]];
-        $credentials = $credentials + ['usage_status' => \CommonConst::ACCOUNT_USAGE];
+        $credentials += ['usage_status' => \CommonConst::ACCOUNT_USAGE];
 
         return parent::retrieveByCredentials($credentials);
     }

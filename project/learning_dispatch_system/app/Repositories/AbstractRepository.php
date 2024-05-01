@@ -8,7 +8,7 @@ namespace App\Repositories;
  */
 abstract class AbstractRepository
 {
-    protected $model;
+    protected ?object $model;
  
     abstract public function getModelClass(): string;
  

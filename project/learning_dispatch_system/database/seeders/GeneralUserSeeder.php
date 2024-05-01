@@ -91,7 +91,7 @@ class GeneralUserSeeder extends Seeder
                 'usage_status' => \CommonConst::ACCOUNT_DELETE_PENDING,
                 'created_at'   => now(),
                 'updated_at'   => now(),
-                'deleted_at'   => null,  
+                'deleted_at'   => now(),  
             ],
         ];
     }
