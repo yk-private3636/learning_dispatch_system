@@ -11,7 +11,15 @@ enum UserEnum
 	{
 		return match($this) {
 			self::GENERAL => 'general',
-			self::ADMIN => 'admin'
+			self::ADMIN   => 'admin'
+		};
+	}
+
+	public function division(): int
+	{
+		return match($this) {
+			self::GENERAL => 0,
+			self::ADMIN   => 1,
 		};
 	}
 }

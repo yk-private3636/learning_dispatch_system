@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Login\GeneralLoginController;
 use App\Http\Controllers\Admin\Login\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +18,8 @@ use App\Http\Controllers\Admin\Login\LoginController;
 |
 */
 
+/** 一般ユーザー **/
 Route::middleware(['guest'])->group(function() {
-    /** 一般ユーザー **/
     Route::get('/', [GeneralLoginController::class, 'index']);
     Route::get('login', [GeneralLoginController::class, 'index'])->name('generalLogin');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('generalUserAuth');
@@ -26,8 +28,14 @@ Route::middleware(['guest'])->group(function() {
 /** 管理者 **/
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [LoginController::class, 'index'])->name('login');
-    Route::get('{any}', [LoginController::class, 'index']);
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
 });
 
+Route::middleware(['accurateToken'])->group(function(){
+    Route::get('/password/reset/{token}', [UserController::class, 'passwordResetShow'])->name('password.reset.show');
+    Route::put('/password/reset', [UserController::class, 'passwordReset'])->name('password.reset');    
+});
 
-// Route::fallback(fn() => );
+Route::middleware(['adminPrefixOnly'])->group(function(){
+    Route::fallback([LoginController::class, 'index']);
+});

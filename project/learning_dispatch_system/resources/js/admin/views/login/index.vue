@@ -94,7 +94,7 @@
 		        <div class="flex items-center justify-between mt-2">
 		        	<Label :label="label.password"></Label>
 		          <div class="text-sm">
-		          	<Link :text="text.password.forget"></Link>
+		          	<Link :to="{ name: 'login.forget' }">{{ text.password.forget }}</Link>
 		          </div>
 		        </div>
 		        <div class="mt-2">

@@ -1,12 +1,13 @@
 <script setup>
 	const props = defineProps({
-		href: String,
-		text: String
+		to: Object,
 	})
 </script>
 
 <template>
-	<a :href="props.href" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">{{ props.text }}</a>
+	<router-link :to="props.to" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">
+		<slot></slot>
+	</router-link>
 </template>
 
 <style scoped>

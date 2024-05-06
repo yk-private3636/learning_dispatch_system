@@ -2,18 +2,23 @@
 
 namespace App\Services\Admin\Login;
 
-use App\Consts\UserEnum;
+use App\Services\Common\StrService;
+use App\Mail\PassResetGuideNotice;
 use App\Models\AdminUser;
+use App\Models\ResetPasswordToken;
 use App\Repositories\AdminUsersRepository;
+use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AdminLoginService
 {
 	public function __construct(
-		private AdminUsersRepository $adminUser
+		private AdminUsersRepository $adminUser,
+		private ResetPasswordTokenRepository $resetPasswordToken
 	){
 		$this->adminUser = $adminUser;
+		$this->resetPasswordToken = $resetPasswordToken;
 	}
 
 	/**
@@ -24,7 +29,7 @@ class AdminLoginService
 	 */
 	public function authenticationVerdict(array $credentials): bool
 	{
-    	$guardName = UserEnum::ADMIN->guardName();
+    	$guardName = \UserEnum::ADMIN->guardName();
     	
     	return auth()->guard($guardName)->attempt($credentials);
 	}
@@ -98,6 +103,31 @@ class AdminLoginService
 			\CommonConst::MISTAKE_STEP_THI => __('message.mistake.step_thi'),
 			default                        => __('message.unsuccessful.auth')
 		};
+	}
+
+	/**
+	 * トークン発行履歴作成
+	 * 
+	 * @param string $email メールアドレス 
+	 * @param string $token UUID
+	 * @return \App\Models\ResetPasswordToken
+	 */
+	public function passResetProcedureRegistration(string $email, string $token): ResetPasswordToken
+	{
+        $insertData = $this->resetPasswordTokeniInsertData($email, $token);
+
+        return $this->resetPasswordToken->create($insertData);
+	}
+
+	public function passResetGuideNotice(ResetPasswordToken $resetPasswordToken): void
+	{
+		$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, ['adminUser']);
+
+		$email = $resetPasswordToken->adminUser->email;
+		
+		Mail::to($email)->send(new PassResetGuideNotice(
+			$resetPasswordToken					
+		));
 	}
 
 	/**
@@ -233,6 +263,20 @@ class AdminLoginService
 		return [
 			\CommonConst::ACCOUNT_LOCKD,
 			\CommonConst::ACCOUNT_SUSPEND
+		];
+	}
+
+	/**
+	 * reset_password_tokenテーブル登録データ作成
+	 * 
+	 * @return array 登録データ
+	 */
+	private function resetPasswordTokeniInsertData(string $email, string $token): array
+	{
+		return [
+			'email'         => $email,
+			'token'         => $token,
+			'user_division' => \UserEnum::ADMIN->division()
 		];
 	}
 }

@@ -2,15 +2,13 @@
 
 namespace App\Services\Common;
 
-use App\Consts\UserEnum;
 use Illuminate\Support\Facades\Auth;
-
 
 class UserService
 {
 	public static function cases(): array
 	{
-		return UserEnum::cases();
+		return \UserEnum::cases();
 	}
 
 	public static function auth(): ?object

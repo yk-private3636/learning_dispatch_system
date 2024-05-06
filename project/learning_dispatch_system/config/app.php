@@ -184,7 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'CommonConst' => App\Consts\CommonConst::class,
-        'KeyConst' => App\Consts\KeyConst::class,
+        'UserEnum' => App\Consts\UserEnum::class,
     ])->toArray(),
 
 ];

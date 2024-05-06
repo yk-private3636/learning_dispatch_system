@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin\Login;
 use App\Http\Requests\Traits\EmailRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginFormRequest extends FormRequest
+class PasswordProcedureResetRequest extends FormRequest
 {
     use EmailRule;
 
@@ -25,8 +25,7 @@ class LoginFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => $this->getEmailRule(),
-            'password' => ['required']
+            'email' => $this->getEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
         ];
     }
 
@@ -35,8 +34,7 @@ class LoginFormRequest extends FormRequest
         return [
             'email.required'    => $this->getEmailRequiredMsg(),
             'email.email'       => $this->getEmailCombinMsg(),
-            'email.exists'       => $this->getEmailExistsMsg(),
-            'password.required' => __('validate.required')
+            'email.exists'      => $this->getEmailExistsMsg(),
         ];
     }
 }

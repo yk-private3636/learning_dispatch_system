@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useLoginState } from '../stores/LoginState.js'
-import { prefix } from '../consts/common.js'
+import * as path from '../consts/routerPath.js'
 import axios from 'axios'
 
 const router = createRouter({
@@ -12,17 +12,40 @@ const router = createRouter({
     //    component: TodoView
     // }
   	{
-      path: prefix,
+      path: path.common,
       name: 'admin',
       component: () => import('../views/login/index.vue')
     },
     {
-      path: prefix + '/login',
+      path: path.login,
       name: 'login',
       component: () => import('../views/login/index.vue')
     },
     {
-      path: prefix + '/top',
+      path: path.loginForget,
+      name: 'login.forget',
+      component: () => import('../views/login/forget.vue')
+    },
+    {
+      path: path.passwordReset,
+      name: 'password.reset',
+      component: () => import('../views/login/passwordReset.vue'),
+      beforeEnter: (to, from, next) => {
+        const token = to.params.token;
+        axios.get(route('admin.password.reset.accurate.token', token))
+        .then(response => {
+          if(response.data.judge === false){
+            throw new Error('不正なトークンです。');
+          }
+            next();
+        })
+        .catch(err => {
+          router.push({name: 'not-found'});
+        })
+      }
+    },
+    {
+      path: path.top,
       name: 'top',
       component: () => import('../views/top/index.vue')
     },

@@ -4,7 +4,9 @@ namespace App\Repositories;
 
 use App\Models\AdminUser;
 use App\Repositories\AbstractRepository;
+use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class AdminUsersRepository extends AbstractRepository
 {
@@ -46,9 +48,9 @@ class AdminUsersRepository extends AbstractRepository
      * @param array $updData 更新パラメータ
      * @return \App\Models\AdminUser $adminUser 更新対象ユーザー
      */
-    public function update(AdminUser $adminUser, array $updData): AdminUser
+    public function update(AdminUser|Builder $target, array $updData): AdminUser|Builder
     {
-        return tap($adminUser)->update($updData);
+        return tap($target)->update($updData);
     }
 
     /**
@@ -70,7 +72,7 @@ class AdminUsersRepository extends AbstractRepository
      * @param bool $exeJudge 実行するか否か
      * @return null|\App\Models\AdminUser|\Illuminate\Database\Eloquent\Builder 実行結果
      */
-    public function whereUnique(string $email, bool $exeJudge = true): null|AdminUser|Builder
+    public function first(string $email, bool $exeJudge = true): null|AdminUser|Builder
     {
         $query = $this->model->where('email', $email);
 
@@ -86,7 +88,7 @@ class AdminUsersRepository extends AbstractRepository
      */
     public function whereStatusUniqueSharedLock(string $email, int $usageStatus): ?AdminUser
     {
-        return $this->whereUnique($email, false)
+        return $this->first($email, false)
                 ->where('usage_status', $usageStatus)
                 ->sharedLock()
                 ->first();
@@ -101,10 +103,24 @@ class AdminUsersRepository extends AbstractRepository
      */
     public function whereStatuiesUniqueSharedLock(string $email, array $usageStatuies): ?AdminUser
     {
-        return $this->whereUnique($email, false)
+        return $this->first($email, false)
                 ->whereIn('usage_status', $usageStatuies)
                 ->sharedLock()
                 ->first();
+    }
+
+    public function firstOriginToken(string $token, bool $exeJudge = true): null|AdminUser|Builder
+    {
+        $query = $this->model->where('email', function(QueryBuilder $subQuery) use($token) {
+            $tableName = app()->make(ResetPasswordTokenRepository::class)->tableName();
+            $subQuery->select([
+                'email'
+            ])
+            ->from($tableName)
+            ->where('token', $token);
+        });
+
+        return $exeJudge ? $query->first() : $query;
     }
 
 

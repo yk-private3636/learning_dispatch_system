@@ -1,14 +1,15 @@
 import { useRouter } from 'vue-router'
 import { useLoginState } from '../stores/LoginState.js'
 import { prefix } from '../consts/common.js'
+import { routeNames } from '../consts/exclusionRouteNames.js'
 import axios from 'axios'
 
 export const authGuard = async (router) => {
     const loginState = useLoginState();
     router.beforeEach( async (to) => {
 
-    	const loginViewJudge = to.name === 'admin' || to.name  === 'login';
-        
+    	const exclusionJudge = routeNames.includes(to.name);
+
         await axios(route('admin.authenticating'))
         .then(response => {
             if(response.data.judge){
@@ -19,11 +20,11 @@ export const authGuard = async (router) => {
             }
         })
 
-    	if(loginViewJudge && loginState.login){
+    	if(exclusionJudge && loginState.login){
             return {name: 'top'}
     	}
 
-    	if(loginViewJudge || loginState.login) {
+    	if(exclusionJudge || loginState.login) {
             return true;
     	}
 

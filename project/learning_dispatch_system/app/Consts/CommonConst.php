@@ -18,6 +18,9 @@ class CommonConst
 	public const MISTAKE_STEP_THI = 9; // 入力間違えステップ3(9回まで)
 	/***                      ***/
 
+	public const ORGANIZATION_MARK = '[会社/サービス名]サポートチーム';
+
+	public const ADMIN_PREFIX = 'admin';
 
 
 }
