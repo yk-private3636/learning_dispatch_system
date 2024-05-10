@@ -8,7 +8,7 @@ unzip \
 vim
 RUN cd /etc/apache2/mods-enabled \
     && ln -s ../mods-available/rewrite.load
-#RUN /etc/init.d/apache2 reload
+
 COPY ./apache2.conf /etc/apache2/apache2.conf
 COPY ./000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY ./php.ini /usr/local/etc/php/php.ini

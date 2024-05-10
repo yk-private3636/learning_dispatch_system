@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin\Login;
 
+use App\Jobs\SendMailJob;
 use App\Services\Common\StrService;
 use App\Mail\PassResetGuideNotice;
 use App\Models\AdminUser;
@@ -9,6 +10,7 @@ use App\Models\ResetPasswordToken;
 use App\Repositories\AdminUsersRepository;
 use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class AdminLoginService
@@ -121,13 +123,16 @@ class AdminLoginService
 
 	public function passResetGuideNotice(ResetPasswordToken $resetPasswordToken): void
 	{
-		$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, ['adminUser']);
+		$relations = $resetPasswordToken->getRelations();
+
+		if(Arr::exists($relations, 'adminUser') === false){
+			$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, ['adminUser']);
+		}
 
 		$email = $resetPasswordToken->adminUser->email;
-		
-		Mail::to($email)->send(new PassResetGuideNotice(
-			$resetPasswordToken					
-		));
+		$mailObj = new PassResetGuideNotice($resetPasswordToken);
+
+		SendMailJob::dispatch($email, $mailObj);
 	}
 
 	/**

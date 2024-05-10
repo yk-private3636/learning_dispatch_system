@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\GeneralUser;
+use App\Models\AdminUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,10 +18,10 @@ class PasswordResetMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public GeneralUser|AdminUser $user
+    )
+    {}
 
     /**
      * Get the message envelope.
@@ -27,7 +29,8 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Mail',
+            subject: __('mail.password.reset.complete.subject'),
+            from: config('mail.from.address'),
         );
     }
 
@@ -37,12 +40,12 @@ class PasswordResetMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'template.mail.reset_passwoed_complete',
         );
     }
 
     /**
-     * Get the attachments for the message.
+     * Get the attachments for the message.pe
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */

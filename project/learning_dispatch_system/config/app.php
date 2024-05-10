@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost:8080'),
 
     'asset_url' => env('ASSET_URL'),
 
@@ -184,6 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'CommonConst' => App\Consts\CommonConst::class,
+        'KeyConst' => App\Consts\KeyConst::class,
         'UserEnum' => App\Consts\UserEnum::class,
     ])->toArray(),
 

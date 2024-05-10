@@ -18,7 +18,7 @@ class PasswordResetGuideMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public RsetPasswordToken $resetPasswordToken
+        public ResetPasswordToken $resetPasswordToken
     )
     {}
 

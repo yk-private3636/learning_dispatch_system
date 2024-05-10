@@ -1,97 +1,74 @@
 <script setup>
-	import { ref } from 'vue';
-	import { useForm, Link } from '@inertiajs/vue3';
-	import InputText from '../../component/InputText.vue';
+	import { reactive, computed } from 'vue';
+	import { useForm, usePage, Link } from '@inertiajs/vue3';
 	import Btn from '../../component/Btn.vue';
+	import SuccessSnackbar from '../../component/SuccessSnackbar.vue';
+	import Snackbar from '../../component/Snackbar.vue';
 	import * as label from '../../consts/label.js';
 	import * as button from '../../consts/button.js';
 	import * as message from '../../consts/message.js';
 	import * as text from '../../consts/text.js';
+	import * as valid from '../../consts/validate.js';
+	import { blank } from '../../consts/StrLib.js';
 
-	// const pr = defineProps({
-	// 	errors: Object,
-	// });
-
-	const btnDisabled = ref(false);
 	const form = useForm({
 		user_id: null,
 		password: null
 	});
 
-	const required = (input) => {
-		if(!!input === false){
-			btnDisabled.value = true;
-			return message.valid.required;
-		}
+	const page = usePage();
 
-		if((form.user_id && form.password)?.length >= 1){
-			btnDisabled.value = false;
-			return;
-		}
-	}
+	const successAlert = reactive({
+		show: page.props.success.msg ? true : false,
+		msg: page.props.success.msg
+	})
+
+	const btnDisabled = computed(() => {
+		const disabled = blank(form.user_id) || blank(form.password)
+		return disabled;
+	})
 
 	const submit = () => {
-		form.post(route('generalUserAuth'), {
-			user_id: form.user_id,
-			password: form.password
-		}
-	)}
-
+		form.post(route('generalUserAuth'))
+	}
 </script>
 
 <template>
 	<div v-if="form.hasErrors && form.errors.auth">
-		<v-snackbar
-			v-model="form.hasErrors"
-			:text="form.errors.auth"
-			timeout="2000"
-			location="top"
-		>
-			<template v-slot:actions>
-	        	<v-btn
-		          	color="pink"
-		          	variant="text"
-		          	@click="form.hasErrors = false"
-	        	>
-	          	×
-	        	</v-btn>
-	        </template>
-		</v-snackbar>
+		<Snackbar v-model="form.hasErrors" :text="form.errors.auth"></Snackbar>
 	</div>
+	<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"></SuccessSnackbar>
 	<form @submit.prevent="submit">
 		<v-sheet class="bg-blue-grey-lighten-5 pa-12" height="100vh" rounded>
 	 		<v-container class="mt-5 mb-5">
-                <v-card class="py-3">
-                  <v-card-title class="text-center">{{ text.title }}</v-card-title>
-                </v-card>
-          	</v-container>
+				<v-card class="py-3">
+					<v-card-title class="text-center">{{ text.title }}</v-card-title>
+				</v-card>
+			</v-container>
 	        
 	 		<v-container class="mt-5 mb-5">
 				<v-card class="mx-auto px-6 py-12" max-width="344">
-					<InputText
+					<v-text-field
 						v-model="form.user_id"
 						id="user_id"
 						type="text"
 						:label="label.user_id"
-						:rules="[required]"
+						:rules="[valid.required]"
 						:error-messages="form.errors.user_id ?? null"
-						@setInput="setInput"
-					></InputText>
-					<InputText
+					></v-text-field>
+					<v-text-field
 						v-model="form.password" 
 						id="password"
 						type="password"
 						:label="label.password"
-						:rules="[required]"
+						:rules="[valid.required]"
 						:error-messages="form.errors.password ?? null"
-						@setInput="setInput"
-					></InputText>
+					></v-text-field>
 					<br>
 					<Btn
-						color="indigo-darken-1"
 						type="submit"
 						:block="true"
-						:disabled="btnDisabled"
+						:disabled="btnDisabled || form.processing"
 					>
 						{{ button.login }}
 					</Btn>
@@ -99,7 +76,7 @@
 			</v-container>
 	 		<v-container class="mt-5 mb-5">
 	 			<v-row no-gutters justify="center">
-	 				<Link href="/test" method="get" as="button" type="button">{{ text.passForgetGuide }}</Link>
+	 				<Link :href="route('login.forget.show')" method="get" as="button" type="button">{{ text.passForgetGuide }}</Link>
 	 				<div class="mx-3">
 	 					/
 	 				</div>

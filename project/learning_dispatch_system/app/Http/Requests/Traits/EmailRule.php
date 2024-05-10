@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Traits;
 
-use App\Repositories\AdminUsersRepository;
+use App\Repositories\GeneralUsersRepository;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\Query\Builder;
 
@@ -19,6 +19,24 @@ trait EmailRule
 	}
 
 	public function getEmailRuleWithExists(?int $usageStatus = null): array
+	{
+		$tableName = app()->make(GeneralUsersRepository::class)->tableName();
+
+		return [
+			...$this->getEmailRule(),
+			Rule::exists($tableName, 'email')->where(function(Builder $query) use($usageStatus) {
+				// $query->whereNull('deleted_at');
+
+				if($usageStatus === null){
+					return $query;
+				}
+				
+				return $query->where('usage_status', $usageStatus);
+			})
+		];
+	}
+
+	public function getAdminEmailRuleWithExists(?int $usageStatus = null): array
 	{
 		$tableName = app()->make(AdminUsersRepository::class)->tableName();
 

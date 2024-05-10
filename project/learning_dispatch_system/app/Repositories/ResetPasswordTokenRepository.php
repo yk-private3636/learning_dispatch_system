@@ -53,6 +53,11 @@ class ResetPasswordTokenRepository extends AbstractRepository
         return $resetPasswordToken->load($loads);   
     }
 
+    public function delete(ResetPasswordToken|Builder $target): int
+    {
+        return $target->delete();
+    }
+
     public function expireToken(bool $exeJudge = true): Builder|Collection
     {
         $query = $this->model->whereRaw("NOW() >= sended_at + INTERVAL 1 DAY");
@@ -64,4 +69,19 @@ class ResetPasswordTokenRepository extends AbstractRepository
     {
         return $this->expireToken(false)->delete();
     }
+
+    public function tokenLinkGeneralUser(string $token): ?ResetPasswordToken
+    {
+        return $this->first($token, false)
+            ->with('generalUser')
+            ->first();
+    }
+
+    public function tokenLinkAdminUser(string $token): ?ResetPasswordToken
+    {
+        return $this->first($token, false)
+            ->with('adminUser')
+            ->first();
+    }
+
 }

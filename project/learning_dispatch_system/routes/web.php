@@ -20,20 +20,21 @@ use App\Http\Controllers\Admin\Login\LoginController;
 
 /** 一般ユーザー **/
 Route::middleware(['guest'])->group(function() {
+    /** ログイン **/
     Route::get('/', [GeneralLoginController::class, 'index']);
     Route::get('login', [GeneralLoginController::class, 'index'])->name('generalLogin');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('generalUserAuth');
+
+    Route::get('/login/forget', [UserController::class, 'loginForgetShow'])->name('login.forget.show');
+    Route::post('/password/procedure/reset', [GeneralLoginController::class, 'passwordProcedureReset'])->name('password.procedure.reset');
+    Route::get('/password/reset/{token}', [UserController::class, 'passwordResetShow'])->middleware('accurateToken')->name('password.reset.show');
+    Route::put('/password/reset', [UserController::class, 'passwordReset'])->name('password.reset');
 });
 
 /** 管理者 **/
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [LoginController::class, 'index'])->name('login');
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-});
-
-Route::middleware(['accurateToken'])->group(function(){
-    Route::get('/password/reset/{token}', [UserController::class, 'passwordResetShow'])->name('password.reset.show');
-    Route::put('/password/reset', [UserController::class, 'passwordReset'])->name('password.reset');    
 });
 
 Route::middleware(['adminPrefixOnly'])->group(function(){

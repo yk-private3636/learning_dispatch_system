@@ -44,9 +44,9 @@ class AdminUsersRepository extends AbstractRepository
     /**
      * 更新処理
      * 
-     * @param \App\Models\AdminUser $adminUser 更新対象ユーザー
+     * @param \App\Models\AdminUser $target 更新対象ユーザー
      * @param array $updData 更新パラメータ
-     * @return \App\Models\AdminUser $adminUser 更新対象ユーザー
+     * @return \App\Models\AdminUser $target 更新対象ユーザー
      */
     public function update(AdminUser|Builder $target, array $updData): AdminUser|Builder
     {

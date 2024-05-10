@@ -1,6 +1,5 @@
 <script setup>
 	const props = defineProps({
-		color: String,
 		type: String,
 		block: Boolean
 
@@ -9,7 +8,7 @@
 
 <template>
 	<v-btn
-		:color="color"
+		color="indigo-darken-1"
 		:type="type"
 		:block="block"
 	>

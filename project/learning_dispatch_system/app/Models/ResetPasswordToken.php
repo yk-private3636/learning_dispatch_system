@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\AdminUser;
+use App\Models\GeneralUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -20,6 +21,11 @@ class ResetPasswordToken extends Model
         'token',
         'user_division'
     ];
+
+    public function generalUser(): HasOne
+    {
+        return $this->hasOne(GeneralUser::class, 'email', 'email');
+    }
 
     public function adminUser(): HasOne
     {

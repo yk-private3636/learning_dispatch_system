@@ -35,7 +35,7 @@ const router = createRouter({
         axios.get(route('admin.password.reset.accurate.token', token))
         .then(response => {
           if(response.data.judge === false){
-            throw new Error('不正なトークンです。');
+            throw new Error('無効なトークンです。');
           }
             next();
         })

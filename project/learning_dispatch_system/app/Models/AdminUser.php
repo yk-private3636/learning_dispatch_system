@@ -45,5 +45,4 @@ class AdminUser extends Authenticatable
             get: fn () => $this->family_name . ' ' . $this->name
         );
     }
-    /***      ***/
 }

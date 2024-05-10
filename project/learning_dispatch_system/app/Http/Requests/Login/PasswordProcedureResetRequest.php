@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Login;
+namespace App\Http\Requests\Login;
 
 use App\Http\Requests\Traits\EmailRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class PasswordProcedureResetRequest extends FormRequest
 {
     use EmailRule;
-
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,7 +25,7 @@ class PasswordProcedureResetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => $this->getAdminEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
+            'email' => $this->getEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
         ];
     }
 

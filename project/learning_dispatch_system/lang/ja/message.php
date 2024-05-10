@@ -2,7 +2,8 @@
 
 return [
 	'successful' => [
-		'passwordReset' => 'パスワードの再設定が完了しました。'
+		'passwordReset' => 'パスワードの再設定が完了しました。',
+		'passwordProcedureReset' => 'パスワードリセットご案内メールを送信しました。',
 	],
 
 	'unsuccessful' => [
