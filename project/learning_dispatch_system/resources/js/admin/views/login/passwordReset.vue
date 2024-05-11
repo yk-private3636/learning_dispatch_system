@@ -82,14 +82,14 @@
 		<SuccessAlertLabel v-show="successAlertLabel.show" v-model="successAlertLabel.show">{{ successAlertLabel.msg }}</SuccessAlertLabel>
 		<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 			<div>
-	        	<Label :label="label.password"></Label>
+	        	<Label :label="label.newPassword"></Label>
 		        <div class="mt-2">
 		        	<InputText v-model="password" name="password" type="password" autocomplete="password" :required="true"></InputText>
 		        	<ErrMsg v-if="valid.password.fails">{{ valid.password.msg }}</ErrMsg>
 		        </div>
 		    </div>
 		    <div class="mt-2">
-	        	<Label :label="label.confirm_password"></Label>
+	        	<Label :label="label.confirmPassword"></Label>
 		        <div class="mt-2">
 		        	<InputText v-model="confirmPassword" name="confirm_password" type="password" autocomplete="password" :required="true"></InputText>
 		        	<ErrMsg v-if="valid.confirmPassword.fails">{{ valid.confirmPassword.msg }}</ErrMsg>

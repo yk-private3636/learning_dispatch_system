@@ -4,7 +4,7 @@ namespace App\Services\Admin\Login;
 
 use App\Jobs\SendMailJob;
 use App\Services\Common\StrService;
-use App\Mail\PassResetGuideNotice;
+use App\Mail\PasswordResetGuideMail;
 use App\Models\AdminUser;
 use App\Models\ResetPasswordToken;
 use App\Repositories\AdminUsersRepository;
@@ -12,6 +12,7 @@ use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminLoginService
 {

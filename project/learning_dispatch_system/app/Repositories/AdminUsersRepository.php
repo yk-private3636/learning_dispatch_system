@@ -117,7 +117,8 @@ class AdminUsersRepository extends AbstractRepository
                 'email'
             ])
             ->from($tableName)
-            ->where('token', $token);
+            ->where('token', $token)
+            ->where('user_division', \UserEnum::ADMIN->division());
         });
 
         return $exeJudge ? $query->first() : $query;

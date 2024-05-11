@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-	<div>{{ $user->full_name }}、</div>
+	<div>{{ $user->full_name }}様、</div>
 	<br>
 	@extends('template.mail.common')
 	@section('content')

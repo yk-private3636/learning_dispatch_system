@@ -4,6 +4,8 @@
 	import Btn from '../component/Btn.vue'
 	import Title from '../component/Title.vue'
 	import Label from '../component/Label.vue'
+	import AlertLabel from '../component/AlertLabel.vue'
+	import SuccessAlertLabel from '../component/SuccessAlertLabel.vue'
 	import InputText from '../component/InputText.vue'
 	import ErrMsg from '../component/ErrMsg.vue'
 	import * as button from '../../consts/button.js'
@@ -18,6 +20,14 @@
 			msg: ''
 		}
 	});
+	const alertLabel = reactive({
+		show: false,
+		msg: ''
+	});
+	const successAlertLabel = reactive({
+		show: false,
+		msg: ''
+	});
 
 	const passwordProcedureReset = () => {
 		axios.get('/sanctum/csrf-cookie').then(response => {
@@ -25,11 +35,20 @@
 				email: email.value
 			})
 			.then(response => {
-
+				successAlertLabel.msg = response.data.msg;
+				successAlertLabel.show = true;
 			})
 			.catch(err => {
     			const errors = err.response.data?.errors;
+    			alertLabel.show = false;
+				successAlertLabel.show = false;
 				valid.email.fails = false;
+
+				if(err.response.status === 500){
+					alertLabel.msg = err.response.data.msg;
+					alertLabel.show = true;
+					return;
+				}
 
 				if(errors.email !== undefined && errors.email.length === 1){	
     				valid.email.fails = true;
@@ -43,6 +62,8 @@
 
 <template>
 	<div class="flex min-h-full flex-col justify-center px-6 py-20 lg:px-8">
+		<AlertLabel v-show="alertLabel.show" v-model="alertLabel.show">{{ alertLabel.msg }}</AlertLabel>
+		<SuccessAlertLabel v-show="successAlertLabel.show" v-model="successAlertLabel.show">{{ successAlertLabel.msg }}</SuccessAlertLabel>
 		<div class="text-center mb-5">
 			<Title>{{ text.password.forgetTo }}</Title>
 		</div>

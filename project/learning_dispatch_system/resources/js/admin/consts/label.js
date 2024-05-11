@@ -1,3 +1,4 @@
 export const email = 'メールアドレス'
 export const password = 'パスワード'
-export const confirm_password = 'パスワード(確認用)'
+export const newPassword = 'パスワード(新しい)'
+export const confirmPassword = 'パスワード(確認用)'

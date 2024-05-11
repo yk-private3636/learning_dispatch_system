@@ -8,7 +8,6 @@ use Illuminate\Database\Query\Builder;
 
 trait EmailRule
 {
-
 	public function getEmailRule(): array
 	{
 		return [

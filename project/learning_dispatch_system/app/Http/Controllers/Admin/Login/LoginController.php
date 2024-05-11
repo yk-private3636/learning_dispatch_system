@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Login;
 use App\Services\Admin\Login\AdminLoginService;
 use App\Services\Common\StrService;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\RtnCodeMsg;
 use App\Http\Requests\Admin\Login\LoginFormRequest;
 use App\Http\Requests\Admin\Login\PasswordProcedureResetRequest;
 use Illuminate\Http\Request;
@@ -15,8 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
-    private int $statusCode; 
-    private string $msg; 
+    use RtnCodeMsg;
     
     public function __construct(
         private AdminLoginService $service
@@ -60,14 +60,13 @@ class LoginController extends Controller
                 $adminUser = $this->service->accountNotAvailable($email);
             }
 
-            $this->statusCode = Response::HTTP_UNAUTHORIZED;
-            $this->msg = $this->service->authenticationFailMsg($adminUser?->mistake_num);
+            $msg = $this->service->authenticationFailMsg($adminUser?->mistake_num);
+            $this->setErrorField($msg, Response::HTTP_UNAUTHORIZED);
 
             DB::commit();
-        } catch(\Throwable $e) {
+        } catch(\Exception $e) {
             DB::rollback();
-            $this->statusCode = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $this->msg = __('message.err.system');
+            $this->setErrorField();
         } finally {
             return response()->json([
                 'err_msg' => $this->msg
@@ -83,12 +82,28 @@ class LoginController extends Controller
      */
     public function passwordProcedureReset(PasswordProcedureResetRequest $req): JsonResponse
     {
-        $email = $req->validated()['email'];
-        $token = StrService::createUuid();
+        try {
+            DB::beginTransaction();
 
-        $passResetToken = $this->service->passResetProcedureRegistration($email, $token);
+            $email = $req->validated()['email'];
+            $token = StrService::createUuid();
 
-        $this->service->passResetGuideNotice($passResetToken);
+            $passResetToken = $this->service->passResetProcedureRegistration($email, $token);
+            $this->service->passResetGuideNotice($passResetToken);
+
+            $this->setSuccessField(__('message.mail.passwordReset'));
+
+            DB::commit();
+        } catch (\Exception) {
+            DB::rollback();
+            $this->setErrorField();
+        } finally {
+            return response()->json([
+                'msg' => $this->msg
+            ], $this->statusCode);
+        }
+
     }
+
 
 }
