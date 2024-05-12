@@ -36,9 +36,10 @@ class ResetPasswordTokenRepository extends AbstractRepository
         return $this->first($token, false)->exists();
     }
 
-    public function activateTokenExists(string $token): bool
+    public function activateTokenExists(string $token, int $userDivision): bool
     {
         return $this->first($token, false)
+            ->where('user_division', $userDivision)
             ->whereRaw("NOW() < sended_at + INTERVAL 1 DAY")
             ->exists();
     }

@@ -30,7 +30,7 @@ class PasswordResetRequest extends FormRequest
         return [
             'password'        => $this->getPasswordRule(),
             'confirmPassword' => $this->getConfirmPasswordRule(),
-            'token'           => $this->getTokenRule()
+            'token'           => $this->getTokenRule($this->path())
         ];
     }
 

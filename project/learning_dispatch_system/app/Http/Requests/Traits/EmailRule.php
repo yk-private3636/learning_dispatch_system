@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Traits;
 
+use App\Repositories\AdminUsersRepository;
 use App\Repositories\GeneralUsersRepository;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\Query\Builder;

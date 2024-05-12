@@ -23,21 +23,37 @@
 		msg: page.props.success.msg
 	})
 
+	const errorAlert = reactive({
+		show: false,
+		msg: ''
+	})
+
 	const btnDisabled = computed(() => {
 		const disabled = blank(form.user_id) || blank(form.password)
 		return disabled;
 	})
 
 	const submit = () => {
-		form.post(route('generalUserAuth'))
+		form.post(route('general.auth'), {
+			onSuccess: () => {
+				successAlert.show = true
+				successAlert.msg = page.props.success.msg
+			},
+			onError: () => {
+				if(blank(page.props.errors.msg)){
+					return
+				}
+
+				errorAlert.show = true
+				errorAlert.msg = page.props.errors.msg
+			}
+		})
 	}
 </script>
 
 <template>
-	<div v-if="form.hasErrors && form.errors.auth">
-		<Snackbar v-model="form.hasErrors" :text="form.errors.auth"></Snackbar>
-	</div>
 	<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"></SuccessSnackbar>
+	<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"></Snackbar>
 	<form @submit.prevent="submit">
 		<v-sheet class="bg-blue-grey-lighten-5 pa-12" height="100vh" rounded>
 	 		<v-container class="mt-5 mb-5">

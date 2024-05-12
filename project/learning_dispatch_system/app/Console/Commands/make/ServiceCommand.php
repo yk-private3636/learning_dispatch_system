@@ -43,7 +43,6 @@ class ServiceCommand extends Command
      */
     public function handle(): int
     {
-        dd(route('login.forget.show', '111222333'), $_SERVER);
         $name = $this->argument('name');
  
         if(blank($name) || is_string($name) === false){

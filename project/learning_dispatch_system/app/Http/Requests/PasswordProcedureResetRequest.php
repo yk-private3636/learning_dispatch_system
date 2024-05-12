@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Admin\Login;
+namespace App\Http\Requests;
 
+use App\Services\Common\UrlService;
 use App\Http\Requests\Traits\EmailRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +25,15 @@ class PasswordProcedureResetRequest extends FormRequest
      */
     public function rules(): array
     {
+        $reqPath = $this->path();
+
+        $judge = UrlService::adminSideJudge($reqPath);
+
         return [
-            'email' => $this->getAdminEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
+            'email' => $judge ?
+            $this->getAdminEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
+            :
+            $this->getEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
         ];
     }
 

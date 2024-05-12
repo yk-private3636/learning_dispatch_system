@@ -73,37 +73,4 @@ class LoginController extends Controller
             ], $this->statusCode);
         }
     }
-
-    /**
-     * パスワードリセット前段階
-     * 
-     * @param \App\Http\Requests\Admin\Login\PasswordProcedureResetRequest $req リクエストパラメータ
-     * @return \Illuminate\Http\JsonResponse json形式で返却
-     */
-    public function passwordProcedureReset(PasswordProcedureResetRequest $req): JsonResponse
-    {
-        try {
-            DB::beginTransaction();
-
-            $email = $req->validated()['email'];
-            $token = StrService::createUuid();
-
-            $passResetToken = $this->service->passResetProcedureRegistration($email, $token);
-            $this->service->passResetGuideNotice($passResetToken);
-
-            $this->setSuccessField(__('message.mail.passwordReset'));
-
-            DB::commit();
-        } catch (\Exception) {
-            DB::rollback();
-            $this->setErrorField();
-        } finally {
-            return response()->json([
-                'msg' => $this->msg
-            ], $this->statusCode);
-        }
-
-    }
-
-
 }

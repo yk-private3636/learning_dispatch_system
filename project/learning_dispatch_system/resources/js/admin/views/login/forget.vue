@@ -31,7 +31,7 @@
 
 	const passwordProcedureReset = () => {
 		axios.get('/sanctum/csrf-cookie').then(response => {
-			axios.post(route('admin.password.procedure.reset'),{
+			axios.post(route('admin.procedure.password.reset'),{
 				email: email.value
 			})
 			.then(response => {

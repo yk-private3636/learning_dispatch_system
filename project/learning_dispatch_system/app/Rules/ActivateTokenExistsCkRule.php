@@ -8,6 +8,10 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class ActivateTokenExistsCkRule implements ValidationRule
 {
+    public function __construct(
+        private int $userDivision
+    ){}
+
     /**
      * Run the validation rule.
      *
@@ -17,7 +21,7 @@ class ActivateTokenExistsCkRule implements ValidationRule
     {
         $resetPasswordToken = app()->make(ResetPasswordTokenRepository::class);
 
-        $judge = $resetPasswordToken->activateTokenExists($value);
+        $judge = $resetPasswordToken->activateTokenExists($value, $this->userDivision);
 
         if($judge === false){
             $fail(__('validate.rule.ActivateTokenExistsCkRule'));

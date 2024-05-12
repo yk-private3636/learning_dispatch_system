@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Services\Common\UrlService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +18,7 @@ class AdminPrefixOnly
     {
         $reqPath = $req->path();
 
-        if(preg_match('/^' . \CommonConst::ADMIN_PREFIX . '/', $reqPath)){
+        if(UrlService::adminSideJudge($reqPath)){
             return $next($req);
         }
 

@@ -11,7 +11,12 @@
 	@section('content')
 		<div>ご利用のアカウント({{ $user->email }})のパスワードがリセットされました。</div>
 		<div>お客様がこの変更を行っていない場合、または他人が不正にアクセスしていると思われる場合は、</div>
-		<div>{{ route('login.forget.show') }}にアクセスをして、速やかにパスワードを変更してください。</div>
+		<div>{{ 
+			match ($user::class) {
+				UserEnum::GENERAL->model() => route('login.forget.show'),
+				UserEnum::ADMIN->model()   => url(CommonConst::ADMIN_PREFIX . '/login/forget'),
+			}
+		}}にアクセスをして、速やかにパスワードを変更してください。</div>
 	@endsection
 </body>
 </html>

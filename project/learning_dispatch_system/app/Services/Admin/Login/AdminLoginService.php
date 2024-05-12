@@ -131,7 +131,7 @@ class AdminLoginService
 		}
 
 		$email = $resetPasswordToken->adminUser->email;
-		$mailObj = new PassResetGuideNotice($resetPasswordToken);
+		$mailObj = new PasswordResetGuideMail($resetPasswordToken);
 
 		SendMailJob::dispatch($email, $mailObj);
 	}

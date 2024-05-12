@@ -41,7 +41,7 @@
 		successAlert.show = false
 		errorAlert.show = false
 
-		form.post(route('password.procedure.reset'), {
+		form.post(route('procedure.password.reset'), {
 			onSuccess: () => {
 				successAlert.show = true
 				successAlert.msg = page.props.success.msg
@@ -54,7 +54,6 @@
 				errorAlert.show = true
 				errorAlert.msg = page.props.errors.msg
 			}
-
 		})
 	}
 </script>
