@@ -5,3 +5,7 @@ export const valid = {
 		twelve: '12文字で入力してください。'
 	}
 }
+
+export const err = {
+	system: 'システムエラーが発生しました。'
+}

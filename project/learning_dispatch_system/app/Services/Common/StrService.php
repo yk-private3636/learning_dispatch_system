@@ -8,17 +8,18 @@ use Illuminate\Support\Str;
 
 class StrService
 {
-	private const UUID_DIGITS = 60;
-	private const RETRY_MIDDLE_NUM = 6;
-	private const RETRY_MAX_NUM = 12;
+	private const TOKEN_DIGITS = 60;
+	private const RETRY_MIDDLE_NUM = 8;
+	private const RETRY_MAX_NUM = 16;
 
-	public static function createUuid(): string
+	/** 下記メソッドは、PasswordResetAbstractに移動する **/
+	public static function createToken(): string
 	{
 		$passwordResetToken = app()->make(ResetPasswordTokenRepository::class);
-		$uuid = null;
+		$token = null;
 		$tryCnt = 0;
 
-		while ($uuid === null) {
+		while ($token === null) {
 			$tryCnt++;
 			
 			if($tryCnt > self::RETRY_MAX_NUM){
@@ -29,14 +30,24 @@ class StrService
 				$passwordResetToken->expireTokenDelete();
 			}
 			
-			$char = Str::random(self::UUID_DIGITS);
+			$char = Str::random(self::TOKEN_DIGITS);
 			$judge = $passwordResetToken->exists($char);
 			
 			if($judge) continue;
 
-			$uuid = $char;
+			$token = $char;
 		}
 
-		return $uuid;
+		return $token;
+	}
+
+	public static function createUserId(): string
+	{
+		$digits = rand(8, 16);
+		$strBytes = random_bytes($digits);
+		$encode = base64_encode($strBytes);
+		$userId = substr($encode, 0, $digits);
+
+		return $userId;
 	}
 }

@@ -81,11 +81,11 @@
 		</form>
 		<v-container class="mt-5 mb-5">
 	 			<v-row no-gutters justify="center">
-	 				<Link :href="route('generalLogin')" method="get" as="button" type="button">{{ text.loginViewTo }}</Link>
+	 				<Link :href="route('general.login')" method="get" as="button" type="button">{{ text.loginViewTo }}</Link>
 	 				<div class="mx-3">
 	 					/
 	 				</div>
-	 				<Link href="/test2" method="get" as="button" type="button">{{ text.accountNotHave }}</Link> 
+	 				<Link :href="route('user.create')" method="get" as="button" type="button">{{ text.accountNotHave }}</Link> 
 	 			</v-row>
 	 		</v-container>
 	</BackGround>

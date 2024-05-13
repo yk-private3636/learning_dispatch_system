@@ -4,3 +4,4 @@ export const accountNotHave = 'アカウントをお持ちでない方(会員登
 export const forgetTo = 'パスワードを忘れた方'
 export const reconfigure = 'パスワード再設定'
 export const loginViewTo = 'ログイン画面へ'
+export const membersipRegist  = '会員登録'

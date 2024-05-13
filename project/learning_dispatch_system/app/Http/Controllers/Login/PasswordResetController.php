@@ -37,7 +37,7 @@ class PasswordResetController extends Controller implements PasswordResetClient
 
         try {
             $email = $req->validated()['email'];
-            $token = StrService::createUuid();
+            $token = StrService::createToken();
 
             $passResetToken = $this->service->tokenHistroyCreate($email, $token);
             $this->service->passResetGuideNotice($passResetToken);
@@ -71,7 +71,7 @@ class PasswordResetController extends Controller implements PasswordResetClient
             ]);
         }
 
-        return to_route('generalLogin')->with([
+        return to_route('general.login')->with([
             \KeyConst::MSG => __('message.successful.passwordReset')
         ]);
     }

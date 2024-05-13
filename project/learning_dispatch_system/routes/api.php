@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\Login\PasswordResetController;
 
 /*
@@ -20,7 +21,7 @@ use App\Http\Controllers\Admin\Login\PasswordResetController;
 
 Route::prefix('admin')->name('admin.')->group(function() {
     /** 認証 **/
-    Route::get('/authenticating', [UserController::class, 'adminAuthenticating'])->name('authenticating');
+    Route::get('/authenticating', [AdminUserController::class, 'adminAuthenticating'])->name('authenticating');
     Route::post('/authentication', [LoginController::class, 'authentication'])->name('authentication');
 
     /** パスワード再設定 **/
@@ -30,4 +31,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::middleware('auth:sanctum')->group(function(){
     });
+});
+
+Route::prefix('general')->name('general.')->group(function() {
+    /** ユーザーID自動作成 **/
+    Route::get('/user-id/create', [UserController::class, 'userIdCreate'])->name('user.id.create');
 });

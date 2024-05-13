@@ -28,7 +28,7 @@ class PasswordResetController extends Controller implements PasswordResetClient
         
         try {
             $email = $req->validated()['email'];
-            $token = StrService::createUuid();
+            $token = StrService::createToken();
 
             $passResetToken = $this->service->tokenHistroyCreate($email, $token);
             $this->service->passResetGuideNotice($passResetToken);

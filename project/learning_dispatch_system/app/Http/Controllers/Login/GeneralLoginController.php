@@ -32,6 +32,5 @@ class GeneralLoginController extends Controller
     	}
 
     	dd(user());
-    	return to_route('generalLogin');
     }
 }

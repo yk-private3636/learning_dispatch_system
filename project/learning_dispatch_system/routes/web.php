@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Login\PasswordResetController;
 use App\Http\Controllers\Login\GeneralLoginController;
 use App\Http\Controllers\Admin\Login\LoginController;
@@ -22,13 +23,18 @@ use App\Http\Controllers\Admin\Login\LoginController;
 Route::middleware(['guest'])->group(function() {
     /** ログイン **/
     Route::get('/', [GeneralLoginController::class, 'index']);
-    Route::get('login', [GeneralLoginController::class, 'index'])->name('generalLogin');
+    Route::get('login', [GeneralLoginController::class, 'index'])->name('general.login');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('general.auth');
 
     Route::get('/login/forget', [PasswordResetController::class, 'loginForgetShow'])->name('login.forget.show');
     Route::post('/procedure/password/reset', [PasswordResetController::class, 'procedure'])->name('procedure.password.reset');
     Route::get('/password/reset/{token}', [PasswordResetController::class, 'passwordResetShow'])->middleware('accurateToken')->name('password.reset.show');
     Route::put('/password/reset', [PasswordResetController::class, 'passwordReset'])->name('password.reset');
+
+    /** 会員登録 **/
+    Route::resource('user', UserController::class)->only([
+        'create', 'store'
+    ]);
 });
 
 /** 管理者 **/
