@@ -3,12 +3,12 @@
 → 詳細は随時更新予定
 
 
-# 使用技術
+# 技術スタック
 ### フロントエンド
 ##### 利用者側
-<img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?logo=vue.js&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Vuetify-1867C0.svg?logo=Vuetify&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Inertia-9553E9.svg?logo=inertia&style=flat&logoColor=white">
+<img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?logo=vue.js&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Vuetify-1867C0.svg?logo=Vuetify&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Inertia-9553E9.svg?logo=inertia&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Vite-646CFF.svg?logo=vite&style=flat&logoColor=white">
 ##### 管理者側
-<img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?logo=vue.js&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4.svg?logo=Tailwind CSS&style=flat&logoColor=white">
+<img src="https://img.shields.io/badge/Vue.js-4FC08D.svg?logo=vue.js&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?logo=typescript&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4.svg?logo=Tailwind CSS&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Vite-646CFF.svg?logo=vite&style=flat&logoColor=white">
 
 ### バックエンド
 <img src="https://img.shields.io/badge/Laravel-FF2D20.svg?logo=laravel&style=flat&logoColor=white">
