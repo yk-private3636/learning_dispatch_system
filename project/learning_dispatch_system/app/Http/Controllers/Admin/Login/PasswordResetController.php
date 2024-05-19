@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Login;
 
 use App\Services\Admin\Login\PasswordResetService;
-use App\Services\Common\StrService;
 use App\Http\Requests\PasswordProcedureResetRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Controllers\Controller;
@@ -28,7 +27,7 @@ class PasswordResetController extends Controller implements PasswordResetClient
         
         try {
             $email = $req->validated()['email'];
-            $token = StrService::createToken();
+            $token = $this->service->createToken();
 
             $passResetToken = $this->service->tokenHistroyCreate($email, $token);
             $this->service->passResetGuideNotice($passResetToken);

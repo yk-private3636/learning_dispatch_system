@@ -38,6 +38,11 @@ class GeneralUsersRepository extends AbstractRepository
         return $exeJudge ? $query->first() : $query;
     }
 
+    public function create(array $createData): GeneralUser
+    {
+        return $this->model->create($createData);
+    }
+
     public function insert(array $insertData): bool
     {
         return $this->model->insert($insertData);

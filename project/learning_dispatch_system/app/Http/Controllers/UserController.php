@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Inertia\Response as InertiaResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -28,9 +32,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $req)
+    public function store(UserStoreRequest $req)
     {
-        dd($req->all());
+        DB::beginTransaction();
+        try{
+            $validated = $req->validated();
+            $user = $this->service->regist($validated);
+
+            $this->service->registNotice($user);
+            DB::commit();
+        } catch(\Exception $e) {
+            DB::rollback();
+            return back()->withErrors([
+                \KeyConst::MSG => __('message.err.system')
+            ]);
+        }
+
+        return to_route('user.create')->with([
+            \KeyConst::MSG => __('message.successful.userRegist')
+        ]);
+
     }
 
     /**
@@ -65,11 +86,11 @@ class UserController extends Controller
         //
     }
 
-    public function userIdCreate(): InertiaResponse
+    public function userIdCreate(): JsonResponse
     {
         $userId = $this->service->uniqueUserId();
         
-        return inertia('user/create')->with([
+        return response()->json([
             'user_id' => $userId
         ]);
     }

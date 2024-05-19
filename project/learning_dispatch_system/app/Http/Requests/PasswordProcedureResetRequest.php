@@ -41,6 +41,7 @@ class PasswordProcedureResetRequest extends FormRequest
     {
         return [
             'email.required'    => $this->getEmailRequiredMsg(),
+            'email.max'         => $this->getEmailMaxMsg(),
             'email.email'       => $this->getEmailCombinMsg(),
             'email.exists'      => $this->getEmailExistsMsg(),
         ];

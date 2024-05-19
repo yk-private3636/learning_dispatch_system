@@ -20,9 +20,9 @@
 		<div>1. 以下のリンクをクリックしてパスワードリセットページにアクセスしてください。(有効期限は24時間になります。)</div>
 		<div>
 			@if($resetPasswordToken->user_division === UserEnum::GENERAL->division())
-				{{ route('password.reset.show', $resetPasswordToken->token) }}
+				<a href="{{ route('password.reset.show', $resetPasswordToken->token) }}">{{ route('password.reset.show', $resetPasswordToken->token) }}</a>
 			@elseif($resetPasswordToken->user_division === UserEnum::ADMIN->division())
-				{{ url(CommonConst::ADMIN_PREFIX . '/password/reset/' . $resetPasswordToken->token) }}
+				<a href="{{ url(CommonConst::ADMIN_PREFIX . '/password/reset/' . $resetPasswordToken->token) }}">{{ url(CommonConst::ADMIN_PREFIX . '/password/reset/' . $resetPasswordToken->token) }}</a>
 			@else
 				{{ throw new \App\Exceptions\LackException }}
 			@endif

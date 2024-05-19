@@ -11,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PasswordResetMail extends Mailable
+class UserRegistMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,8 +20,7 @@ class PasswordResetMail extends Mailable
      */
     public function __construct(
         public GeneralUser|AdminUser $user
-    )
-    {}
+    ){}
 
     /**
      * Get the message envelope.
@@ -29,7 +28,7 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('mail.password.reset.complete.subject'),
+            subject: __('mail.user.regist.subject', ['serviceName' => config('app.name')]),
             from: config('mail.from.address'),
         );
     }
@@ -40,18 +39,18 @@ class PasswordResetMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'template.mail.reset_passwoed_complete',
+            view: 'template.mail.user_regist',
             with: [
-                'forgetUrl' => match ($this->user::class) {
-                    UserEnum::GENERAL->model() => route('login.forget.show'),
-                    UserEnum::ADMIN->model()   => url(CommonConst::ADMIN_PREFIX . '/login/forget'),
+                'loginUrl' => match ($this->user::class) {
+                    \UserEnum::GENERAL->model() => route('general.login'),
+                    \UserEnum::ADMIN->model()   => route('admin.login'),
                 }
             ]
         );
     }
 
     /**
-     * Get the attachments for the message.pe
+     * Get the attachments for the message.
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */

@@ -4,6 +4,7 @@ return [
 	'successful' => [
 		'passwordReset' => 'パスワードの再設定が完了しました。',
 		'passwordProcedureReset' => 'パスワードリセットご案内メールを送信しました。',
+		'userRegist' => '会員登録が完了しました。'
 	],
 
 	'unsuccessful' => [
