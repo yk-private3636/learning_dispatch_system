@@ -25,7 +25,7 @@ Route::middleware(['guest'])->group(function() {
     Route::get('/', [GeneralLoginController::class, 'index']);
     Route::get('login', [GeneralLoginController::class, 'index'])->name('general.login');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('general.auth');
-    Route::get('login/{driverName}', [GeneralLoginController::class, 'redirectToProvider'])->name('general.login.oAuth');
+    Route::get('login/o-auth/{driverName}', [GeneralLoginController::class, 'redirectToProvider'])->name('general.login.oAuth');
     Route::get('login/callback/{driverName}', [GeneralLoginController::class, 'handleProviderCallback'])->name('general.login.oAuth.callback');
 
     Route::get('/login/forget', [PasswordResetController::class, 'loginForgetShow'])->name('login.forget.show');
