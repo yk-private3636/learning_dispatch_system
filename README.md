@@ -28,12 +28,16 @@
 ②Dockerのインストールが完了していること <br>
 
 ##### 留意点
-以下ポートを使用します <br>
+・以下ポートを使用します <br>
 → 8080: Apache <br>
 → 5173: Vite <br>
 → 3306: MySQL <br>
 → 4040: phpMyAdmin <br>
+・ローカルでのメール送信は、mailtrapなどの無料で使える外部サービスやアプリケーションログに吐き出す方法で、動作確認を行う(実際の運用はAWS SES想定)<br>
+・OAuth認証機能があるが、ローカルで利用する場合は、OAuth Appsを作成する必要があり。<br>
+→ 参照: https://docs.github.com/ja/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
 
+##### 手順
 ①git clone https://{アクセストークン}@github.com/yk-private3636/learning_dispatch_system <br>
 ※アクセストークンは、リポジトリ管理者経由で取得 <br>
 → 閲覧用ユーザーに対しては、参照権限のみのアクセストークンを付与 <br>
