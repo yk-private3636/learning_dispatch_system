@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'general',
+        'passwords' => 'general_users',
     ],
 
     /*
@@ -36,10 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'general' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'general_users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin_users',  
+        ]
     ],
 
     /*
@@ -60,11 +64,14 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+        'general_users' => [
+            'driver' => 'user_auth_provider',
+            'model' => App\Models\GeneralUser::class,
         ],
-
+        'admin_users' => [
+            'driver' => 'user_auth_provider',            
+            'model' => App\Models\AdminUser::class 
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

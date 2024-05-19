@@ -1,6 +1,6 @@
 services: #コンテナ定義開始
   web: #コンテナ名
-    build: ./web #Dockerfileをビルド・反映
+    build: ./web #Dockerfileをビルド・反映  
     depends_on: #先にdbコンテナをビルドさせる
       - db
     #image: php:8.0-apache #使用するイメージを指定(今回はDockerfile「FROM」にて指定)
@@ -20,10 +20,11 @@ services: #コンテナ定義開始
     ports:
     - "3306:3306"
     volumes:
-    - mysql-data:/var/lib/mysql
+    - learning_storage-data:/var/lib/mysql
     - ./my.cnf:/etc/my.cnf
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    tty: true
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=db
@@ -36,4 +37,4 @@ services: #コンテナ定義開始
     volumes:
       - ./phpmyadmin/sessions:/sessions
 volumes:
-  mysql-data:
+  learning_storage-data:
