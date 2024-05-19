@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('general_users', function (Blueprint $table) {
             $table->string('user_id', 18)->comment('ユーザーID');
             $table->string('email')->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->string('password')->comment('パスワード')->nullable();
             $table->string('family_name', 30)->comment('名字');
             $table->string('name', 30)->comment('名前');
             $table->unsignedTinyInteger('usage_status')->default(0)->comment('利用ステータス');

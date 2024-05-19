@@ -78,4 +78,11 @@ class GeneralUsersRepository extends AbstractRepository
 
         return $exeJudge ? $query->first() : $query;
     }
+
+    public function getOAuthUser(string $userId): ?GeneralUser
+    {
+        return $this->model->where('user_id', $userId)
+                ->whereNull('password')
+                ->first();
+    }
 }

@@ -1,6 +1,7 @@
 <script setup>
 	import { reactive, computed } from 'vue';
 	import { useForm, usePage, Link } from '@inertiajs/vue3';
+	import { mdiGithub } from '@mdi/js'
 	import BackGround from '../../component/BackGround.vue'
 	import Title from '../../component/Title.vue'
 	import Btn from '../../component/Btn.vue';
@@ -59,7 +60,7 @@
 		<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"></Snackbar>
 		<Title>{{ text.title }}</Title>
 		<form @submit.prevent="submit">
-	 		<v-container class="mt-5 mb-5">
+	 		<v-container class="mt-5 mb-3">
 				<v-card class="mx-auto px-6 py-12" max-width="344">
 					<v-text-field
 						v-model="form.user_id"
@@ -89,7 +90,20 @@
 					</Btn>
 				</v-card>
 			</v-container>
-	 		<v-container class="mt-5 mb-5">
+			<v-container>
+				<v-row justify="center">
+					<v-btn
+						class="text-none"
+						min-width="344"
+						max-width="344"
+						:prepend-icon="mdiGithub"
+						:href="route('general.login.oAuth', 'github')"
+					>
+						{{ button.githubLogin }}
+					</v-btn>
+				</v-row>
+			</v-container>
+	 		<v-container class="mt-4 mb-5">
 	 			<v-row no-gutters justify="center">
 	 				<Link :href="route('login.forget.show')" method="get" as="button" type="button">{{ text.passForgetGuide }}</Link>
 	 				<div class="mx-3">

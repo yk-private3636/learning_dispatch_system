@@ -7,6 +7,7 @@ use App\Services\Common\StrService;
 use App\Mail\PasswordResetGuideMail;
 use App\Models\AdminUser;
 use App\Models\ResetPasswordToken;
+use App\Services\Abstract\LoginAbstract;
 use App\Repositories\AdminUsersRepository;
 use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
-class AdminLoginService
+class AdminLoginService extends LoginAbstract
 {
 	public function __construct(
 		private AdminUsersRepository $adminUser,
@@ -106,20 +107,6 @@ class AdminLoginService
 			\CommonConst::MISTAKE_STEP_THI => __('message.mistake.step_thi'),
 			default                        => __('message.unsuccessful.auth')
 		};
-	}
-
-	/**
-	 * トークン発行履歴作成
-	 * 
-	 * @param string $email メールアドレス 
-	 * @param string $token UUID
-	 * @return \App\Models\ResetPasswordToken
-	 */
-	public function passResetProcedureRegistration(string $email, string $token): ResetPasswordToken
-	{
-        $insertData = $this->resetPasswordTokeniInsertData($email, $token);
-
-        return $this->resetPasswordToken->create($insertData);
 	}
 
 	public function passResetGuideNotice(ResetPasswordToken $resetPasswordToken): void
@@ -269,20 +256,6 @@ class AdminLoginService
 		return [
 			\CommonConst::ACCOUNT_LOCKD,
 			\CommonConst::ACCOUNT_SUSPEND
-		];
-	}
-
-	/**
-	 * reset_password_tokenテーブル登録データ作成
-	 * 
-	 * @return array 登録データ
-	 */
-	private function resetPasswordTokeniInsertData(string $email, string $token): array
-	{
-		return [
-			'email'         => $email,
-			'token'         => $token,
-			'user_division' => \UserEnum::ADMIN->division()
 		];
 	}
 }

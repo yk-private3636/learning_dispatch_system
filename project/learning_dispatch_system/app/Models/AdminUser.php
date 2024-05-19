@@ -27,6 +27,10 @@ class AdminUser extends Authenticatable
         'lock_duration'
     ];
 
+    protected $hidden = [
+        'password'
+    ];
+
     protected $append = [
         'full_name'
     ];

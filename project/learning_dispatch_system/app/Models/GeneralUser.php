@@ -25,6 +25,10 @@ class GeneralUser extends Authenticatable
         'usage_status',
     ];
 
+    protected $hidden = [
+        'password'
+    ];
+
     protected $append = [
         'full_name'
     ];

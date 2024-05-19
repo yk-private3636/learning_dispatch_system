@@ -3,8 +3,8 @@
 </script>
 
 <template>
-	<v-container class="mt-5 mb-5">
-		<v-card class="py-3">
+	<v-container>
+		<v-card class="py-2">
 			<v-card-title class="text-center">
 				<slot></slot>
 			</v-card-title>

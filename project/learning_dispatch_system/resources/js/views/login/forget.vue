@@ -64,7 +64,7 @@
 		<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"/>
 		<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"/>
 		<form @submit.prevent="submit">
-			<v-container class="mt-5 mb-5">
+			<v-container class="mt-5 mb-3">
 					<v-card class="mx-auto px-6 py-12" max-width="344">
 						<v-text-field 
 							v-model="form.email" 
@@ -79,7 +79,7 @@
 					</v-card>
 			</v-container>
 		</form>
-		<v-container class="mt-5 mb-5">
+		<v-container class="mt-4 mb-5">
 	 			<v-row no-gutters justify="center">
 	 				<Link :href="route('general.login')" method="get" as="button" type="button">{{ text.loginViewTo }}</Link>
 	 				<div class="mx-3">
