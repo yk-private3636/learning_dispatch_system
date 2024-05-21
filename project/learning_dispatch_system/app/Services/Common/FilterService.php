@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class FilterService
 {
-	public static function brank(Collection|array $datas): Collection|array
+	public static function blank(Collection|array $datas): Collection|array
     {
     	$judge = $datas instanceof Collection;
     	
