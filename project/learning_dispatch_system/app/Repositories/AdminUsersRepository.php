@@ -69,14 +69,12 @@ class AdminUsersRepository extends AbstractRepository
      * 管理者ユーザーをユニークキーで絞込み
      * 
      * @param string $email メールアドレス
-     * @param bool $exeJudge 実行するか否か
-     * @return null|\App\Models\AdminUser|\Illuminate\Database\Eloquent\Builder 実行結果
+     * @return null|\App\Models\AdminUser 実行結果
      */
-    public function first(string $email, bool $exeJudge = true): null|AdminUser|Builder
+    public function first(string $email): ?AdminUser
     {
-        $query = $this->model->where('email', $email);
-
-        return $exeJudge ? $query->first() : $query;
+        return $this->model->where('email', $email)
+                ->first();
     }
 
     /**
@@ -88,7 +86,7 @@ class AdminUsersRepository extends AbstractRepository
      */
     public function whereStatusUniqueSharedLock(string $email, int $usageStatus): ?AdminUser
     {
-        return $this->first($email, false)
+        return $this->model->where('email', $email)
                 ->where('usage_status', $usageStatus)
                 ->sharedLock()
                 ->first();
@@ -103,7 +101,7 @@ class AdminUsersRepository extends AbstractRepository
      */
     public function whereStatuiesUniqueSharedLock(string $email, array $usageStatuies): ?AdminUser
     {
-        return $this->first($email, false)
+        return $this->model->where('email', $email)
                 ->whereIn('usage_status', $usageStatuies)
                 ->sharedLock()
                 ->first();

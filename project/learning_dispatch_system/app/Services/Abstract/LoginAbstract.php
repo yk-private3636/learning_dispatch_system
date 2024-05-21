@@ -4,7 +4,7 @@ namespace App\Services\Abstract;
 
 use App\Services\UserService;
 use App\Repositories\GeneralUsersRepository;
-use Illuminate\Http\RedirectResponse;
+use Laravel\Socialite\Contracts\Provider;
 use Laravel\Socialite\Facades\Socialite;
 
 abstract class LoginAbstract
@@ -16,9 +16,9 @@ abstract class LoginAbstract
 
 	abstract protected function authenticationVerdict(array $credentials): bool;
 
-	public function oAuthScreenRedirect(string $driverName): RedirectResponse
+	public function oAuthProvider(string $driverName): Provider
 	{
-        return Socialite::driver($driverName)->redirect();
+        return Socialite::driver($driverName);
 	}
 
 	public function oAuthAfter(string $driverName): void
@@ -39,6 +39,6 @@ abstract class LoginAbstract
 
 		auth()->login($generalUser);
 
-		dd(auth()->user());
+		dd(user());
 	}
 }

@@ -54,23 +54,21 @@ class LoginController extends Controller
 
             $email = $validated['email'];
 
-            $adminUser = $this->service->accountLockState($email);
+            $mistakenUser = $this->service->getMistakePossibilityUser($email);
 
-            if($adminUser === null){
-                $adminUser = $this->service->accountNotAvailable($email);
-            }
+            $adminUser = $this->service->authenticationFail($mistakenUser);
 
             $msg = $this->service->authenticationFailMsg($adminUser?->mistake_num);
             $this->setErrorField($msg, Response::HTTP_UNAUTHORIZED);
 
             DB::commit();
-        } catch(\Exception $e) {
+        } catch(\Exception) {
             DB::rollback();
             $this->setErrorField();
-        } finally {
-            return response()->json([
-                'err_msg' => $this->msg
-            ], $this->statusCode);
         }
+        
+        return response()->json([
+            'err_msg' => $this->msg
+        ], $this->statusCode);
     }
 }

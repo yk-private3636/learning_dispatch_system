@@ -24,21 +24,21 @@ class ResetPasswordTokenRepository extends AbstractRepository
         return $this->model->getTable();
     }
 
-    public function first(string $token, bool $exeJudge = true): null|ResetPasswordToken|Builder
+    public function first(string $token): ?ResetPasswordToken
     {
-        $query = $this->model->where('token', $token);
-
-        return $exeJudge ? $query->first() : $query;
+        return $this->model->where('token', $token)
+                ->first();
     }
 
     public function exists(string $token): bool
     {
-        return $this->first($token, false)->exists();
+        return $this->model->where('token', $token)
+                ->exists();
     }
 
     public function activateTokenExists(string $token, int $userDivision): bool
     {
-        return $this->first($token, false)
+        return $this->model->where('token', $token)
             ->where('user_division', $userDivision)
             ->whereRaw("NOW() < sended_at + INTERVAL 1 DAY")
             ->exists();
@@ -73,14 +73,14 @@ class ResetPasswordTokenRepository extends AbstractRepository
 
     public function tokenLinkGeneralUser(string $token): ?ResetPasswordToken
     {
-        return $this->first($token, false)
+        return $this->model->where('token', $token)
             ->with('generalUser')
             ->first();
     }
 
     public function tokenLinkAdminUser(string $token): ?ResetPasswordToken
     {
-        return $this->first($token, false)
+        return $this->model->where('token', $token)
             ->with('adminUser')
             ->first();
     }

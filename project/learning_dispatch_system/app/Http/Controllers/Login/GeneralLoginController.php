@@ -8,6 +8,7 @@ use App\Services\Common\StrService;
 use App\Http\Requests\Login\LoginFormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse as BaseRedirectResponse;
 use Inertia\Response as InertiaResponse;
 
 class GeneralLoginController extends Controller
@@ -36,9 +37,10 @@ class GeneralLoginController extends Controller
     	dd(user());
     }
 
-    public function redirectToProvider(string $driverName): RedirectResponse
+    public function redirectToProvider(string $driverName): BaseRedirectResponse
     {
-        return $this->service->oAuthScreenRedirect($driverName);
+        return $this->service->oAuthProvider($driverName)
+                ->redirect();
     }
 
     public function handleProviderCallback(string $driverName)

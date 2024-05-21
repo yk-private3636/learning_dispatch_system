@@ -2,9 +2,8 @@
 
 namespace App\Mail;
 
-use App\Models\GeneralUser;
-use App\Models\AdminUser;
 use Illuminate\Bus\Queueable;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -19,7 +18,7 @@ class UserRegistMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public GeneralUser|AdminUser $user
+        public User $user
     ){}
 
     /**
