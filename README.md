@@ -52,9 +52,6 @@
 ⑧npm install <br>
 ⑨php artisan migrate --seed <br>
 --- 立ち上げ時毎回 --- <br>
-⑩php artisan queue:work <br>
-⑪npm run dev <br>
-
-※メール送信環境は実際の運用ではAmazonSESを利用する想定だが、ローカル環境では、無料メール配信サービスを利用する(mailtrapなど) <br>
-→ 一番楽に動作確認が出来るのは、logドライバを利用したアプリケーションログに書き込む方法 <br>
+⑩nohup php artisan queue:work& <br>
+⑪nohup npm run dev& <br>
 
