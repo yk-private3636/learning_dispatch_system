@@ -23,14 +23,12 @@ jobs:
         - '3306:3306'
       options: >-
         --default-time-zone=Asia/Tokyo
-
     steps: 
       - name: checkout repository
       - uses: actions/checkout@v4
-      with:
-        path: './project/learning_dispatch_system'
-        submodules: 'recursive'
-
+        with:
+          path: './project/learning_dispatch_system'
+          submodules: 'recursive'
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
