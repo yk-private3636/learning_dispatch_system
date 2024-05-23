@@ -15,5 +15,7 @@ parameters:
         - '#Access to an undefined property#'
         - '#Match expression does not handle remaining value#'
 
+    reportUnmatchedIgnoredErrors: false
+
     parallel:
         maximumNumberOfProcesses: 1

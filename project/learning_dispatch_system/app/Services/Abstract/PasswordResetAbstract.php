@@ -37,7 +37,7 @@ abstract class PasswordResetAbstract
 			\UserEnum::ADMIN->division()   => \UserEnum::ADMIN->relationKey(),	
 		};
 
-		if(Arr::exists($relations, $relationKey) === false){
+		if(Arr::exists($relations, $relationKey) === false) {
 			$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, [$relationKey]);
 		}
 

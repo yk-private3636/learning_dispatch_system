@@ -12,13 +12,12 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $email;
+    private string $email = 'feature-test@gmail.com';
 
     public function setup(): void
     {
         parent::setup();
         // $this->createApplication();
-        $this->email = 'feature-test@gmail.com';
     }
 
     public function test_ログイン画面アクセス(): void
@@ -49,6 +48,73 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
+    }
+
+    public function test_アカウント一時停止_step1(): void
+    {
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => 'test@gmail.com',
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_fir')]);
+            }
+
+            $response->assertStatus(401);
+        }
+    }
+
+    public function test_アカウント一時停止_step2(): void
+    {
+        AdminUser::factory()->create([
+            'email' => $this->email,
+            'mistake_num' => 3
+        ]);
+
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => $this->email,
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_sec')]);
+            }
+
+            $response->assertStatus(401);
+        }
+    }
+
+    public function test_アカウント一時停止_step3(): void
+    {
+        AdminUser::factory()->create([
+            'email' => $this->email,
+            'mistake_num' => 6
+        ]);
+
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => $this->email,
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_thi')]);
+            }
+
+            $response->assertStatus(401);
+        }
     }
 
     /**

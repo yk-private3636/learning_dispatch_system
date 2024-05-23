@@ -1,14 +1,13 @@
 <?php
 
-namespace Tests\Feature\General;
+namespace Tests\Feature\Admin;
 
-use App\Models\GeneralUser;
+use App\Models\AdminUser;
 use App\Models\ResetPasswordToken;
-use App\Services\Login\PasswordResetService;
+use App\Services\Admin\Login\PasswordResetService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Inertia\Testing\AssertableInertia as Assert;
 
 class ForgetTest extends TestCase
 {
@@ -20,53 +19,51 @@ class ForgetTest extends TestCase
     public function setup(): void
     {
         parent::setup();
+
         $this->service = app()->make(PasswordResetService::class);
     }
 
     public function test_パスワードリセット画面表示(): void
     {
-        $response = $this->get(route('login.forget.show'));
+        $response = $this->get(url('admin/login/forget'));
 
         $response->assertStatus(200);
-
-        $response->assertInertia();
     }
-    
+
     /**
      * @dataProvider 入力データ
      */
-    public function test_メールアドレスバリデーション(?string $email): void
+    public function test_バリデーションチェック(?string $email): void
     {
-        $response = $this->post(route('procedure.password.reset'), [
-            'email' => $this->email
+        $response = $this->postJson(route('admin.procedure.password.reset'), [
+            'email' => $email
         ]);
 
-        $response->assertSessionHasErrors(['email']);
+        // ステータスコード確認
+        $response->assertStatus(422);
 
-        $response->assertStatus(302);
+        // キー確認
+        $response->assertJsonValidationErrors(['email']);
     }
 
     public function test_パスワードリセット依頼(): void
     {
-        GeneralUser::factory()->create([
+        AdminUser::factory()->create([
             'email' => $this->email
         ]);
 
-        $response = $this->post(route('procedure.password.reset'), [
-            'email' => $this->email,
+        $response = $this->postJson(route('admin.procedure.password.reset'), [
+            'email' => $this->email
         ]);
 
-        $response->assertStatus(302);
-
-        $response->assertSessionHasNoErrors(['email']);
-     
-        $response->assertRedirect(route('login.forget.show'));
+        $response->assertJsonMissingValidationErrors(['email']);
+        $response->assertStatus(200);
     }
 
     public function test_リセット画面_トークン存在なしver(): void
     {
         $token = $this->service->createToken();
-        $response = $this->get(route('password.reset.show', $token));
+        $response = $this->getJson(route('admin.password.reset.accurate.token', $token));
 
         $response->assertStatus(404);
     }
@@ -77,74 +74,73 @@ class ForgetTest extends TestCase
         ResetPasswordToken::factory()->create([
             'email' => $this->email,
             'token' => $token,
-            'user_division' => \UserEnum::GENERAL->division()
+            'user_division' => \UserEnum::ADMIN->division()
         ]);
 
-        $response = $this->get(route('password.reset.show', $token));
-
-        $response->assertInertia();
+        $response = $this->getJson(route('admin.password.reset.accurate.token', $token));
 
         $response->assertStatus(200);
     }
 
     /**
      * @dataProvider 入力データ_パスワードリセット_バリデーションチェック用
-     * 
      */
     public function test_パスワードリセット_バリデーションチェック(array $putData, array $expect): void
     {
-        $response = $this->put(route('password.reset'), $putData);
+        $response = $this->putJson(route('admin.password.reset'), $putData);
 
-        $response->assertStatus(302);
+        $response->assertStatus(422);
 
-        $response->assertSessionHasErrors($expect);
+        $response->assertJsonValidationErrors($expect);
     }
 
     public function test_パスワードリセット(): void
     {
         $token = $this->service->createToken();
-
-        GeneralUser::factory()->create([
+        AdminUser::factory()->create([
             'email' => $this->email
         ]);
 
         ResetPasswordToken::factory()->create([
             'email' => $this->email,
             'token' => $token,
-            'user_division' => \UserEnum::GENERAL->division()
+            'user_division' => \UserEnum::ADMIN->division()
         ]);
 
-        $response = $this->put(route('password.reset'), [
+        $response = $this->putJson(route('admin.password.reset'), [
             'password' => $this->password,
             'confirmPassword' => $this->password,
             'token' => $token
         ]);
 
-        $password = GeneralUser::select('password')
+        $response->assertStatus(200);
+
+        $response->assertJsonCount(1);
+
+        $response->assertJsonFragment(['msg' => __('message.successful.passwordReset')]);
+
+        $password = AdminUser::select('password')
             ->where('email', $this->email)
             ->first()
             ->password;
 
         $this->assertTrue(\Hash::check($this->password, $password));
-        $response->assertStatus(302);
-        $response->assertRedirect(route('general.login'));
     }
-
 
     public static function 入力データ(): array
     {
         return [
-            '空文字の場合' => [
-                'email' => '',
+            '空の場合' => [
+                'email' => ''
             ],
             'nullの場合' => [
-                'email' => null,
+                'email' => null
             ],
-            'ドメインが無効の場合' => [
-                'email' => 'test@test.comm',
+            'ドメインが無効の時' => [
+                'email' => 'feature-test@gmail.comm'
             ],
             '存在しないメールアドレスの場合' => [
-                'email' => 'not-found@gmail.com',
+                'email' => 'not-found@gmail.com'
             ]
         ];
     }

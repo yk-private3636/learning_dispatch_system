@@ -10,7 +10,7 @@ class PasswordResetRequest extends FormRequest
 {
     use TokenRule, PasswordRule;
 
-    protected $stopOnFirstFailure = true;
+    // protected $stopOnFirstFailure = true;
 
     /**
      * Determine if the user is authorized to make this request.

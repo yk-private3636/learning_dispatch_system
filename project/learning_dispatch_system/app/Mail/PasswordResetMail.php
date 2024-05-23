@@ -43,8 +43,8 @@ class PasswordResetMail extends Mailable
             view: 'template.mail.reset_passwoed_complete',
             with: [
                 'forgetUrl' => match ($this->user::class) {
-                    UserEnum::GENERAL->model() => route('login.forget.show'),
-                    UserEnum::ADMIN->model()   => url(CommonConst::ADMIN_PREFIX . '/login/forget'),
+                    \UserEnum::GENERAL->model() => route('login.forget.show'),
+                    \UserEnum::ADMIN->model()   => url(\CommonConst::ADMIN_PREFIX . '/login/forget'),
                 }
             ]
         );

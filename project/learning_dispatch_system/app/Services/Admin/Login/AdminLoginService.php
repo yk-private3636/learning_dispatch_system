@@ -98,11 +98,9 @@ class AdminLoginService extends LoginAbstract
 			return $adminUser;
 		}
 
-		// 利用中に変更
-		$updData = $this->accountUsageUpdData();
-		$adminUser = $this->adminUser->updateThenRefresh($adminUser, $updData);
+		$mistakeUser = $this->accountMistaken($adminUser);
 
-		return $adminUser;
+		return $mistakeUser;
 	}
 
 	public function getMistakePossibilityUser(string $email): ?AdminUser
@@ -180,21 +178,9 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateDefaltUpdData(): array
 	{
 		return [
+			'usage_status'  => \CommonConst::ACCOUNT_USAGE,
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => null
-		];
-	}
-
-	/**
-	 * アカウント利用中更新パラメータ
-	 * 
-	 * @return array 更新パラメータ
-	 */
-	private function accountUsageUpdData(): array
-	{
-		return [
-			'mistake_num'   => DB::raw("mistake_num + 1"),
-			'usage_status'  => \CommonConst::ACCOUNT_USAGE
 		];
 	}
 
