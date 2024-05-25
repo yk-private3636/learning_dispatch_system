@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:8-debian
+        image: mysql:8.0-debian
         env: 
           MYSQL_DATABASE: test_learning_storage
           MYSQL_ROOT_PASSWORD: rootpass
