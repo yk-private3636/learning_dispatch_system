@@ -5,10 +5,10 @@ name: learning-dispatch-system-ci-workflow
 on: 
   push: 
     branches:
-      - main
+      - master
   pull_request: 
     branches: 
-      - main
+      - master
 
 # 仮想マシン内で実行されるタスク定義
 jobs: 
