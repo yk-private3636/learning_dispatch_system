@@ -14,16 +14,6 @@ class ResetPasswordTokenRepository extends AbstractRepository
         return ResetPasswordToken::class;
     }
 
-    /**
-     * リポジトリに紐づかせたテーブル名の取得
-     * 
-     * @return string テーブル名
-     */
-    public function tableName(): string
-    {
-        return $this->model->getTable();
-    }
-
     public function first(string $token): ?ResetPasswordToken
     {
         return $this->model->where('token', $token)

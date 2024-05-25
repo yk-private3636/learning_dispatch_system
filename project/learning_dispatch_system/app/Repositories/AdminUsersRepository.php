@@ -19,16 +19,6 @@ class AdminUsersRepository extends AbstractRepository
     {
         return AdminUser::class;
     }
-    
-    /**
-     * リポジトリに紐づかせたテーブル名の取得
-     * 
-     * @return string テーブル名
-     */
-    public function tableName(): string
-    {
-        return $this->model->getTable();
-    }
 
     /**
      * 登録処理(バルクインサート可)

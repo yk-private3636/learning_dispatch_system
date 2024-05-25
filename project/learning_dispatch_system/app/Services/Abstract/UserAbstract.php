@@ -5,7 +5,7 @@ use App\Exceptions\RetryThresholdExceedException;
 use App\Mail\UserRegistMail;
 use App\Jobs\SendMailJob;
 use App\Services\Common\StrService;
-use App\Repositories\GeneralUsersRepository;
+use App\Repositories\AbstractRepository;
 use Illuminate\Foundation\Auth\User;
 
 abstract class UserAbstract
@@ -13,7 +13,7 @@ abstract class UserAbstract
 	private const RETRY_MAX_NUM = 20;
 
 	public function __construct(
-		private GeneralUsersRepository $generalUser
+		private AbstractRepository $userRepository
 	){}
 
 	abstract public function regist(array $registData): User;
@@ -31,7 +31,7 @@ abstract class UserAbstract
 			}
 			
 			$str = $this->createUserId();
-			$user = $this->generalUser->find($str);
+			$user = $this->userRepository->find($str);
 
 			if($user !== null) continue;
 

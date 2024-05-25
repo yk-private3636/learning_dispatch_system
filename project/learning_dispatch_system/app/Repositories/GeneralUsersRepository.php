@@ -14,16 +14,6 @@ class GeneralUsersRepository extends AbstractRepository
         return GeneralUser::class;
     }
 
-    public function tableName(): string
-    {
-        return $this->model->getTable();
-    }
-
-    public function find(string $userId): ?GeneralUser
-    {
-        return $this->model->find($userId);
-    }
-
     /**
      * 一般ユーザーをユニークキーで絞込み
      * 
