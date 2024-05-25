@@ -23,7 +23,7 @@ jobs:
         ports: 
           - '3306:3306'
         options: >-
-          -- default-time-zone=Asia/Tokyo
+          --default-time-zone=Asia/Tokyo
     steps: 
       - name: checkout repository
         uses: actions/checkout@v4
