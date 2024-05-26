@@ -33,6 +33,9 @@ jobs:
 
       - name: cd work
         run: cd ./project/learning_dispatch_system
+      
+      - name: ls
+        run: ls -al
 
       - name: setup-php
         uses: shivammathur/setup-php@v2
