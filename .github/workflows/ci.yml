@@ -31,8 +31,8 @@ jobs:
           path: './project/learning_dispatch_system'
           submodules: 'recursive'
 
-      - name: ls
-        run: ls -al
+      - name: cd work
+        run: cd ./project/learning_dispatch_system
 
       - name: setup-php
         uses: shivammathur/setup-php@v2
