@@ -31,6 +31,9 @@ jobs:
           path: './project/learning_dispatch_system'
           submodules: 'recursive'
 
+      - name: ls
+        run: ls -al
+
       - name: setup-php
         uses: shivammathur/setup-php@v2
         with:
