@@ -30,9 +30,6 @@ jobs:
     steps: 
       - name: checkout repository
         uses: actions/checkout@v4
-        with:
-          path: './project/learning_dispatch_system'
-          submodules: 'recursive'
           
       - name: setup-php
         uses: shivammathur/setup-php@v2
