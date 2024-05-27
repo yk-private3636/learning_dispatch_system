@@ -14,6 +14,9 @@ on:
 jobs: 
   learning-dispatch-system-ci: 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./project/learning_dispatch_system
     services:
       mysql:
         image: mysql:8.0-debian
@@ -30,13 +33,7 @@ jobs:
         with:
           path: './project/learning_dispatch_system'
           submodules: 'recursive'
-
-      - name: cd work
-        run: cd ./project/learning_dispatch_system
-      
-      - name: ls
-        run: ls -al
-
+          
       - name: setup-php
         uses: shivammathur/setup-php@v2
         with:
