@@ -47,12 +47,12 @@ jobs:
           
       - name: copy .env
         run: php -r "file_exists('./.env') || copy('./.env.example', './.env');"
-
-      - name: key generate
-        run: php artisan key:generate
-
+      
       - name: composer install
         run: composer install --no-progress
+        
+      - name: key generate
+        run: php artisan key:generate
 
       - name: migrate
         run: php artisan migrate
