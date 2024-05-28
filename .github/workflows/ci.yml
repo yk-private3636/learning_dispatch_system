@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./project/learning_dispatch_system
+        working-directory: learning_dispatch_system
     services:
       mysql:
         image: mysql:8.0-debian
