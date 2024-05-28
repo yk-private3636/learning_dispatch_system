@@ -28,6 +28,9 @@ jobs:
         ports: 
           - '3306:3306'
     steps: 
+      - name: Change directory permissions
+        run: chmod -R +W ./db
+    
       - name: checkout repository
         uses: actions/checkout@v4
           
@@ -51,12 +54,6 @@ jobs:
 
       - name: composer install
         run: composer install --no-progress
-
-      - name: npm install
-        run: npm i
-
-      - name: npm build
-        run: npm run build
 
       - name: migrate
         run: php artisan migrate
