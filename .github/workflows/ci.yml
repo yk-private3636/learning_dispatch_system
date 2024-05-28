@@ -19,7 +19,7 @@ jobs:
         working-directory: project/learning_dispatch_system
 
     services:
-      mysql:
+      db:
         image: mysql:8.0-debian
         env: 
           MYSQL_DATABASE: test_learning_storage
