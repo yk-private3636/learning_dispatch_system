@@ -21,19 +21,11 @@ jobs:
         env: 
           MYSQL_DATABASE: test_learning_storage
           MYSQL_ROOT_PASSWORD: rootpass
-        volumes:
-          - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+        #volumes:
+          #- ./db/my.cnf:/etc/mysql/conf.d/my.cnf
         ports: 
           - '3306:3306'
     steps: 
-      - name: ls
-        run: ls -al
-
-      - name: db ls
-        run: ls -al ./db
-
-      - name: Change directory permissions
-        run: chmod -R +w ./db
     
       - name: checkout repository
         uses: actions/checkout@v4
@@ -51,7 +43,7 @@ jobs:
           cache-dependency-path: project/learning_dispatch_system
           
       - name: copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('./project/learning_dispatch_system/.env') || copy('./project/learning_dispatch_system/.env.example', '.env');"
 
       - name: key generate
         run: php artisan key:generate
