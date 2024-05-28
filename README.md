@@ -47,9 +47,9 @@
 ③docker compose up -d --bulid <br>
 ④docker exec -it bash <br>
 ⑤cp ./.env.example ./.env <br>
-⑥php artisan key:generate <br>
-⑦composer install <br>
-⑧npm install <br>
+⑥composer install <br>
+⑦npm install <br>
+⑧php artisan key:generate <br>
 ⑨php artisan migrate --seed <br>
 --- 立ち上げ時毎回 --- <br>
 ⑩php artisan queue:work <br>
