@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: '18'
           cache: npm
-          #cache-dependency-path: project/learning_dispatch_system
+          cache-dependency-path: project/learning_dispatch_system
           
       - name: copy .env
         run: php -r "file_exists('./.env') || copy('./.env.example', './.env');"
