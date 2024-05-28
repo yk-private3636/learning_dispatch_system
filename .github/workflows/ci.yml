@@ -46,7 +46,7 @@ jobs:
           cache-dependency-path: project/learning_dispatch_system
           
       - name: copy .env
-        run: php -r "file_exists('./.env') || copy('./.env.example', './.env');"
+        run: php -r "file_exists('./.env') || copy('./.env.testing', './.env');"
       
       - name: composer install
         run: composer install --no-progress
