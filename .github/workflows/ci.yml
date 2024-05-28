@@ -27,7 +27,7 @@ jobs:
           - '3306:3306'
     steps: 
       - name: Change directory permissions
-        run: chmod -R +W ./db
+        run: chmod -R +w ./db
     
       - name: checkout repository
         uses: actions/checkout@v4
