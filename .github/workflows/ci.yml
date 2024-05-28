@@ -14,6 +14,9 @@ on:
 jobs: 
   learning-dispatch-system-ci: 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project/learning_dispatch_system
 
     services:
       mysql:
@@ -40,10 +43,10 @@ jobs:
         with:
           node-version: '18'
           cache: npm
-          cache-dependency-path: project/learning_dispatch_system
+          #cache-dependency-path: project/learning_dispatch_system
           
       - name: copy .env
-        run: php -r "file_exists('./project/learning_dispatch_system/.env') || copy('./project/learning_dispatch_system/.env.example', '.env');"
+        run: php -r "file_exists('./.env') || copy('./.env.example', './.env');"
 
       - name: key generate
         run: php artisan key:generate
