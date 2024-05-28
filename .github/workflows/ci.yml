@@ -55,7 +55,7 @@ jobs:
         run: php artisan key:generate
 
       - name: config Partial changes
-        run: sed -i -e "s/DB_HOST=/DB_HOST=localhost/" ./.env
+        run: sed -i -e "s/DB_HOST=db/DB_HOST=localhost/" ./.env
         
       - name: migrate
         run: php artisan migrate
