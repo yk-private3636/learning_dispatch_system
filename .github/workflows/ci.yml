@@ -26,6 +26,12 @@ jobs:
         ports: 
           - '3306:3306'
     steps: 
+      - name: ls
+        run: ls -al
+
+      - name: db ls
+        run: ls -al ./db
+
       - name: Change directory permissions
         run: chmod -R +w ./db
     
