@@ -64,6 +64,12 @@ jobs:
         env: 
           DB_HOST: 127.0.0.1
 
+      - name: npm install
+        run: npm ci
+
+      - name: front build
+        run: npm run build
+      
       - name: phpstan run
         run: ./vendor/bin/phpstan analyse --memory-limit=512M
 
