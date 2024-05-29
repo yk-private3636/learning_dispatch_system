@@ -53,8 +53,8 @@ jobs:
       - name: composer install
         run: composer install --no-progress
         
-      - name: key generate
-        run: php artisan key:generate
+      #- name: key generate
+        #run: php artisan key:generate
 
       - name: config Partial changes
         run: sed -i -e "s/DB_HOST=db/DB_HOST=127.0.0.1/" ./.env.testing
