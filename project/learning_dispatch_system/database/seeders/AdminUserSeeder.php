@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Repositories\AdminUsersRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
@@ -15,10 +14,8 @@ class AdminUserSeeder extends Seeder
      */
     public function run(AdminUsersRepository $repository): void
     {
-        $tableName = $repository->tableName(); 
-
-        DB::table($tableName)->truncate();
-
+        $repository->allHardDelete();
+        
         $insertData = $this->insertData();
 
         $repository->insert($insertData);

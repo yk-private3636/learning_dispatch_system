@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Repositories\GeneralUsersRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class GeneralUserSeeder extends Seeder
@@ -15,9 +14,7 @@ class GeneralUserSeeder extends Seeder
      */
     public function run(GeneralUsersRepository $repository): void
     {
-        $tableName = $repository->tableName(); 
-
-        DB::table($tableName)->truncate();
+        $repository->allHardDelete();
 
         $insertData = $this->insertData();
 
