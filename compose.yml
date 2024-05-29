@@ -21,7 +21,8 @@ services: #コンテナ定義開始
     - "3306:3306"
     volumes:
     - learning_storage-data:/var/lib/mysql
-    - ./my.cnf:/etc/my.cnf
+    - ./db/my.cnf:/etc/my.cnf
+    - ./db/init:/docker-entrypoint-initdb.d
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     tty: true

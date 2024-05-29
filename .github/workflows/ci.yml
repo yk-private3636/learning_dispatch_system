@@ -1,0 +1,85 @@
+# ワークフロー名(任意)
+name: learning-dispatch-system-ci-workflow
+
+# 当該ワークフローのトリガーを指定(実行タイミング)
+on: 
+  push: 
+    branches:
+      - master
+  pull_request: 
+    branches: 
+      - master
+
+# 仮想マシン内で実行されるタスク定義
+jobs: 
+  learning-dispatch-system-ci: 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: project/learning_dispatch_system
+
+    services:
+      db:
+        image: mysql:8.0-debian
+        env: 
+          MYSQL_DATABASE: test_learning_storage
+          MYSQL_ROOT_PASSWORD: rootpass
+        #volumes:
+          #- ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+        ports: 
+          - '3306:3306'
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps: 
+    
+      - name: checkout repository
+        uses: actions/checkout@v4
+          
+      - name: setup-php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql
+
+      - name: setup-node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: npm
+          cache-dependency-path: project/learning_dispatch_system
+          
+      #- name: copy .env
+        #run: php -r "file_exists('./.env') || copy('./.env.testing', './.env');"
+      
+      - name: composer install
+        run: composer install --no-progress
+        
+      #- name: key generate
+        #run: php artisan key:generate
+
+      - name: config Partial changes
+        run: sed -i -e "s/DB_HOST=db/DB_HOST=127.0.0.1/" ./.env.testing
+        
+      - name: migrate
+        run: php artisan migrate --env=testing
+        env: 
+          DB_HOST: 127.0.0.1
+
+      - name: npm install
+        run: npm ci
+
+      - name: front build
+        run: npm run build
+      
+      - name: phpstan run
+        run: ./vendor/bin/phpstan analyse --memory-limit=512M
+
+      - name: test run
+        run: php artisan test
+
+
+
+
+
+
+
+

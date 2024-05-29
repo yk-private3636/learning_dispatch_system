@@ -8,6 +8,7 @@ use App\Mail\PasswordResetMail;
 use App\Mail\PasswordResetGuideMail;
 use App\Models\ResetPasswordToken;
 use App\Repositories\ResetPasswordTokenRepository;
+use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User;
@@ -36,7 +37,7 @@ abstract class PasswordResetAbstract
 			\UserEnum::ADMIN->division()   => \UserEnum::ADMIN->relationKey(),	
 		};
 
-		if(Arr::exists($relations, $relationKey) === false){
+		if(Arr::exists($relations, $relationKey) === false) {
 			$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, [$relationKey]);
 		}
 
@@ -55,7 +56,7 @@ abstract class PasswordResetAbstract
 		SendMailJob::dispatch($user->email, $mailObj);
 	}
 
-	protected function createToken(): string
+	public function createToken(): string
 	{
 		$token = null;
 		$tryCnt = 0;

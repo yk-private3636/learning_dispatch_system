@@ -19,6 +19,11 @@ class ActivateTokenExistsCkRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if($value === null){
+            $fail(__('validate.rule.ActivateTokenExistsCkRule'));
+            return;
+        }
+
         $resetPasswordToken = app()->make(ResetPasswordTokenRepository::class);
 
         $judge = $resetPasswordToken->activateTokenExists($value, $this->userDivision);

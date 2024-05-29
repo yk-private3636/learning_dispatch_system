@@ -20,7 +20,7 @@
 <img src="https://img.shields.io/badge/Apache-D22128.svg?logo=apache&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?logo=mysql&style=flat&logoColor=white"> 
 
 ### インフラ(想定)
-<img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonEC2-FF9900.svg?logo=amazonec2&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonS3-569A31.svg?logo=amazons3&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonSES-DD344C.svg?logo=amazonsimpleemailservice&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonRoute53-8C4FFF.svg?logo=amazonroute53&style=flat&logoColor=white">
+<img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/GitHubActions-2088FF.svg?logo=githubactions&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonEC2-FF9900.svg?logo=amazonec2&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonS3-569A31.svg?logo=amazons3&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonSES-DD344C.svg?logo=amazonsimpleemailservice&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonRoute53-8C4FFF.svg?logo=amazonroute53&style=flat&logoColor=white">
 
 # 環境構築
 ##### 前提
@@ -52,9 +52,6 @@
 ⑧php artisan key:generate <br>
 ⑨php artisan migrate --seed <br>
 --- 立ち上げ時毎回 --- <br>
-⑩php artisan queue:work <br>
-⑪npm run dev <br>
-
-※メール送信環境は実際の運用ではAmazonSESを利用する想定だが、ローカル環境では、無料メール配信サービスを利用する(mailtrapなど) <br>
-→ 一番楽に動作確認が出来るのは、logドライバを利用したアプリケーションログに書き込む方法 <br>
+⑩nohup php artisan queue:work& <br>
+⑪nohup npm run dev& <br>
 

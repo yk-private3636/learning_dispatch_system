@@ -14,28 +14,16 @@ class GeneralUsersRepository extends AbstractRepository
         return GeneralUser::class;
     }
 
-    public function tableName(): string
-    {
-        return $this->model->getTable();
-    }
-
-    public function find(string $userId): ?GeneralUser
-    {
-        return $this->model->find($userId);
-    }
-
     /**
      * 一般ユーザーをユニークキーで絞込み
      * 
      * @param string $email メールアドレス
-     * @param bool $exeJudge 実行するか否か
-     * @return null|\App\Models\AdminUser|\Illuminate\Database\Eloquent\Builder 実行結果
+     * @return null|\App\Models\GeneralUser 実行結果
      */
-    public function first(string $email, bool $exeJudge = true): null|GeneralUser|Builder
+    public function first(string $email): ?GeneralUser
     {
-        $query = $this->model->where('email', $email);
-
-        return $exeJudge ? $query->first() : $query;
+        return $this->model->where('email', $email)
+                ->first();
     }
 
     public function create(array $createData): GeneralUser

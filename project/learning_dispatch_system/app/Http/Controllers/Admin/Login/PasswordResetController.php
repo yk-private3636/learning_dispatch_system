@@ -35,11 +35,11 @@ class PasswordResetController extends Controller implements PasswordResetClient
             $this->setSuccessField(__('message.mail.passwordReset'));
             DB::commit();
 
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             DB::rollback();
             $this->setErrorField();
         }
-        
+
         return response()->json([
             'msg' => $this->msg
         ], $this->statusCode);
@@ -57,7 +57,7 @@ class PasswordResetController extends Controller implements PasswordResetClient
             $this->setSuccessField(__('message.successful.passwordReset'));    
             DB::commit();
 
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             DB::rollback();
             $this->setErrorField();
         }

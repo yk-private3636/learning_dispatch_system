@@ -2,28 +2,16 @@
 
 namespace App\Services\Admin\Login;
 
-use App\Jobs\SendMailJob;
-use App\Services\Common\StrService;
-use App\Mail\PasswordResetGuideMail;
 use App\Models\AdminUser;
-use App\Models\ResetPasswordToken;
 use App\Services\Abstract\LoginAbstract;
 use App\Repositories\AdminUsersRepository;
-use App\Repositories\ResetPasswordTokenRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class AdminLoginService extends LoginAbstract
 {
 	public function __construct(
 		private AdminUsersRepository $adminUser,
-		private ResetPasswordTokenRepository $resetPasswordToken
-	){
-		$this->adminUser = $adminUser;
-		$this->resetPasswordToken = $resetPasswordToken;
-	}
+	){}
 
 	/**
 	 * 認証が成功したかの判定を行う
@@ -56,18 +44,11 @@ class AdminLoginService extends LoginAbstract
 	/**
 	 * 利用中ユーザーアカウントのパスワード試行回数をカウントアップ
 	 * 
-	 * @param string $email メールアドレス
-	 * @return \App\Models\AdminUser|null
+	 * @param \App\Models\AdminUser $adminUser 
+	 * @return \App\Models\AdminUser
 	 */
-	public function accountLockState(string $email): ?AdminUser
+	public function accountMistaken(AdminUser $adminUser): AdminUser
 	{
-		// 利用中ユーザーを取得
-		$adminUser = $this->adminUser->whereStatusUniqueSharedLock($email, \CommonConst::ACCOUNT_USAGE);
-
-		if($adminUser === null) {
-			return null;
-		}
-
 		$mistakeNum = $adminUser->mistake_num + 1;
 
 		$updData = $this->accountLockStateUpdData($mistakeNum);
@@ -78,19 +59,14 @@ class AdminLoginService extends LoginAbstract
 		return $adminUser;
 	}
 
-	/**
-	 * 利用不可中のユーザーを取得
-	 * 
-	 * @param string $email メールアドレス
-	 * @return \App\Models\AdminUser|null
-	 */
-	public function accountNotAvailable(string $email): ?AdminUser
+	public function authenticationFail(?AdminUser $adminUser): ?AdminUser
 	{
-		$notAvailables = $this->notAvailableCondition();
-
-		$adminUser = $this->adminUser->whereStatuiesUniqueSharedLock($email, $notAvailables);
-
-		return $adminUser;
+		return match ($adminUser?->usage_status) {
+			\CommonConst::ACCOUNT_USAGE   => $this->accountMistaken($adminUser),
+			\CommonConst::ACCOUNT_LOCKD   => $this->accountUnlockState($adminUser),
+			\CommonConst::ACCOUNT_SUSPEND => $adminUser,
+			default                       => null
+		};
 	}
 
 	/**
@@ -109,45 +85,31 @@ class AdminLoginService extends LoginAbstract
 		};
 	}
 
-	public function passResetGuideNotice(ResetPasswordToken $resetPasswordToken): void
-	{
-		$relations = $resetPasswordToken->getRelations();
-
-		if(Arr::exists($relations, 'adminUser') === false){
-			$resetPasswordToken = $this->resetPasswordToken->loads($resetPasswordToken, ['adminUser']);
-		}
-
-		$email = $resetPasswordToken->adminUser->email;
-		$mailObj = new PasswordResetGuideMail($resetPasswordToken);
-
-		SendMailJob::dispatch($email, $mailObj);
-	}
-
 	/**
 	 * アカウントロック期間でなければ、利用ステータスを利用中に変更する
 	 * 
-	 * @param string $email 
-	 * @return \App\Models\AdminUser|null
+	 * @param \App\Models\AdminUser $adminUser
+	 * @return \App\Models\AdminUser
 	 */
-	private function accountUnlockState(string $email): ?AdminUser
+	public function accountUnlockState(AdminUser $adminUser): AdminUser
 	{
-		// アカウントロック中のユーザーを取得(emailでユニーク条件)
-		$adminUser = $this->adminUser->whereStatusUniqueSharedLock($email, \CommonConst::ACCOUNT_LOCKD);
-
-		if($adminUser === null){
-			return null;
-		}
-
 		// ロック中か否か(true: ロック中 false: ロック解除中)
 		if(now() <= $adminUser->lock_duration){
 			return $adminUser;
 		}
 
-		// 利用中に変更
-		$updData = $this->accountUsageUpdData();
-		$adminUser = $this->adminUser->update($adminUser, $updData);
+		$mistakeUser = $this->accountMistaken($adminUser);
 
-		return $adminUser;
+		return $mistakeUser;
+	}
+
+	public function getMistakePossibilityUser(string $email): ?AdminUser
+	{
+		return $this->adminUser->whereStatuiesUniqueSharedLock($email, [
+			\CommonConst::ACCOUNT_USAGE,
+			\CommonConst::ACCOUNT_LOCKD,
+			\CommonConst::ACCOUNT_SUSPEND,
+		]);
 	}
 
 	/**
@@ -216,20 +178,9 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateDefaltUpdData(): array
 	{
 		return [
+			'usage_status'  => \CommonConst::ACCOUNT_USAGE,
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => null
-		];
-	}
-
-	/**
-	 * アカウント利用中更新パラメータ
-	 * 
-	 * @return array 更新パラメータ
-	 */
-	private function accountUsageUpdData(): array
-	{
-		return [
-			'usage_status' => \CommonConst::ACCOUNT_USAGE
 		];
 	}
 
@@ -243,19 +194,6 @@ class AdminLoginService extends LoginAbstract
 		return [
 			'usage_status' => \CommonConst::ACCOUNT_USAGE,
 			'mistake_num'  => 0
-		];
-	}
-
-	/**
-	 * アカウント停止中パラメータ群
-	 * 
-	 * @return array アカウント停止中パラメータ群
-	 */
-	private function notAvailableCondition(): array
-	{
-		return [
-			\CommonConst::ACCOUNT_LOCKD,
-			\CommonConst::ACCOUNT_SUSPEND
 		];
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Models\AdminUser;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -9,38 +10,37 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LoginTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
-    /**
-     * ログイン画面アクセスHTTPステータスコード確認
-     * @test
-     */
-    public function resStatusCodeCheck(): void
+    private string $email = 'feature-test@gmail.com';
+
+    public function setup(): void
+    {
+        parent::setup();
+        // $this->createApplication();
+    }
+
+    public function test_ログイン画面アクセス(): void
     {
         $response = $this->get(route('admin.login'));
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     * 認証チェック(成功パターン)
-     * @test
-     */
-    public function authenticationSuccessCheck(): void
+    public function test_認証成功パターン(): void
     {
+        AdminUser::factory()->create([
+            'email' => $this->email
+        ]);
+
         $response = $this->postJson(route('admin.authentication'), [
-            'email' => 'test@gmail.com',
+            'email' => $this->email,
             'password' => 'test',
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
-
     }
 
-    /**
-     * 認証チェック(失敗パターン)
-     * @test
-     */
-    public function authenticationFailCheck(): void
+    public function test_認証失敗パターン(): void
     {
         $response = $this->postJson(route('admin.authentication'), [
             'email' => 'test@gmail.com',
@@ -50,51 +50,105 @@ class LoginTest extends TestCase
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
+    public function test_アカウント一時停止_step1(): void
+    {
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => 'test@gmail.com',
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_fir')]);
+            }
+
+            $response->assertStatus(401);
+        }
+    }
+
+    public function test_アカウント一時停止_step2(): void
+    {
+        AdminUser::factory()->create([
+            'email' => $this->email,
+            'mistake_num' => 3
+        ]);
+
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => $this->email,
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_sec')]);
+            }
+
+            $response->assertStatus(401);
+        }
+    }
+
+    public function test_アカウント一時停止_step3(): void
+    {
+        AdminUser::factory()->create([
+            'email' => $this->email,
+            'mistake_num' => 6
+        ]);
+
+        for($i=1; $i<3; $i++){
+            $response = $this->postJson(route('admin.authentication'), [
+                'email' => $this->email,
+                'password' => 'test1'
+            ]);
+
+            if($i !== 3){
+                $response->assertJsonFragment(['err_msg' => __('message.unsuccessful.auth')]);
+            }
+            else{
+                $response->assertJsonFragment(['err_msg' => __('message.mistake.step_thi')]);
+            }
+
+            $response->assertStatus(401);
+        }
+    }
 
     /**
-     * バリデーションチェック
-     * @test
-     * @dataProvider loginInputPattern
+     * @dataProvider バリデーション用入力データ
      */
-    public function validateCheck(string $email, string $password, bool $expected): void
+    public function test_バリデーションチェック(string $email, string $password): void
     {
         $response = $this->postJson(route('admin.authentication'), [
             'email' => $email,
             'password' => $password,
         ]);
 
-        if($expected === true){
-            $response->assertStatus(Response::HTTP_OK);
-        }
-        else{
-            $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public static function loginInputPattern(): array
+    public static function バリデーション用入力データ(): array
     {
         return [
-            'case1' => [
+            'どちらも空の時' => [
                 'email' => '', 
                 'password' => '',
-                'expected' => false
             ],
-            'case2' => [
+            'メールアドレスが空の時' => [
+                'email' => '',
+                'password' => '',
+            ],
+            'パスワードが空の時' => [
                 'email' => 'test@gmail.com',
                 'password' => '',
-                'expected' => false
             ],
-            'case3' => [
+            'メールアドレスのドメインが無効の時' => [
                 'email' => 'test@gmail.co',
                 'password' => 'test',
-                'expected' => false
-            ],
-            'case4' => [
-                'email' => 'test@gmail.com',
-                'password' => 'test',
-                'expected' => true
-            ],
-              
+            ]              
         ];
     }
 }

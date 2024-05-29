@@ -1,7 +1,9 @@
 <?php
  
 namespace App\Repositories;
- 
+
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * 基本的にModelとRepositoryは一対一で作成
  *
@@ -20,5 +22,15 @@ abstract class AbstractRepository
         else{
             $this->model = $model;
         }
+    }
+
+    public function tableName(): string
+    {
+        return $this->model->getTable();
+    }
+
+    public function find(string|int $findByVal): ?Model
+    {
+        return $this->model->find($findByVal);
     }
 }
