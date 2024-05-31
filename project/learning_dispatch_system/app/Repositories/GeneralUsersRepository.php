@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\GeneralUser;
 use App\Repositories\AbstractRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class GeneralUsersRepository extends AbstractRepository
@@ -53,7 +54,7 @@ class GeneralUsersRepository extends AbstractRepository
         return $target->delete();
     }
 
-    public function firstOriginToken(string $token, bool $exeJudge = true): null|GeneralUser|Builder
+    public function firstOriginToken(string $token): ?GeneralUser
     {
         $query = $this->model->where('email', function(QueryBuilder $subQuery) use($token) {
             $tableName = app()->make(ResetPasswordTokenRepository::class)->tableName();
@@ -64,7 +65,7 @@ class GeneralUsersRepository extends AbstractRepository
             ->where('token', $token);
         });
 
-        return $exeJudge ? $query->first() : $query;
+        return $query->first();
     }
 
     public function getOAuthUser(string $userId): ?GeneralUser
@@ -72,5 +73,13 @@ class GeneralUsersRepository extends AbstractRepository
         return $this->model->where('user_id', $userId)
                 ->whereNull('password')
                 ->first();
+    }
+
+    public function waitinigForUserDeletion(): void
+    {
+        DB::table($this->tableName())
+                ->whereNotNull('deleted_at')
+                ->whereDate('deleted_at', '<=', now()->subWeek())
+                ->delete();
     }
 }
