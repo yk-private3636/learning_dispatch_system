@@ -1,11 +1,13 @@
 <script setup>
-	
+
 </script>
 
 <template>
-	<v-sheet class="bg-blue-grey-lighten-5 pa-12" height="200vh" rounded>
-		<slot></slot>
-	</v-sheet>
+	<v-container class="bg-blue-grey-lighten-5">
+		<v-sheet class="pa-12" height="auto" rounded>
+			<slot></slot>
+		</v-sheet>
+	</v-container>
 </template>
 
 <style scoped>

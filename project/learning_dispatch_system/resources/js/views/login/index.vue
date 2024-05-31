@@ -61,7 +61,7 @@
 		<Title>{{ text.title }}</Title>
 		<form @submit.prevent="submit">
 	 		<v-container class="mt-5 mb-3">
-				<v-card class="mx-auto px-6 py-12" max-width="344">
+				<v-card class="mx-auto px-4 py-12" max-width="344">
 					<v-text-field
 						v-model="form.user_id"
 						id="user_id"
@@ -94,8 +94,8 @@
 				<v-row justify="center">
 					<v-btn
 						class="text-none"
-						min-width="344"
 						max-width="344"
+						min-width="344"
 						:prepend-icon="mdiGithub"
 						:href="route('general.login.oAuth', 'github')"
 					>

@@ -65,7 +65,7 @@
 		<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"/>
 		<form @submit.prevent="submit">
 			<v-container class="mt-5 mb-3">
-					<v-card class="mx-auto px-6 py-12" max-width="344">
+					<v-card class="mx-auto px-4 py-12" max-width="344">
 						<v-text-field 
 							v-model="form.email" 
 							id="email"
@@ -75,7 +75,7 @@
 							:error-messages="form.errors.email ?? ''"
 						></v-text-field>
 						<br>
-						<Btn :block="true" :disabled="btnDisabled || form.processing">{{ button.passwordReset }}</Btn>
+						<Btn :block="true" :disabled="btnDisabled || form.processing">{{ button.send }}</Btn>
 					</v-card>
 			</v-container>
 		</form>
