@@ -55,3 +55,6 @@
 ⑩nohup php artisan queue:work& <br>
 ⑪nohup npm run dev& <br>
 
+--- 次回以降、立ち上げ時のルーティン --- <br>
+①docker compose exec -d web php artisan queue:work <br>
+②docker compose exec -d web npm run dev <br>
