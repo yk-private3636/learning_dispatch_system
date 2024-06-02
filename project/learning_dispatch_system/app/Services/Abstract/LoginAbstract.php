@@ -15,6 +15,7 @@ abstract class LoginAbstract
 	){}
 
 	abstract protected function authenticationVerdict(array $credentials): bool;
+	abstract protected function logout(): void;
 
 	public function oAuthProvider(string $driverName): Provider
 	{
@@ -38,7 +39,5 @@ abstract class LoginAbstract
 		}
 
 		auth()->login($generalUser);
-
-		dd(user());
 	}
 }

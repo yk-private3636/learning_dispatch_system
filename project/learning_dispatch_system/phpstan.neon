@@ -4,6 +4,7 @@ includes:
 parameters:
 
     paths:
+        - app/Models
         - app/Http/Controllers
         - app/Services
         - app/Repositories

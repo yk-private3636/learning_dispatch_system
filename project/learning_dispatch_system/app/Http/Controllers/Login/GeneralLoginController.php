@@ -34,7 +34,7 @@ class GeneralLoginController extends Controller
     		]);
     	}
 
-    	dd(user());
+        return to_route('top');
     }
 
     public function redirectToProvider(string $driverName): BaseRedirectResponse
@@ -43,7 +43,7 @@ class GeneralLoginController extends Controller
                 ->redirect();
     }
 
-    public function handleProviderCallback(string $driverName)
+    public function handleProviderCallback(string $driverName): RedirectResponse
     {
         try{
             $this->service->oAuthAfter($driverName);
@@ -51,7 +51,19 @@ class GeneralLoginController extends Controller
             return to_route('general.login');
         }
 
-        // TOP画面へ飛ばす予定
-        // return 
-    }    
+        return to_route('top');
+    }
+
+    public function logout(Request $req): RedirectResponse
+    {
+        $this->service->logout();
+
+        $req->session()->invalidate();
+
+        $req->session()->regenerateToken();
+
+        return to_route('general.login')->with([
+            \KeyConst::MSG => __('message.successful.logout')
+        ]);
+    }
 }

@@ -112,6 +112,13 @@ class AdminLoginService extends LoginAbstract
 		]);
 	}
 
+	public function logout(): void
+	{
+		$guardName = \UserEnum::ADMIN->guardName();
+
+		auth()->guard($guardName)->logout();
+	}
+
 	/**
 	 * パスワード試行回数によって、更新パラメータの切り分け
 	 * 
