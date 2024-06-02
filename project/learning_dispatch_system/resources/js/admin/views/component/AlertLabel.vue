@@ -1,12 +1,12 @@
-<script setup>
-	import { ref } from 'vue';
+<script setup lang="ts">
+	import { EmitsOptions, ref } from 'vue';
 
 	const props = defineProps({
 		modelValue: Boolean
 	});
 
 	const show = ref(true);
-	const emits = defineEmits('update:modelValue');
+	const emits = defineEmits(['update:modelValue']);
 
 	const erase = () => {
 		show.value = false;

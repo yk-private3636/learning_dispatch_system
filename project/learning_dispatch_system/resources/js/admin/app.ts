@@ -2,10 +2,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
-import router from './router'
+import router from './router/index.ts'
 import '../../css/app.css'
-import { useLoginState } from './stores/LoginState.js'
-import { authGuard } from './guards/authGuard.js'
+import { useLoginState } from './stores/LoginState.ts'
+import { authGuard } from './guards/authGuard.ts'
 
 const app = createApp(App)
 const pinia = createPinia()

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2022", // 出力するJavaScriptのバージョン
+    "module": "es2022", // 使用するモジュールシステム
+    "moduleResolution": "node", // モジュールの解決方法
+    "strict": true, // 厳密な型チェックオプション
+    "esModuleInterop": true, // ESモジュールの相互運用性を有効にする
+    "skipLibCheck": true, // ライブラリファイルの型チェックをスキップ
+    "forceConsistentCasingInFileNames": true, // ファイル名の大文字小文字を厳密に
+    "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/": ["./resources/js/admin/*"] // エイリアスの設定
+    },
+    "types": ["vite/client"] // Vite用の型定義
+  },
+  // コンパイラ対象ファイル指定
+  "include": [
+    "resources/js/admin/**/*.ts",
+    "resources/js/admin/**/*.vue"
+  ],
+  // コンパイラ除外ファイル指定
+  "exclude": [
+    "node_modules"
+  ]
+}

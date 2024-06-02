@@ -1,14 +1,13 @@
-import { useRouter } from 'vue-router'
+import { RouteLocationNormalized } from 'vue-router'
 import { useLoginState } from '../stores/LoginState.js'
-import { prefix } from '../consts/common.js'
-import { routeNames } from '../consts/exclusionRouteNames.js'
+import { routeNames } from '../consts/exclusionRouteNames.ts'
 import axios from 'axios'
 
-export const authGuard = async (router) => {
+export const authGuard = async (router: any) => {
     const loginState = useLoginState();
-    router.beforeEach( async (to) => {
+    router.beforeEach( async (to: RouteLocationNormalized) => {
 
-    	const exclusionJudge = routeNames.includes(to.name);
+    	const exclusionJudge = routeNames.includes(to.name as string);
 
         await axios(route('admin.authenticating'))
         .then(response => {

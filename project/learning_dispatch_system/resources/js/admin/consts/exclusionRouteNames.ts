@@ -1,4 +1,4 @@
-export const routeNames = Array(
+export const routeNames: string[] = Array(
 	'admin',
 	'login',
 	'login.forget',

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 	import { ref, reactive } from 'vue';
 	import { useRoute, useRouter } from "vue-router";
 	import axios from 'axios'
@@ -9,9 +9,9 @@
 	import AlertLabel from '../component/AlertLabel.vue'
 	import SuccessAlertLabel from '../component/SuccessAlertLabel.vue'
 	import ErrMsg from '../component/ErrMsg.vue'
-	import * as button from '../../consts/button.js'
-	import * as label from '../../consts/label.js'
-	import * as text from '../../consts/text.js'
+	import * as button from '../../consts/button.ts'
+	import * as label from '../../consts/label.ts'
+	import * as text from '../../consts/text.ts'
 
 	const routeObj = useRoute();
 	const router = useRouter();

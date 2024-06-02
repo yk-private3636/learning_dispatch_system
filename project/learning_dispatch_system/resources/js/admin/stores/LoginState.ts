@@ -2,13 +2,13 @@ import { defineStore } from 'pinia';
 
 export const useLoginState = defineStore('loginState', {
 	state:() => ({
-		login: false
+		login: false as Boolean
 	}),
 	actions: {
-		setLogin(){
+		setLogin(): void {
 			this.login = true;
 		},
-		setLogout(){
+		setLogout(): void {
 			this.login = false;
 		}
 	},

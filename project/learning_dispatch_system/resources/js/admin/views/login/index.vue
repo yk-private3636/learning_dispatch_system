@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 	import { ref, reactive } from 'vue'
 	import { useRouter } from 'vue-router'
 	import axios from 'axios'
@@ -8,10 +8,10 @@
 	import InputText from '../component/InputText.vue'
 	import ErrMsg from '../component/ErrMsg.vue'
 	import AlertLabel from '../component/AlertLabel.vue'
-	import { useLoginState } from '../../stores/LoginState.js'
-	import * as button from '../../consts/button.js'
-	import * as label from '../../consts/label.js'
-	import * as text from '../../consts/text.js'
+	import { useLoginState } from '../../stores/LoginState.ts'
+	import * as button from '../../consts/button.ts'
+	import * as label from '../../consts/label.ts'
+	import * as text from '../../consts/text.ts'
 
 	const email = ref('')
 	const password = ref('')

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 	import { ref } from 'vue';
 
 	const props = defineProps({
@@ -6,7 +6,7 @@
 	});
 
 	const show = ref(true);
-	const emits = defineEmits('update:modelValue');
+	const emits = defineEmits(['update:modelValue']);
 
 	const erase = () => {
 		show.value = false;

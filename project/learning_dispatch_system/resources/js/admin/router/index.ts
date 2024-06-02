@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useLoginState } from '../stores/LoginState.js'
-import * as path from '../consts/routerPath.js'
+import * as path from '../consts/routerPath.ts'
 import axios from 'axios'
 
 const router = createRouter({
@@ -31,7 +30,7 @@ const router = createRouter({
       name: 'password.reset',
       component: () => import('../views/login/passwordReset.vue'),
       beforeEnter: (to, from, next) => {
-        const token = to.params.token;
+        const token: string = to.params.token as string;
         axios.get(route('admin.password.reset.accurate.token', token))
         .then(response => {
           if(response.data.judge === false){
