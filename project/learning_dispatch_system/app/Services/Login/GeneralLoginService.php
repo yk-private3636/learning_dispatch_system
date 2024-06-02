@@ -28,4 +28,11 @@ class GeneralLoginService extends LoginAbstract
 		
     	return auth()->attempt($credentials);
 	}
+
+	public function logout(): void
+	{
+		$guardName = \UserEnum::GENERAL->guardName();
+
+		auth()->guard($guardName)->logout();
+	}
 }

@@ -20,6 +20,7 @@ class GeneralUserFactory extends Factory
         return [
             'user_id'      => app()->make(UserService::class)->uniqueUserId(),
             'email'        => fake()->email(),
+            'password'     => \Hash::make('test'),
             'family_name'  => fake()->lastName(),
             'name'         => fake()->firstName(),
             'usage_status' => \CommonConst::ACCOUNT_USAGE

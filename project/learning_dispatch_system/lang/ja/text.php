@@ -1,5 +1,6 @@
 <?php
 
 return [
-	'authenticating' => '認証中'
+	'authenticating' => '認証中',
+	'break' => '**************************************************'
 ];

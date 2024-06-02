@@ -3,7 +3,6 @@
 	import { useForm, usePage, router, Link } from '@inertiajs/vue3';
 	import { mdiEye, mdiEyeOff } from '@mdi/js'
 	import axios from 'axios'
-	import BackGround from '../../component/BackGround.vue'
 	import Title from '../../component/Title.vue'
 	import Btn from '../../component/Btn.vue'
 	import SuccessSnackbar from '../../component/SuccessSnackbar.vue';
@@ -15,6 +14,9 @@
 	import * as message from '../../consts/message.js'
 	import { blank } from '../../consts/StrLib.js'
 	import { designationFilled } from '../../consts/ObjLib.js'
+	import BackGround from '../../component/BackGround.vue';
+
+	defineOptions({ layout: [BackGround] })
 
 	const form = useForm({
 		email: '',
@@ -106,87 +108,85 @@
 </script>
 
 <template>
-	<BackGround>
-		<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"></SuccessSnackbar>
-		<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"></Snackbar>
-		<Title>{{ text.membersipRegist }}</Title>
-		<form @submit.prevent="submit">
-	 		<v-container class="mt-5 mb-3">
-				<v-card class="mx-auto px-6 py-12" max-width="344">
-					<v-text-field
-						v-model="form.email"
-						id="email"
-						type="email"
-						:label="label.email"
-						maxlength="255"
-						:rules="[valid.required]"
-						:error-messages="form.errors.email ?? null"
-					></v-text-field>
-					<v-text-field
-						v-model="form.user_id" 
-						id="user_id"
-						type="text"
-						:label="label.user_id"
-						autocomplete="new-password"
-						:disabled="control"
-						maxlength="18"
-						:rules="[valid.required]"
-						:error-messages="form.errors.user_id ?? null"
-					>
-						<template v-slot:append-inner>
-							<Btn @click="userIdRef" type="button" :disabled="control">{{ button.auto }}</Btn>
-						</template>
-					</v-text-field>
-					<v-text-field
-						v-model="form.password" 
-						id="password"
-						:type="show ? 'text' : 'password'"
-						:label="label.password"
-						:rules="[valid.required]"
-						:error-messages="form.errors.password ?? null"
-						autocomplete="new-password"
-						:append-inner-icon="show ? mdiEyeOff : mdiEye"
-						@click:append-inner="show = !show"
-					></v-text-field>
-					<v-text-field
-						v-model="form.family_name" 
-						id="family_name"
-						type="text"
-						:label="label.familyName"
-						maxlength="30"
-						:rules="[valid.required]"
-						:error-messages="form.errors.family_name ?? null"
-					></v-text-field>
-					<v-text-field
-						v-model="form.name"
-						id="name"
-						type="text"
-						:label="label.name"
-						maxlength="30"
-						:rules="[valid.required]"
-						:error-messages="form.errors.name ?? null"
-					></v-text-field>
-					<br>
-					<Btn
-						type="submit"
-						:block="true"
-						:disabled="btnDisabled || form.processing"
-					>
-						{{ button.create }}
-					</Btn>
-				</v-card>
-			</v-container>
-	 		<v-container class="mt-4 mb-5">
-	 			<v-row no-gutters justify="center">
-	 				<Link :href="route('general.login')" method="get" as="button" type="button">{{ text.loginViewTo }}</Link>
-	 				<div class="mx-3">
-	 					/
-	 				</div>
-	 				<Link :href="route('login.forget.show')" method="get" as="button" type="button">{{ text.passForgetGuide }}</Link>
-	 			</v-row>
-	 		</v-container>
-		</form>
-	</BackGround>
+	<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"></SuccessSnackbar>
+	<Snackbar v-if="errorAlert.show" v-model="errorAlert.show" :text="errorAlert.msg"></Snackbar>
+	<Title>{{ text.membersipRegist }}</Title>
+	<form @submit.prevent="submit">
+ 		<v-container class="mt-5 mb-3">
+			<v-card class="mx-auto px-6 py-12" max-width="344">
+				<v-text-field
+					v-model="form.email"
+					id="email"
+					type="email"
+					:label="label.email"
+					maxlength="255"
+					:rules="[valid.required]"
+					:error-messages="form.errors.email ?? null"
+				></v-text-field>
+				<v-text-field
+					v-model="form.user_id" 
+					id="user_id"
+					type="text"
+					:label="label.user_id"
+					autocomplete="new-password"
+					:disabled="control"
+					maxlength="18"
+					:rules="[valid.required]"
+					:error-messages="form.errors.user_id ?? null"
+				>
+					<template v-slot:append-inner>
+						<Btn @click="userIdRef" type="button" :disabled="control">{{ button.auto }}</Btn>
+					</template>
+				</v-text-field>
+				<v-text-field
+					v-model="form.password" 
+					id="password"
+					:type="show ? 'text' : 'password'"
+					:label="label.password"
+					:rules="[valid.required]"
+					:error-messages="form.errors.password ?? null"
+					autocomplete="new-password"
+					:append-inner-icon="show ? mdiEyeOff : mdiEye"
+					@click:append-inner="show = !show"
+				></v-text-field>
+				<v-text-field
+					v-model="form.family_name" 
+					id="family_name"
+					type="text"
+					:label="label.familyName"
+					maxlength="30"
+					:rules="[valid.required]"
+					:error-messages="form.errors.family_name ?? null"
+				></v-text-field>
+				<v-text-field
+					v-model="form.name"
+					id="name"
+					type="text"
+					:label="label.name"
+					maxlength="30"
+					:rules="[valid.required]"
+					:error-messages="form.errors.name ?? null"
+				></v-text-field>
+				<br>
+				<Btn
+					type="submit"
+					:block="true"
+					:disabled="btnDisabled || form.processing"
+				>
+					{{ button.create }}
+				</Btn>
+			</v-card>
+		</v-container>
+ 		<v-container class="mt-4 mb-5">
+ 			<v-row no-gutters justify="center">
+ 				<Link :href="route('general.login')" method="get" as="button" type="button">{{ text.loginViewTo }}</Link>
+ 				<div class="mx-3">
+ 					/
+ 				</div>
+ 				<Link :href="route('login.forget.show')" method="get" as="button" type="button">{{ text.passForgetGuide }}</Link>
+ 			</v-row>
+ 		</v-container>
+	</form>
 </template>
 
 <style scoped>

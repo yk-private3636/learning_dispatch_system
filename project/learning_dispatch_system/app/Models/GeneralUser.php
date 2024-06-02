@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\GeneralUserAddInfo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class GeneralUser extends Authenticatable
@@ -26,7 +28,10 @@ class GeneralUser extends Authenticatable
     ];
 
     protected $hidden = [
-        'password'
+        'password',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $append = [
@@ -39,5 +44,10 @@ class GeneralUser extends Authenticatable
         return Attribute::make(
             get: fn () => $this->family_name . ' ' . $this->name
         );
+    }
+
+    public function addInfo(): HasOne
+    {
+        return $this->hasOne(GeneralUserAddInfo::class, 'user_id');
     }
 }

@@ -39,6 +39,10 @@ class HandleInertiaRequests extends Middleware
             'success' => [
                 'msg' => fn () => $request->session()->get(\KeyConst::MSG),
             ],
+            'auth' => auth()->check() ? [
+                ...auth()->user()->toArray() ?? [],
+                ...auth()->user()->addInfo?->toArray() ?? []
+            ] : null
         ]);
     }
 }

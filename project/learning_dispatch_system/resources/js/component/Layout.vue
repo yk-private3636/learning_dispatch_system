@@ -1,6 +1,7 @@
 <script setup>
 	import { reactive } from 'vue'
 	import { usePage } from '@inertiajs/vue3'
+	import Header from './Header.vue';
 	import SuccessSnackbar from './SuccessSnackbar.vue'
 
 	const page = usePage();
@@ -10,11 +11,15 @@
 		msg: page.props.success.msg
 	})
 
+	const pr = defineProps({
+		auth: Object
+	})
 </script>
 
 <template>
 	<SuccessSnackbar v-if="successAlert.show" v-model="successAlert.show" :text="successAlert.msg"/>
-	<v-container class="bg-blue-grey-lighten-5">
+	<v-container class="bg-blue-grey-lighten-5 mt-8">
+		<Header :auth="pr.auth"></Header>
 		<v-sheet class="pa-12" height="auto" rounded>
 			<slot></slot>
 		</v-sheet>

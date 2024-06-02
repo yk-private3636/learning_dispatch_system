@@ -80,7 +80,8 @@ class RepositoryCommand extends Command
  
     private function getContents(string $name): string
     {
-        $_ = function($s){return $s;};
+        $_ = fn(string $s) => $s;
+        $addNameSpace = '';   
 
         if(count($this->splits) >= 1){
             $addNameSpace = str_replace('/', '\\', Str::beforeLast($name, '/'));
@@ -90,7 +91,6 @@ class RepositoryCommand extends Command
             }
         }
         else{
-            $addNameSpace = '';   
         }
 
         $name = Str::afterLast($name, '/');

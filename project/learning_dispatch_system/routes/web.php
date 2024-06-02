@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\TopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Login\PasswordResetController;
 use App\Http\Controllers\Login\GeneralLoginController;
@@ -22,7 +23,6 @@ use App\Http\Controllers\Admin\Login\LoginController;
 /** 一般ユーザー **/
 Route::middleware(['guest'])->group(function() {
     /** ログイン **/
-    Route::get('/', [GeneralLoginController::class, 'index']);
     Route::get('login', [GeneralLoginController::class, 'index'])->name('general.login');
     Route::post('authentication', [GeneralLoginController::class, 'authentication'])->name('general.auth');
     Route::get('login/o-auth/{driverName}', [GeneralLoginController::class, 'redirectToProvider'])->name('general.login.oAuth');
@@ -37,6 +37,14 @@ Route::middleware(['guest'])->group(function() {
     Route::resource('user', UserController::class)->only([
         'create', 'store'
     ]);
+});
+
+
+/** TOP **/
+Route::get('/', [TopController::class, 'index'])->name('top');
+
+Route::middleware(['auth:general'])->group(function() {
+    Route::get('/logout', [GeneralLoginController::class, 'logout'])->name('logout');
 });
 
 /** 管理者 **/

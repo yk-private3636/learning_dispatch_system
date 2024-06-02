@@ -6,6 +6,7 @@ use App\Models\AdminUser;
 use App\Repositories\AbstractRepository;
 use App\Repositories\ResetPasswordTokenRepository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class AdminUsersRepository extends AbstractRepository
@@ -97,7 +98,7 @@ class AdminUsersRepository extends AbstractRepository
                 ->first();
     }
 
-    public function firstOriginToken(string $token, bool $exeJudge = true): null|AdminUser|Builder
+    public function firstOriginToken(string $token): ?AdminUser
     {
         $query = $this->model->where('email', function(QueryBuilder $subQuery) use($token) {
             $tableName = app()->make(ResetPasswordTokenRepository::class)->tableName();
@@ -109,9 +110,14 @@ class AdminUsersRepository extends AbstractRepository
             ->where('user_division', \UserEnum::ADMIN->division());
         });
 
-        return $exeJudge ? $query->first() : $query;
+        return $query->first();
     }
 
-
-
+    public function waitinigForUserDeletion(): void
+    {
+        DB::table($this->tableName())
+                ->whereNotNull('deleted_at')
+                ->whereDate('deleted_at', '<=', now()->subWeek())
+                ->delete();
+    }
 }

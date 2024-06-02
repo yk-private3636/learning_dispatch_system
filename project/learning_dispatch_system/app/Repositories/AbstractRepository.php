@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * 基本的にModelとRepositoryは一対一で作成
@@ -32,5 +34,23 @@ abstract class AbstractRepository
     public function find(string|int $findByVal): ?Model
     {
         return $this->model->find($findByVal);
+    }
+
+    public function allSoftDelete(): int
+    {
+        return $this->model->query()
+                ->delete();
+    }
+
+    public function allHardDelete(): int
+    {
+        $tableName = $this->tableName();
+
+        return DB::table($tableName)->delete();
+    }
+
+    public function factories(int $num): Collection
+    {
+        return $this->model->factory($num)->create();
     }
 }

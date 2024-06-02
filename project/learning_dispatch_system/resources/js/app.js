@@ -9,6 +9,9 @@ import * as directives from 'vuetify/directives';
 
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
 
+import BackGround from './component/Layout.vue'
+
+
 const vuetify = createVuetify({
   components,
   directives,
@@ -22,11 +25,17 @@ const vuetify = createVuetify({
 })
 
 createInertiaApp({
-    resolve: (name) =>
-        resolvePageComponent(
-            `./views/${name}.vue`,
-            import.meta.glob("./views/**/*.vue")
-        ),
+    // resolve: (name) =>
+    //     resolvePageComponent(
+    //         `./views/${name}.vue`,
+    //         import.meta.glob("./views/**/*.vue")
+    //     )
+    resolve: name => {
+        const pages = import.meta.glob('./views/**/*.vue', { eager: true })
+        let page = pages[`./views/${name}.vue`];
+        page.default.layout = page.default.layout || BackGround
+        return page
+    },
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) });
         app.config.globalProperties.route = route;
