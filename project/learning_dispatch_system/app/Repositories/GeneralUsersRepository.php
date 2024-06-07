@@ -82,4 +82,14 @@ class GeneralUsersRepository extends AbstractRepository
                 ->whereDate('deleted_at', '<=', now()->subWeek())
                 ->delete();
     }
+
+    public function getRandomUserId(): GeneralUser
+    {
+        return $this->model->select([
+            'user_id'
+        ])
+        ->inRandomOrder()
+        ->limit(1)
+        ->first();
+    }
 }
