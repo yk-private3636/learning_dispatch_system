@@ -1,13 +1,9 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-	<p class="block text-3xl font-medium leading-6 text-gray-900">
-		<slot></slot>
-	</p>
+  <p class="block text-3xl font-medium leading-6 text-gray-900">
+    <slot />
+  </p>
 </template>
 
-<style scoped>
-	
-</style>
+<style scoped></style>

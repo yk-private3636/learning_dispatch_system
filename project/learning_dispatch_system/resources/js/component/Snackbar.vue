@@ -1,38 +1,25 @@
 <script setup>
-	const props = defineProps({
-		text: String,
-		modelValue: Boolean
-	})
+const props = defineProps({
+  text: { type: String, default: "" },
+  modelValue: Boolean,
+});
+const emits = defineEmits("update:modelValue");
 
-	const emits = defineEmits('update:modelValue');
+const erase = () => {
+  emits("update:modelValue", false);
+};
 
-	const erase = () => {
-		emits('update:modelValue', false)
-	}
-
-	setTimeout(() => {
-		emits('update:modelValue', false)
-	}, 2500)
+setTimeout(() => {
+  emits("update:modelValue", false);
+}, 2500);
 </script>
 
 <template>
-	<v-snackbar
-		v-model="props.modelValue"
-		:text="props.text"
-		location="top"
-	>
-		<template v-slot:actions>
-			<v-btn
-				color="pink"
-				variant="text"
-				@click="erase"
-			>
-				×
-			</v-btn>
-		</template>
-	</v-snackbar>
+  <v-snackbar v-model="props.modelValue" :text="props.text" location="top">
+    <template #actions>
+      <v-btn color="pink" variant="text" @click="erase"> × </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 
-<style scoped>
-	
-</style>
+<style scoped></style>
