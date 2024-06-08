@@ -1,1 +1,1 @@
-export const prefix: string = "/admin";
+export const prefix: string = '/admin';

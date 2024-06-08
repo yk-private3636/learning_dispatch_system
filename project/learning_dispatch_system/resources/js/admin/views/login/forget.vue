@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import axios from "axios";
-import Btn from "../component/Btn.vue";
-import Title from "../component/Title.vue";
-import Label from "../component/Label.vue";
-import AlertLabel from "../component/AlertLabel.vue";
-import SuccessAlertLabel from "../component/SuccessAlertLabel.vue";
-import InputText from "../component/InputText.vue";
-import ErrMsg from "../component/ErrMsg.vue";
-import * as button from "../../consts/button.ts";
-import * as label from "../../consts/label.ts";
-import * as text from "../../consts/text.ts";
-import { route } from "ziggy-js";
+import { ref, reactive } from 'vue';
+import axios from 'axios';
+import Btn from '../component/Btn.vue';
+import Title from '../component/Title.vue';
+import Label from '../component/Label.vue';
+import AlertLabel from '../component/AlertLabel.vue';
+import SuccessAlertLabel from '../component/SuccessAlertLabel.vue';
+import InputText from '../component/InputText.vue';
+import ErrMsg from '../component/ErrMsg.vue';
+import * as button from '../../consts/button.ts';
+import * as label from '../../consts/label.ts';
+import * as text from '../../consts/text.ts';
+import { route } from 'ziggy-js';
 
-const email = ref("");
+const email = ref('');
 
 const valid = reactive({
   email: {
     fails: false,
-    msg: "",
+    msg: '',
   },
 });
 const alertLabel = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 const successAlertLabel = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const passwordProcedureReset = () => {
-  axios.get("/sanctum/csrf-cookie").then(() => {
+  axios.get('/sanctum/csrf-cookie').then(() => {
     axios
-      .post(route("admin.procedure.password.reset"), {
+      .post(route('admin.procedure.password.reset'), {
         email: email.value,
       })
       .then((response) => {

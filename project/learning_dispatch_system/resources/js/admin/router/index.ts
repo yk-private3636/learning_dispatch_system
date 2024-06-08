@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from "vue-router";
-import * as path from "../consts/routerPath.ts";
-import axios from "axios";
-import { route } from "ziggy-js";
+import { createRouter, createWebHistory } from 'vue-router';
+import * as path from '../consts/routerPath.ts';
+import axios from 'axios';
+import { route } from 'ziggy-js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,47 +13,47 @@ const router = createRouter({
     // }
     {
       path: path.common,
-      name: "admin",
-      component: () => import("../views/login/index.vue"),
+      name: 'admin',
+      component: () => import('../views/login/index.vue'),
     },
     {
       path: path.login,
-      name: "login",
-      component: () => import("../views/login/index.vue"),
+      name: 'login',
+      component: () => import('../views/login/index.vue'),
     },
     {
       path: path.loginForget,
-      name: "login.forget",
-      component: () => import("../views/login/forget.vue"),
+      name: 'login.forget',
+      component: () => import('../views/login/forget.vue'),
     },
     {
       path: path.passwordReset,
-      name: "password.reset",
-      component: () => import("../views/login/passwordReset.vue"),
+      name: 'password.reset',
+      component: () => import('../views/login/passwordReset.vue'),
       beforeEnter: (to, from, next) => {
         const token: string = to.params.token as string;
         axios
-          .get(route("admin.password.reset.accurate.token", token))
+          .get(route('admin.password.reset.accurate.token', token))
           .then((response) => {
             if (response.data.judge === false) {
-              throw new Error("無効なトークンです。");
+              throw new Error('無効なトークンです。');
             }
             next();
           })
           .catch(() => {
-            router.push({ name: "not-found" });
+            router.push({ name: 'not-found' });
           });
       },
     },
     {
       path: path.top,
-      name: "top",
-      component: () => import("../views/top/index.vue"),
+      name: 'top',
+      component: () => import('../views/top/index.vue'),
     },
     {
-      path: "/:pathMatch(.*)*",
-      name: "not-found",
-      component: () => import("../views/errors/NotFound.vue"),
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/errors/NotFound.vue'),
     },
   ],
 });

@@ -1,16 +1,16 @@
 <script setup>
 const props = defineProps({
-  text: { type: String, default: "" },
+  text: { type: String, default: '' },
   modelValue: Boolean,
 });
-const emits = defineEmits("update:modelValue");
+const emits = defineEmits('update:modelValue');
 
 const erase = () => {
-  emits("update:modelValue", false);
+  emits('update:modelValue', false);
 };
 
 setTimeout(() => {
-  emits("update:modelValue", false);
+  emits('update:modelValue', false);
 }, 2500);
 </script>
 

@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
-import Btn from "../component/Btn.vue";
-import Title from "../component/Title.vue";
-import Label from "../component/Label.vue";
-import InputText from "../component/InputText.vue";
-import AlertLabel from "../component/AlertLabel.vue";
-import SuccessAlertLabel from "../component/SuccessAlertLabel.vue";
-import ErrMsg from "../component/ErrMsg.vue";
-import * as button from "../../consts/button.ts";
-import * as label from "../../consts/label.ts";
-import * as text from "../../consts/text.ts";
-import { route } from "ziggy-js";
+import { ref, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+import Btn from '../component/Btn.vue';
+import Title from '../component/Title.vue';
+import Label from '../component/Label.vue';
+import InputText from '../component/InputText.vue';
+import AlertLabel from '../component/AlertLabel.vue';
+import SuccessAlertLabel from '../component/SuccessAlertLabel.vue';
+import ErrMsg from '../component/ErrMsg.vue';
+import * as button from '../../consts/button.ts';
+import * as label from '../../consts/label.ts';
+import * as text from '../../consts/text.ts';
+import { route } from 'ziggy-js';
 
 const routeObj = useRoute();
 const router = useRouter();
-const password = ref("");
-const confirmPassword = ref("");
+const password = ref('');
+const confirmPassword = ref('');
 const alertLabel = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 const successAlertLabel = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 const valid = reactive({
   password: {
     fails: false,
-    msg: "",
+    msg: '',
   },
   confirmPassword: {
     fails: false,
-    msg: "",
+    msg: '',
   },
 });
 
 const passwordReset = () => {
   axios
-    .put(route("admin.password.reset"), {
+    .put(route('admin.password.reset'), {
       password: password.value,
       confirmPassword: confirmPassword.value,
       token: routeObj.params.token,
@@ -48,7 +48,7 @@ const passwordReset = () => {
       successAlertLabel.msg = response.data.msg;
       successAlertLabel.show = true;
       setTimeout(() => {
-        router.push({ name: "login" });
+        router.push({ name: 'login' });
       }, 2500);
     })
     .catch((err) => {

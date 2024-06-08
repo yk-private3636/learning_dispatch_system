@@ -1,11 +1,11 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import App from "./App.vue";
-import router from "./router/index.ts";
-import "../../css/app.css";
-import { useLoginState } from "./stores/LoginState.ts";
-import { authGuard } from "./guards/authGuard.ts";
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import App from './App.vue';
+import router from './router/index.ts';
+import '../../css/app.css';
+import { useLoginState } from './stores/LoginState.ts';
+import { authGuard } from './guards/authGuard.ts';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -30,14 +30,14 @@ authGuard(router);
 //   router.push("/error");
 // })
 
-window.addEventListener("unhandledrejection", (event) => {
+window.addEventListener('unhandledrejection', (event) => {
   const statusCode = event.reason.response.status;
   const loginState = useLoginState();
 
   if (statusCode === 401) {
     loginState.setLogout();
-    router.push({ name: "login" });
+    router.push({ name: 'login' });
   }
 });
 
-app.mount("#app");
+app.mount('#app');

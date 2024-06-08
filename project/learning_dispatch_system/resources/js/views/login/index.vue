@@ -1,17 +1,17 @@
 <script setup>
-import { reactive, computed } from "vue";
-import { useForm, usePage, Link } from "@inertiajs/vue3";
-import { mdiGithub } from "@mdi/js";
-import Title from "../../component/Title.vue";
-import Btn from "../../component/Btn.vue";
-import Snackbar from "../../component/Snackbar.vue";
-import * as label from "../../consts/label.js";
-import * as button from "../../consts/button.js";
-import * as text from "../../consts/text.js";
-import * as valid from "../../consts/validate.js";
-import { blank } from "../../consts/StrLib.js";
-import BackGround from "../../component/BackGround.vue";
-import { route } from "ziggy-js";
+import { reactive, computed } from 'vue';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
+import { mdiGithub } from '@mdi/js';
+import Title from '../../component/Title.vue';
+import Btn from '../../component/Btn.vue';
+import Snackbar from '../../component/Snackbar.vue';
+import * as label from '../../consts/label.js';
+import * as button from '../../consts/button.js';
+import * as text from '../../consts/text.js';
+import * as valid from '../../consts/validate.js';
+import { blank } from '../../consts/StrLib.js';
+import BackGround from '../../component/BackGround.vue';
+import { route } from 'ziggy-js';
 
 defineOptions({ layout: [BackGround] });
 
@@ -24,7 +24,7 @@ const page = usePage();
 
 const errorAlert = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const btnDisabled = computed(() => {
@@ -33,7 +33,7 @@ const btnDisabled = computed(() => {
 });
 
 const submit = () => {
-  form.post(route("general.auth"), {
+  form.post(route('general.auth'), {
     onError: () => {
       if (blank(page.props.errors.msg)) {
         return;

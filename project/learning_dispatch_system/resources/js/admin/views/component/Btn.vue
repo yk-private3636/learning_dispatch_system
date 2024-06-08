@@ -2,7 +2,7 @@
 //import { onMounted } from 'vue'
 
 const props = defineProps({
-  type: { type: String, default: "submit" },
+  type: { type: String, default: 'submit' },
 });
 </script>
 

@@ -1,30 +1,30 @@
 <script setup>
-import { ref, reactive, computed } from "vue";
-import { useForm, usePage, Link } from "@inertiajs/vue3";
-import { mdiEye, mdiEyeOff } from "@mdi/js";
-import axios from "axios";
-import Title from "../../component/Title.vue";
-import Btn from "../../component/Btn.vue";
-import SuccessSnackbar from "../../component/SuccessSnackbar.vue";
-import Snackbar from "../../component/Snackbar.vue";
-import * as text from "../../consts/text.js";
-import * as label from "../../consts/label.js";
-import * as button from "../../consts/button.js";
-import * as valid from "../../consts/validate.js";
-import * as message from "../../consts/message.js";
-import { blank } from "../../consts/StrLib.js";
-import { designationFilled } from "../../consts/ObjLib.js";
-import BackGround from "../../component/BackGround.vue";
-import { route } from "ziggy-js";
+import { ref, reactive, computed } from 'vue';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
+import { mdiEye, mdiEyeOff } from '@mdi/js';
+import axios from 'axios';
+import Title from '../../component/Title.vue';
+import Btn from '../../component/Btn.vue';
+import SuccessSnackbar from '../../component/SuccessSnackbar.vue';
+import Snackbar from '../../component/Snackbar.vue';
+import * as text from '../../consts/text.js';
+import * as label from '../../consts/label.js';
+import * as button from '../../consts/button.js';
+import * as valid from '../../consts/validate.js';
+import * as message from '../../consts/message.js';
+import { blank } from '../../consts/StrLib.js';
+import { designationFilled } from '../../consts/ObjLib.js';
+import BackGround from '../../component/BackGround.vue';
+import { route } from 'ziggy-js';
 
 defineOptions({ layout: [BackGround] });
 
 const form = useForm({
-  email: "",
-  user_id: "",
-  password: "",
-  family_name: "",
-  name: "",
+  email: '',
+  user_id: '',
+  password: '',
+  family_name: '',
+  name: '',
 });
 
 const page = usePage();
@@ -34,21 +34,21 @@ const show = ref(false);
 
 const successAlert = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const errorAlert = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const btnDisabled = computed(() => {
   const disabled = designationFilled(form, [
-    "email",
-    "user_id",
-    "password",
-    "family_name",
-    "name",
+    'email',
+    'user_id',
+    'password',
+    'family_name',
+    'name',
   ]);
 
   return !disabled;
@@ -57,7 +57,7 @@ const btnDisabled = computed(() => {
 const userIdRef = () => {
   control.value = true;
   axios
-    .get(route("general.user.id.create"))
+    .get(route('general.user.id.create'))
     .then((res) => {
       form.user_id = res.data.user_id;
     })
@@ -90,7 +90,7 @@ const submit = () => {
   successAlert.show = false;
   errorAlert.show = false;
 
-  form.post(route("user.store"), {
+  form.post(route('user.store'), {
     onSuccess: () => {
       successAlert.show = true;
       successAlert.msg = page.props.success.msg;

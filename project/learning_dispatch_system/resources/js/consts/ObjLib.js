@@ -1,4 +1,4 @@
-import { blank } from "./StrLib.js";
+import { blank } from './StrLib.js';
 
 export const designationFilled = (obj, useKeys) => {
   const judge = useKeys.every((key) => {

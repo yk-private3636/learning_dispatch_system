@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
-import Btn from "../component/Btn.vue";
-import Label from "../component/Label.vue";
-import Link from "../component/Link.vue";
-import InputText from "../component/InputText.vue";
-import ErrMsg from "../component/ErrMsg.vue";
-import AlertLabel from "../component/AlertLabel.vue";
-import { useLoginState } from "../../stores/LoginState.ts";
-import * as button from "../../consts/button.ts";
-import * as label from "../../consts/label.ts";
-import * as text from "../../consts/text.ts";
-import { route } from "ziggy-js";
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import Btn from '../component/Btn.vue';
+import Label from '../component/Label.vue';
+import Link from '../component/Link.vue';
+import InputText from '../component/InputText.vue';
+import ErrMsg from '../component/ErrMsg.vue';
+import AlertLabel from '../component/AlertLabel.vue';
+import { useLoginState } from '../../stores/LoginState.ts';
+import * as button from '../../consts/button.ts';
+import * as label from '../../consts/label.ts';
+import * as text from '../../consts/text.ts';
+import { route } from 'ziggy-js';
 
-const email = ref("");
-const password = ref("");
+const email = ref('');
+const password = ref('');
 const alertLabel = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const valid = reactive({
   email: {
     fails: false,
-    msg: "",
+    msg: '',
   },
   password: {
     fails: false,
-    msg: "",
+    msg: '',
   },
 });
 
@@ -36,15 +36,15 @@ const router = useRouter();
 const loginState = useLoginState();
 
 const authentication = () => {
-  axios.get("/sanctum/csrf-cookie").then(() => {
+  axios.get('/sanctum/csrf-cookie').then(() => {
     axios
-      .post(route("admin.authentication"), {
+      .post(route('admin.authentication'), {
         email: email.value,
         password: password.value,
       })
       .then(() => {
         loginState.setLogin();
-        router.push({ name: "top" });
+        router.push({ name: 'top' });
       })
       .catch((err) => {
         const statusCode = err.response?.status;

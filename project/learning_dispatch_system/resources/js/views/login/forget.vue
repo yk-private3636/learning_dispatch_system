@@ -1,34 +1,34 @@
 <script setup>
-import { reactive, computed } from "vue";
-import { useForm, usePage, Link } from "@inertiajs/vue3";
-import SuccessSnackbar from "../../component/SuccessSnackbar.vue";
-import Snackbar from "../../component/Snackbar.vue";
-import Title from "../../component/Title.vue";
-import Btn from "../../component/Btn.vue";
-import * as text from "../../consts/text.js";
-import * as label from "../../consts/label.js";
-import * as button from "../../consts/button.js";
-import * as validate from "../../consts/validate.js";
-import { blank } from "../../consts/StrLib.js";
-import BackGround from "../../component/BackGround.vue";
-import { route } from "ziggy-js";
+import { reactive, computed } from 'vue';
+import { useForm, usePage, Link } from '@inertiajs/vue3';
+import SuccessSnackbar from '../../component/SuccessSnackbar.vue';
+import Snackbar from '../../component/Snackbar.vue';
+import Title from '../../component/Title.vue';
+import Btn from '../../component/Btn.vue';
+import * as text from '../../consts/text.js';
+import * as label from '../../consts/label.js';
+import * as button from '../../consts/button.js';
+import * as validate from '../../consts/validate.js';
+import { blank } from '../../consts/StrLib.js';
+import BackGround from '../../component/BackGround.vue';
+import { route } from 'ziggy-js';
 
 defineOptions({ layout: [BackGround] });
 
 const form = useForm({
-  email: "",
+  email: '',
 });
 
 const page = usePage();
 
 const successAlert = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const errorAlert = reactive({
   show: false,
-  msg: "",
+  msg: '',
 });
 
 const btnDisabled = computed(() => {
@@ -40,7 +40,7 @@ const submit = () => {
   successAlert.show = false;
   errorAlert.show = false;
 
-  form.post(route("procedure.password.reset"), {
+  form.post(route('procedure.password.reset'), {
     onSuccess: () => {
       successAlert.show = true;
       successAlert.msg = page.props.success.msg;

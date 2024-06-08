@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  type: { type: String, default: "submit" },
+  type: { type: String, default: 'submit' },
   block: { type: Boolean, default: false },
 });
 </script>

@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-export const useLoginState = defineStore("loginState", {
+export const useLoginState = defineStore('loginState', {
   state: () => ({
     login: false as boolean,
   }),

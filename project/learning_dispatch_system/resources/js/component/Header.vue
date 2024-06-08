@@ -1,6 +1,6 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
-import { mdiWidgets, mdiLogin, mdiLogout, mdiAccountPlus } from "@mdi/js";
+import { Link } from '@inertiajs/vue3';
+import { mdiWidgets, mdiLogin, mdiLogout, mdiAccountPlus } from '@mdi/js';
 
 const pr = defineProps({
   auth: { type: Object, default: null },

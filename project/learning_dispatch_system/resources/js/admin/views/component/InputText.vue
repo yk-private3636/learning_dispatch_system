@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const props = defineProps({
-  id: { type: String, default: "" },
-  name: { type: String, default: "" },
-  type: { type: String, default: "" },
-  autocomplete: { type: String, default: "" },
+  id: { type: String, default: '' },
+  name: { type: String, default: '' },
+  type: { type: String, default: '' },
+  autocomplete: { type: String, default: '' },
   required: { type: Boolean, default: false },
-  modelValue: { type: String, default: "" },
+  modelValue: { type: String, default: '' },
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue']);
 
 // const text = computed({
 // 	get: () => props.modelValue,
@@ -18,7 +18,7 @@ const emits = defineEmits(["update:modelValue"]);
 // });
 
 const onInputText = (e: Event) => {
-  emits("update:modelValue", (e.target as HTMLInputElement).value);
+  emits('update:modelValue', (e.target as HTMLInputElement).value);
 };
 
 // defineExpose({

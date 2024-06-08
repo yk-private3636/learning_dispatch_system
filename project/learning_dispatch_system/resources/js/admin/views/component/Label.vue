@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
-  label: { type: String, default: "" },
-  for: { type: String, default: "" },
+  label: { type: String, default: '' },
+  for: { type: String, default: '' },
 });
 </script>
 

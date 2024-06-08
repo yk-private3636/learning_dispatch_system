@@ -1,8 +1,8 @@
 <script setup>
-import { reactive } from "vue";
-import { usePage } from "@inertiajs/vue3";
-import Header from "./Header.vue";
-import SuccessSnackbar from "./SuccessSnackbar.vue";
+import { reactive } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import Header from './Header.vue';
+import SuccessSnackbar from './SuccessSnackbar.vue';
 
 const page = usePage();
 
