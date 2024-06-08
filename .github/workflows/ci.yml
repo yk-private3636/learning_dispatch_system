@@ -65,7 +65,7 @@ jobs:
           DB_HOST: 127.0.0.1
 
       - name: npm install
-        run: npm ci
+        run: npm ci　--legacy-peer-deps
 
       - name: front build
         run: npm run build
