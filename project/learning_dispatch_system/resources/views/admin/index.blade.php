@@ -9,6 +9,6 @@
   <body>
     <div id="app"></div>
     @routes
-    @vite(['resources/js/admin/app.js'])
+    @vite(['resources/js/admin/app.ts'])
   </body>
 </html>

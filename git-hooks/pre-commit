@@ -1,0 +1,17 @@
+docker compose exec -T web npm run preCheck
+
+if [ $? -ne 0 ]; then
+	echo "prettier failure"
+	exit 1
+fi
+
+
+docker compose exec -T web npm run lint
+
+if [ $? -ne 0 ]; then
+        echo "eslint failure"
+        exit 1
+fi
+
+
+exit 0

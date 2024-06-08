@@ -26,6 +26,7 @@
 ##### 前提
 ①Gitのインストールが完了していること <br>
 ②Dockerのインストールが完了していること <br>
+③実行環境がWSL上であること <br>
 
 ##### 留意点
 ・以下ポートを使用します <br>
@@ -35,26 +36,29 @@
 → 4040: phpMyAdmin <br>
 ・ローカルでのメール送信は、mailtrapなどの無料で使える外部サービスやアプリケーションログに吐き出す方法で、動作確認を行う(実際の運用はAWS SES想定)<br>
 ・OAuth認証機能があるが、ローカルで利用する場合は、OAuth Appsを作成する必要があり。<br>
-→ 参照: https://docs.github.com/ja/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app
+→ 参照: https://docs.github.com/ja/apps/oauth-apps/building-oauth-apps/creating-an-oauth-app <br>
+※.envも編集が必要
 
 ##### 手順
-①git clone https://{アクセストークン}@github.com/yk-private3636/learning_dispatch_system <br>
+①git init <br>
+②git clone https://{アクセストークン}@github.com/yk-private3636/learning_dispatch_system <br>
 ※アクセストークンは、リポジトリ管理者経由で取得 <br>
 → 閲覧用ユーザーに対しては、参照権限のみのアクセストークンを付与 <br>
 → 作業用ユーザーに対しては、参照・書き込み権限付きのアクセストークンを付与 <br>
 
-②cd ./learning_dispatch_system <br>
-③docker compose up -d --bulid <br>
-④docker exec -it bash <br>
-⑤cp ./.env.example ./.env <br>
-⑥composer install <br>
-⑦npm install <br>
-⑧php artisan key:generate <br>
-⑨php artisan migrate --seed <br>
+③cd ./learning_dispatch_system <br>
+④bash ./git-hooks/setup.sh <br>
+⑤docker compose up -d --bulid <br>
+⑥docker exec -it bash <br>
+⑦cp ./.env.example ./.env <br>
+⑧composer install <br>
+⑨npm install <br>
+⑩php artisan key:generate <br>
+⑪php artisan migrate --seed <br>
 --- 立ち上げ時毎回 --- <br>
-⑩nohup php artisan queue:work& <br>
-⑪nohup npm run dev& <br>
+⑫nohup php artisan queue:work& <br>
+⑬nohup npm run dev& <br>
 
---- 次回以降、立ち上げ時のルーティン --- <br>
+--- 次回以降、立ち上げ時ルーティン --- <br>
 ①docker compose exec -d web php artisan queue:work <br>
 ②docker compose exec -d web npm run dev <br>

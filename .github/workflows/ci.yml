@@ -65,10 +65,18 @@ jobs:
           DB_HOST: 127.0.0.1
 
       - name: npm install
-        run: npm ci
+        #run: npm ci
+        #@typescript-eslintのupdateをするまで下記適用
+        run: npm i --legacy-peer-deps
 
       - name: front build
         run: npm run build
+        
+      - name: prettier check run
+        run: npm run preCheck
+
+      - name: eslint check run
+        run: npm run lint
       
       - name: phpstan run
         run: ./vendor/bin/phpstan analyse --memory-limit=512M

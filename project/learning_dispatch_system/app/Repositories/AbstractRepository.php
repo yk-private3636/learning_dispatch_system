@@ -36,12 +36,6 @@ abstract class AbstractRepository
         return $this->model->find($findByVal);
     }
 
-    public function allSoftDelete(): int
-    {
-        return $this->model->query()
-                ->delete();
-    }
-
     public function allHardDelete(): int
     {
         $tableName = $this->tableName();
@@ -49,7 +43,7 @@ abstract class AbstractRepository
         return DB::table($tableName)->delete();
     }
 
-    public function factories(int $num): Collection
+    public function factories(?int $num = null): Collection
     {
         return $this->model->factory($num)->create();
     }

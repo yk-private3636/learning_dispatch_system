@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Repositories\AdminUsersRepository;
+use App\Repositories\ExpertiseTechnologyRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
-class AdminUserSeeder extends Seeder
+class ExpertiseTechnologySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(AdminUsersRepository $repository): void
+    public function run(ExpertiseTechnologyRepository $repository): void
     {
         $repository->allHardDelete();
-        
+
         $repository->factories(5);
     }
 }

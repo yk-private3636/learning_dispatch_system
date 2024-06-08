@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('expertise_technologies', function (Blueprint $table) {
             $table->id();
             $table->string('user_id', 18)->comment('ユーザーID');
-            $table->string('name', 25)->collation('utf8mb4_unicode_ci')->comment('技術名');
+            $table->string('name', 50)->collation('utf8mb4_unicode_ci')->comment('技術名');
             $table->timestamps();
 
             $table->foreign('user_id')
