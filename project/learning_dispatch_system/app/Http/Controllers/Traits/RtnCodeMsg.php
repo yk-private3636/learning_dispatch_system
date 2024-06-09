@@ -6,13 +6,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 trait RtnCodeMsg
 {
-	private string $msg;
-	private int $statusCode;
+	private string $msg = '';
+	private int $statusCode = 0;
+	private bool $success = false;
 
 	final public function setSuccessField(string $msg): void
 	{
 		$this->msg = $msg;
 		$this->statusCode = Response::HTTP_OK;
+		$this->success = true;
 	}
 
 	final public function setErrorField(?string $msg = null, ?int $statusCode = null): void
@@ -30,5 +32,7 @@ trait RtnCodeMsg
 		else{
 			$this->statusCode = $statusCode;
 		}
+
+		$this->success = false;
 	}
 }

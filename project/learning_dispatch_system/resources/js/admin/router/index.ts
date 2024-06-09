@@ -59,31 +59,7 @@ const router = createRouter({
 });
 
 // router.beforeEach( async (to, from, next) => {
-
-//   const loginState = useLoginState();
-//   const loginViewJudge = to.name === 'admin' || to.name  === 'login';
-
-//   await axios.get(route('admin.authenticating'))
-//   .then(response => {
-//       if(response.data.judge){
-//           loginState.setLogin();
-//       }
-//       else{
-//           loginState.setLogout();
-//       }
-//   })
-
-//   if(loginState?.login == false){
-//     next({
-//       path: '/admin/login',
-//       query: { redirect: to.fullPath }
-//     })
-//   }
-
-//   if(loginViewJudge && loginState?.login === true){
-//     router.go(-1)
-//   }
-
+//   console.log(to.meta)
 //   next()
 // })
 

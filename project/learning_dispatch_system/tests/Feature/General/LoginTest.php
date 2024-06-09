@@ -3,6 +3,7 @@
 namespace Tests\Feature\General;
 
 use App\Models\GeneralUser;
+use App\Repositories\GeneralUsersRepository;
 use App\Services\Common\FilterService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -11,6 +12,14 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+
+    private GeneralUsersRepository $user;
+
+    public function setup(): void
+    {
+        parent::setup();
+        $this->user = app()->make(GeneralUsersRepository::class);
+    }
 
     public function test_ログイン画面表示(): void
     {
@@ -44,6 +53,20 @@ class LoginTest extends TestCase
 
         /** top画面の実装をしたら、下記テストケースも変更する **/
         $response->assertRedirect();
+    }
+
+    public function test_ログアウト(): void
+    {
+        $user = $this->user->factories(1)->first();
+
+        $this->actingAs($user, \UserEnum::GENERAL->guardName());
+        $this->assertTrue(user() instanceof GeneralUser);
+
+        $response = $this->get(route('logout'));
+
+        $response->assertRedirect(route('general.login'));
+        $this->assertTrue(__('message.successful.logout') === $response->getSession()->get('msg'));
+        $this->assertTrue(user() === null);
     }
 
     public static function 入力データ(): array

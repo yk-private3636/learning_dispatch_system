@@ -30,6 +30,7 @@ Route::prefix('admin')->name('admin.')->group(function() {
     Route::put('/password/reset', [PasswordResetController::class, 'passwordReset'])->name('password.reset');
 
     Route::middleware('auth:sanctum')->group(function(){
+        Route::get('logout', [LoginController::class, 'logout'])->name('logout');
     });
 });
 

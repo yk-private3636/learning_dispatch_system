@@ -30,6 +30,14 @@ authGuard(router);
 //   router.push("/error");
 // })
 
+// window.addEventListener("error", (event: ErrorEvent) => {
+//   console.log("エラーハンドラでエラーをキャッチ");
+//   console.log(event.error)
+
+//   // エラー画面に遷移
+//   router.push("/error");
+// })
+
 window.addEventListener('unhandledrejection', (event) => {
   const statusCode = event.reason.response.status;
   const loginState = useLoginState();
