@@ -17,7 +17,7 @@
 <img src="https://img.shields.io/badge/Linux-FCC624.svg?logo=linux&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Debian-A81D33.svg?logo=debian&style=flat&logoColor=white">
 
 ### ミドルウェア
-<img src="https://img.shields.io/badge/Apache-D22128.svg?logo=apache&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?logo=mysql&style=flat&logoColor=white"> 
+<img src="https://img.shields.io/badge/Apache-D22128.svg?logo=apache&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1.svg?logo=mysql&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/Redis-FF4438.svg?logo=redis&style=flat&logoColor=white"> 
 
 ### インフラ(想定)
 <img src="https://img.shields.io/badge/Docker-2496ED.svg?logo=docker&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/GitHubActions-2088FF.svg?logo=githubactions&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonEC2-FF9900.svg?logo=amazonec2&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonS3-569A31.svg?logo=amazons3&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonSES-DD344C.svg?logo=amazonsimpleemailservice&style=flat&logoColor=white"> <img src="https://img.shields.io/badge/AmazonRoute53-8C4FFF.svg?logo=amazonroute53&style=flat&logoColor=white">
