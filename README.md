@@ -33,6 +33,7 @@
 → 8080: Apache <br>
 → 5173: Vite <br>
 → 3306: MySQL <br>
+→ 6379: Redis <br>
 → 4040: phpMyAdmin <br>
 ・ローカルでのメール送信は、mailtrapなどの無料で使える外部サービスやアプリケーションログに吐き出す方法で、動作確認を行う(実際の運用はAWS SES想定)<br>
 ・OAuth認証機能があるが、ローカルで利用する場合は、OAuth Appsを作成する必要があり。<br>
