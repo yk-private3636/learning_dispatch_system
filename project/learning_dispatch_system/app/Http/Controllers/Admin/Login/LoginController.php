@@ -71,4 +71,21 @@ class LoginController extends Controller
             'err_msg' => $this->msg
         ], $this->statusCode);
     }
+
+    public function logout(Request $req): JsonResponse
+    {
+        try {
+            $this->service->logout();
+    
+            $this->setSuccessField(__('message.successful.logout'));
+
+        } catch (\Exception) {
+            $this->setErrorField(__('message.unsuccessful.logout'));
+        }
+
+        return response()->json([
+            'success' => $this->success,
+            'msg' => $this->msg
+        ], $this->statusCode);
+    }
 }

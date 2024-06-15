@@ -12,10 +12,14 @@ class UserController extends Controller
     {
         $guardName = \UserEnum::ADMIN->guardName();
 
-        $judge = auth()->guard($guardName)->user() !== null;
+        $user = auth()->guard($guardName)->user();
         
         return response()->json([
-            'judge' => $judge
+            'user' => $user->only([
+                'email',
+                'family_name',
+                'name'
+            ])
         ], Response::HTTP_OK);
     }
 }

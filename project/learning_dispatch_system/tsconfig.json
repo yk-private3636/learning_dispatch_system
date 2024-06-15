@@ -9,8 +9,9 @@
     "forceConsistentCasingInFileNames": true, // ファイル名の大文字小文字を厳密に
     "isolatedModules": true,
     "allowImportingTsExtensions": true,
+    "baseUrl": ".",
     "paths": {
-      "@/": ["./resources/js/admin/*"] // エイリアスの設定
+      "@admin": ["resources/js/admin/*"] // エイリアスの設定
     },
     "types": ["vite/client"] // Vite用の型定義
   },

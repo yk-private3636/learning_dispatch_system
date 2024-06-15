@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import Btn from '../component/Btn.vue';
@@ -8,15 +8,21 @@ import Link from '../component/Link.vue';
 import InputText from '../component/InputText.vue';
 import ErrMsg from '../component/ErrMsg.vue';
 import AlertLabel from '../component/AlertLabel.vue';
+import SuccessLabel from '../component/SuccessAlertLabel.vue';
 import { useLoginState } from '../../stores/LoginState.ts';
 import * as button from '../../consts/button.ts';
 import * as label from '../../consts/label.ts';
 import * as text from '../../consts/text.ts';
 import { route } from 'ziggy-js';
+import { useFlashMsgState } from '../../stores/flashMsgState.ts';
 
 const email = ref('');
 const password = ref('');
 const alertLabel = reactive({
+  show: false,
+  msg: '',
+});
+const successLabel = reactive({
   show: false,
   msg: '',
 });
@@ -32,8 +38,16 @@ const valid = reactive({
   },
 });
 
+onMounted(() => {
+  if (flashMsgState.type === 'success' && flashMsgState.show) {
+    successLabel.show = flashMsgState.show;
+    successLabel.msg = flashMsgState.msg;
+  }
+});
+
 const router = useRouter();
 const loginState = useLoginState();
+const flashMsgState = useFlashMsgState();
 
 const authentication = () => {
   axios.get('/sanctum/csrf-cookie').then(() => {
@@ -52,6 +66,7 @@ const authentication = () => {
         const errMsg = err.response.data?.err_msg;
         valid.email.fails = false;
         valid.password.fails = false;
+        successLabel.show = false;
 
         if (statusCode === 401) {
           alertLabel.show = true;
@@ -83,6 +98,9 @@ const authentication = () => {
 
 <template>
   <div class="flex min-h-full flex-col justify-center px-6 py-20 lg:px-8">
+    <SuccessLabel v-show="successLabel.show" v-model="successLabel.show">
+      {{ successLabel.msg }}
+    </SuccessLabel>
     <AlertLabel v-show="alertLabel.show" v-model="alertLabel.show">
       {{ alertLabel.msg }}
     </AlertLabel>

@@ -43,8 +43,14 @@ abstract class AbstractRepository
         return DB::table($tableName)->delete();
     }
 
-    public function factories(?int $num = null): Collection
+    public function factories(?int $num = null, array $override = []): Collection
     {
-        return $this->model->factory($num)->create();
+        if($override === []){
+            return $this->model->factory($num)->create();
+        }
+        else{
+            return $this->model->factory($num)->create($override);
+        }
+        
     }
 }

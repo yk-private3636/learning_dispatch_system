@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\AdminUser;
+use App\Repositories\AdminUsersRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -12,11 +13,14 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
+    private AdminUsersRepository $user;
+
     private string $email = 'feature-test@gmail.com';
 
     public function setup(): void
     {
         parent::setup();
+        $this->user = app()->make(AdminUsersRepository::class);
         // $this->createApplication();
     }
 
@@ -128,6 +132,23 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function test_ログアウト(): void
+    {
+        $user = $this->user->factories(1)->first();
+
+        $this->actingAs($user, \UserEnum::ADMIN->guardName());
+        $this->assertTrue(user() instanceof AdminUser);
+
+        $response = $this->getJson(route('admin.logout'));
+        $response->assertStatus(200)
+                ->assertJson([
+                    'success' => true,
+                    'msg' => __('message.successful.logout')
+                ]);
+
+        $this->assertTrue(user() === null);
     }
 
     public static function バリデーション用入力データ(): array

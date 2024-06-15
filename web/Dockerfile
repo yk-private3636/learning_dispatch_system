@@ -6,6 +6,10 @@ RUN apt-get install -y nodejs
 RUN apt-get -y install \
 unzip \
 vim
+
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
 RUN cd /etc/apache2/mods-enabled \
     && ln -s ../mods-available/rewrite.load
 

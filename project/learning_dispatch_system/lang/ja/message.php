@@ -10,6 +10,7 @@ return [
 
 	'unsuccessful' => [
 		'auth' => '認証に失敗しました。',
+		'logout' => 'ログアウトに失敗しました。'
 	],
 
 	'mail' => [
