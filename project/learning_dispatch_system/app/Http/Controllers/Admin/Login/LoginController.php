@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
@@ -76,7 +77,11 @@ class LoginController extends Controller
     {
         try {
             $this->service->logout();
+
+            $req->session()->invalidate();
     
+            $req->session()->regenerateToken();
+
             $this->setSuccessField(__('message.successful.logout'));
 
         } catch (\Exception) {
