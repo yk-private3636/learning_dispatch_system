@@ -14,7 +14,11 @@ const onChange = (e: Event) => {
     class="block w-full border border-gray-300 rounded h-9"
     @change="onChange"
   >
-    <option v-for="(status, idx) in props.statuses" :key="idx" :value="status.value">
+    <option
+      v-for="(status, idx) in props.statuses"
+      :key="idx"
+      :value="status.value"
+    >
       {{ status.text }}
     </option>
   </select>
