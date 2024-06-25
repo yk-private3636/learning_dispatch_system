@@ -21,6 +21,13 @@ trait EmailRule
 		];
 	}
 
+	public function getAdminEmailAcceptRule(): array
+	{
+		return [
+			'max:' . self::EMAIL_MAX_DIGITS
+		];
+	}
+
 	public function getEmailRuleWithExists(?int $usageStatus = null): array
 	{
 		$tableName = app()->make(GeneralUsersRepository::class)->tableName();

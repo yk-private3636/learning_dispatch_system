@@ -12,6 +12,10 @@ const erase = () => {
   show.value = false;
   emits('update:modelValue', false);
 };
+
+setTimeout(() => {
+  emits('update:modelValue', false);
+}, 5000);
 </script>
 
 <template>

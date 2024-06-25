@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Consts\UsageStatusEnum;
 use App\Services\Common\UrlService;
 use App\Http\Requests\Traits\EmailRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -31,9 +32,9 @@ class PasswordProcedureResetRequest extends FormRequest
 
         return [
             'email' => $judge ?
-            $this->getAdminEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
+            $this->getAdminEmailRuleWithExists(UsageStatusEnum::ACCOUNT_USAGE->value)
             :
-            $this->getEmailRuleWithExists(\CommonConst::ACCOUNT_USAGE)
+            $this->getEmailRuleWithExists(UsageStatusEnum::ACCOUNT_USAGE->value)
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin\Login;
 
+use App\Consts\UsageStatusEnum;
 use App\Models\AdminUser;
 use App\Services\Abstract\LoginAbstract;
 use App\Repositories\AdminUsersRepository;
@@ -62,10 +63,10 @@ class AdminLoginService extends LoginAbstract
 	public function authenticationFail(?AdminUser $adminUser): ?AdminUser
 	{
 		return match ($adminUser?->usage_status) {
-			\CommonConst::ACCOUNT_USAGE   => $this->accountMistaken($adminUser),
-			\CommonConst::ACCOUNT_LOCKD   => $this->accountUnlockState($adminUser),
-			\CommonConst::ACCOUNT_SUSPEND => $adminUser,
-			default                       => null
+			UsageStatusEnum::ACCOUNT_USAGE->value   => $this->accountMistaken($adminUser),
+			UsageStatusEnum::ACCOUNT_LOCKD->value   => $this->accountUnlockState($adminUser),
+			UsageStatusEnum::ACCOUNT_SUSPEND->value => $adminUser,
+			default                                 => null
 		};
 	}
 
@@ -106,9 +107,9 @@ class AdminLoginService extends LoginAbstract
 	public function getMistakePossibilityUser(string $email): ?AdminUser
 	{
 		return $this->adminUser->whereStatuiesUniqueSharedLock($email, [
-			\CommonConst::ACCOUNT_USAGE,
-			\CommonConst::ACCOUNT_LOCKD,
-			\CommonConst::ACCOUNT_SUSPEND,
+			UsageStatusEnum::ACCOUNT_USAGE,
+			UsageStatusEnum::ACCOUNT_LOCKD,
+			UsageStatusEnum::ACCOUNT_SUSPEND,
 		]);
 	}
 
@@ -143,7 +144,7 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateStepFirUpdData(): array
 	{
 		return [
-			'usage_status'  => \CommonConst::ACCOUNT_LOCKD,
+			'usage_status'  => UsageStatusEnum::ACCOUNT_LOCKD,
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => DB::raw("NOW() + INTERVAL 5 MINUTE")
 		];
@@ -157,7 +158,7 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateStepSecUpdData(): array
 	{
 		return [
-			'usage_status'  => \CommonConst::ACCOUNT_LOCKD,
+			'usage_status'  => UsageStatusEnum::ACCOUNT_LOCKD,
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => DB::raw("NOW() + INTERVAL 1 HOUR")
 		];
@@ -171,7 +172,7 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateStepThiUpdData(): array
 	{
 		return [
-			'usage_status'  => \CommonConst::ACCOUNT_SUSPEND, 
+			'usage_status'  => UsageStatusEnum::ACCOUNT_SUSPEND, 
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => null
 		];
@@ -185,7 +186,7 @@ class AdminLoginService extends LoginAbstract
 	private function accountLockStateDefaltUpdData(): array
 	{
 		return [
-			'usage_status'  => \CommonConst::ACCOUNT_USAGE,
+			'usage_status'  => UsageStatusEnum::ACCOUNT_USAGE,
 			'mistake_num'   => DB::raw("mistake_num + 1"),
 			'lock_duration' => null
 		];
@@ -199,7 +200,7 @@ class AdminLoginService extends LoginAbstract
 	private function accountStateInitUpdData(): array
 	{
 		return [
-			'usage_status' => \CommonConst::ACCOUNT_USAGE,
+			'usage_status' => UsageStatusEnum::ACCOUNT_USAGE,
 			'mistake_num'  => 0
 		];
 	}

@@ -140,6 +140,7 @@ class LoginTest extends TestCase
 
         $this->actingAs($user, \UserEnum::ADMIN->guardName());
         $this->assertTrue(user() instanceof AdminUser);
+        session()->put('user', $user);
 
         $response = $this->getJson(route('admin.logout'));
         $response->assertStatus(200)

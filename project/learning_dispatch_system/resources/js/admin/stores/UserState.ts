@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { User } from '../consts/interface.ts';
+import { User } from '../consts/interface/user.ts';
 
 export const useUserState = defineStore('userState', {
   state: () => ({

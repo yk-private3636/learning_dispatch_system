@@ -51,6 +51,11 @@ const router = createRouter({
       component: () => import('../views/top/index.vue'),
     },
     {
+      path: path.userList,
+      name: 'userList',
+      component: () => import('../views/userList/admin.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/errors/NotFound.vue'),

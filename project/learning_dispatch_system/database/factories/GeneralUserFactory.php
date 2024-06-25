@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Consts\UsageStatusEnum;
 use App\Services\UserService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class GeneralUserFactory extends Factory
             'password'     => \Hash::make('test'),
             'family_name'  => fake()->lastName(),
             'name'         => fake()->firstName(),
-            'usage_status' => \CommonConst::ACCOUNT_USAGE
+            'usage_status' => UsageStatusEnum::ACCOUNT_USAGE->value
         ];
     }
 }

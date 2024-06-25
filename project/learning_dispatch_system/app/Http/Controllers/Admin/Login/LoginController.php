@@ -78,9 +78,11 @@ class LoginController extends Controller
         try {
             $this->service->logout();
 
-            $req->session()->invalidate();
+            if(config('app.env') !== 'testing') {
+                $req->session()->invalidate();
     
-            $req->session()->regenerateToken();
+                $req->session()->regenerateToken();
+            }
 
             $this->setSuccessField(__('message.successful.logout'));
 

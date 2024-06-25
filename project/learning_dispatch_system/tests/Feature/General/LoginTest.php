@@ -51,8 +51,7 @@ class LoginTest extends TestCase
 
         $response = $this->post(route('general.auth'), $userData);
 
-        /** top画面の実装をしたら、下記テストケースも変更する **/
-        $response->assertRedirect();
+        $response->assertRedirect(route('top'));
     }
 
     public function test_ログアウト(): void

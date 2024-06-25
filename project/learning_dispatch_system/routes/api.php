@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PartsGetManagementController;
 use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\Login\PasswordResetController;
 
@@ -31,6 +32,12 @@ Route::prefix('admin')->name('admin.')->group(function() {
 
     Route::middleware('auth:sanctum')->group(function(){
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+
+        Route::get('/user-list/index', [AdminUserController::class, 'index'])->name('userList.index');
+
+        Route::prefix('parts-data')->name('partsData.')->group(function() {
+            Route::get('usage-status', [PartsGetManagementController::class, 'usageStatusGroup'])->name('usageStatus');
+        });
     });
 });
 

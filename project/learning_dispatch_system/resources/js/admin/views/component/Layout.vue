@@ -4,10 +4,11 @@ import { useRouter, RouterLink } from 'vue-router';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { route } from 'ziggy-js';
 import * as text from '../../consts/text.ts';
-import { top } from '../../consts/routerPath.ts';
+import * as path from '../../consts/routerPath.ts';
 import { useLoginState } from '../../stores/LoginState.ts';
 import AlertLabel from './AlertLabel.vue';
-import { BasicRes, BasicErr, User } from '../../consts/interface.ts';
+import { BasicRes, BasicErr } from '../../consts/interface.ts';
+import { User } from '../../consts/interface/user.ts';
 import { useFlashMsgState } from '../../stores/flashMsgState.ts';
 import { useUserState } from '../../stores/UserState.ts';
 
@@ -73,7 +74,7 @@ const logoutExe = () => {
       <ul class="space-y-2 font-medium mb-2">
         <li>
           <RouterLink
-            :to="top"
+            :to="path.top"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg
@@ -97,7 +98,7 @@ const logoutExe = () => {
       <ul class="space-y-2 font-medium mb-2">
         <li>
           <RouterLink
-            :to="top"
+            :to="path.userList"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg
@@ -121,7 +122,7 @@ const logoutExe = () => {
       <ul class="space-y-2 font-medium mb-2">
         <li>
           <RouterLink
-            :to="top"
+            :to="path.top"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg
@@ -150,7 +151,7 @@ const logoutExe = () => {
       <ul class="space-y-2 font-medium mb-2">
         <li>
           <RouterLink
-            :to="top"
+            :to="path.top"
             class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
           >
             <svg

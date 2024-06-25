@@ -2,6 +2,7 @@
 
 namespace App\Providers\Auth;
 
+use App\Consts\UsageStatusEnum;
 use App\Models\GeneralUser;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
@@ -21,7 +22,7 @@ class UserAuthProvider extends EloquentUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $credentials += ['usage_status' => \CommonConst::ACCOUNT_USAGE];
+        $credentials += ['usage_status' => UsageStatusEnum::ACCOUNT_USAGE];
 
         return parent::retrieveByCredentials($credentials);
     }

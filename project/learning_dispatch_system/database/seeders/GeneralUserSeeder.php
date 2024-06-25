@@ -16,6 +16,6 @@ class GeneralUserSeeder extends Seeder
     {
         $repository->allHardDelete();
 
-        $repository->factories(5);
+        $repository->factories(10);
     }
 }

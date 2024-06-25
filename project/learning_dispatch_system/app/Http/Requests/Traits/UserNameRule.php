@@ -5,6 +5,7 @@ namespace App\Http\Requests\Traits;
 trait UserNameRule
 {
 	private const USER_NAME_DIGITS = 30;
+	private const USER_FULL_NAME_DIGITS = 60;
 
 	public function getUserNameRule(): array
 	{
@@ -13,6 +14,15 @@ trait UserNameRule
 			'required',
 			'string',
 			'max:' . self::USER_NAME_DIGITS
+		];
+	}
+
+	public function getUserFullNameAcceptRule(): array
+	{
+		return [
+			'bail',
+			'string',
+			'max:' . self::USER_FULL_NAME_DIGITS
 		];
 	}
 
@@ -29,5 +39,10 @@ trait UserNameRule
 	public function getUserNameMaxMsg(): string
 	{
 		return __('validate.max', ['digits' => self::USER_NAME_DIGITS]);
+	}
+
+	public function getUserFullNameMaxMsg(): string
+	{
+		return __('validate.max', ['digits' => self::USER_FULL_NAME_DIGITS]);
 	}
 }

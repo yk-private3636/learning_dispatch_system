@@ -39,7 +39,7 @@ authGuard(router);
 // })
 
 window.addEventListener('unhandledrejection', (event) => {
-  const statusCode = event.reason.response.status;
+  const statusCode = event.reason?.response?.status;
   const loginState = useLoginState();
 
   if (statusCode === 401) {

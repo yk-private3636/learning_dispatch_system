@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Consts\UsageStatusEnum;
 use App\Services\Common\UrlService;
 use App\Http\Requests\Traits\EmailRule;
 use App\Http\Requests\Traits\UserIdRule;
@@ -36,14 +37,14 @@ class UserStoreRequest extends FormRequest
 
         return match ($judge) {
             true => [
-                'email'       => $this->getAdminEmailRuleWithUnique(\CommonConst::ACCOUNT_USAGE),
+                'email'       => $this->getAdminEmailRuleWithUnique(UsageStatusEnum::ACCOUNT_USAGE->value),
                 'password'    => $this->getPasswordRule(),
                 'family_name' => $this->getUserNameRule(),
                 'name'        => $this->getUserNameRule(),
             ],
             false => [
-                'email'       => $this->getEmailRuleWithUnique(\CommonConst::ACCOUNT_USAGE),
-                'user_id'     => $this->getUserIdRule(\CommonConst::ACCOUNT_USAGE),
+                'email'       => $this->getEmailRuleWithUnique(UsageStatusEnum::ACCOUNT_USAGE->value),
+                'user_id'     => $this->getUserIdRule(UsageStatusEnum::ACCOUNT_USAGE->value),
                 'password'    => $this->getPasswordRule(),
                 'family_name' => $this->getUserNameRule(),
                 'name'        => $this->getUserNameRule(),

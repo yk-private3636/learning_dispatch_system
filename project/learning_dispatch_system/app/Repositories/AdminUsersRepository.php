@@ -2,15 +2,21 @@
 
 namespace App\Repositories;
 
+use App\Dto\User\AdminSearchDTO;
 use App\Models\AdminUser;
 use App\Repositories\AbstractRepository;
 use App\Repositories\ResetPasswordTokenRepository;
+use App\Repositories\Traits\SelectStatus;
+use App\Repositories\Traits\SelectNameMethod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Collection;
 
 class AdminUsersRepository extends AbstractRepository
 {
+    use SelectStatus, SelectNameMethod;
+
     /**
      * リポジトリに紐づかせたいModelの完全修飾子の指定
      * 
@@ -68,6 +74,20 @@ class AdminUsersRepository extends AbstractRepository
                 ->first();
     }
 
+    public function selectUserList(AdminSearchDTO $dto): Collection
+    {
+        $query = $this->model->select([
+            'id',
+            'email',
+            $this->selectFullName(),
+            $this->selectUsageStatus()
+        ]);
+
+        $query = $this->search($query, $dto);
+
+        return $query->get();
+    }
+
     /**
      * 管理者ユーザーをユニークキーで絞込み+利用ステータス(悲観的ロック:共用ロック)
      * 
@@ -119,5 +139,26 @@ class AdminUsersRepository extends AbstractRepository
                 ->whereNotNull('deleted_at')
                 ->whereDate('deleted_at', '<=', now()->subWeek())
                 ->delete();
+    }
+
+    private function search(Builder $query, AdminSearchDTO $dto): Builder
+    {
+        $email       = $dto->getEmail();
+        $name        = $dto->getName();
+        $usageStatus = $dto->getUsageStatus();
+
+        if($email !== null){
+            $query = $query->where('email', 'like', "%{$email}%");
+        }
+
+        if($name !== null){
+            return $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"]);
+        }
+
+        if($usageStatus !== null){
+            $query = $query->where('usage_status', $usageStatus);
+        }
+
+        return $query;
     }
 }

@@ -89,7 +89,6 @@ class GeneralUsersRepository extends AbstractRepository
             'user_id'
         ])
         ->inRandomOrder()
-        ->limit(1)
         ->first();
     }
 }
