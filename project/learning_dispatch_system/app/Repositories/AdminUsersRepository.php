@@ -152,7 +152,7 @@ class AdminUsersRepository extends AbstractRepository
         }
 
         if($name !== null){
-            return $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"]);
+            $query = $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"]);
         }
 
         if($usageStatus !== null){

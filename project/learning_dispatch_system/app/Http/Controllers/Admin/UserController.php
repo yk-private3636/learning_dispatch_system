@@ -51,7 +51,7 @@ class UserController extends Controller
             $this->setErrorField();
             return response()->json([
                 'msg' => $this->msg
-            ], $this->msg);
+            ], $this->statusCode);
         }
 
         return response()->json([

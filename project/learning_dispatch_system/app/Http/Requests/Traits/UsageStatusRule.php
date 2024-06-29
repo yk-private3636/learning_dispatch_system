@@ -11,7 +11,13 @@ trait UsageStatusRule
 
     public function getUsageStatusRule(string $key = 'usageStatus'): array
     {
-        $this->initValJudge = $this->get($key) == \CommonConst::SELECT_INIT_VAL;
+        $usageStatus = $this->get($key);
+
+        if($usageStatus === null) {
+            return [];
+        }
+
+        $this->initValJudge = $usageStatus == \CommonConst::SELECT_INIT_VAL;
         if($this->initValJudge){
             return [];
         }

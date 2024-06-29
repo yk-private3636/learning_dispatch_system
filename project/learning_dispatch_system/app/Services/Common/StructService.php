@@ -22,9 +22,15 @@ class StructService
 		$cnt = $items->count();
 
         if($page > 1 && $cnt < ($page * $limit) - $limit){
-            --$page;
+            $page = 1;
         }
 
-        return new LengthAwarePaginator($items->forPage($page, $limit), $cnt, $limit, $page, $options);
+        return new LengthAwarePaginator(
+            $items->forPage($page, $limit),
+            $cnt,
+            $limit,
+            $page,
+            $options
+        );
     }
 }

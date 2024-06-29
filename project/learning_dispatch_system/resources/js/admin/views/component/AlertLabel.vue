@@ -38,6 +38,7 @@ setTimeout(() => {
     </svg>
     <div class="ms-3 text-sm font-medium">
       <slot />
+      <slot name="msg"></slot>
     </div>
     <button
       type="button"

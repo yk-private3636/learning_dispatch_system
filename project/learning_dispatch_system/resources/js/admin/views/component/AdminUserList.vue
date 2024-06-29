@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { ref, Ref, onMounted, inject, watch } from 'vue';
-import axios, { AxiosResponse } from 'axios';
+import { useRouter, Router } from 'vue-router';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { route } from 'ziggy-js';
 import paginate from 'vuejs-paginate-next';
 import * as label from '../../consts/label.ts';
 import { UserList, UserListPager } from '../../consts/interface/user.ts';
 import { filled } from '../../utils/Str.ts';
+import { UserSearch } from '../../consts/interface/validResponse.ts';
+import { err } from '../../consts/message.ts';
+import { useFlashMsgState } from '../../stores/flashMsgState.ts';
+import { useValidState } from '../../stores/validState.ts';
 
 const loading: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(0);
@@ -19,6 +24,10 @@ const usageStatus = inject<Ref<number>>('status');
 const props = defineProps<UserListPager>();
 const emit = defineEmits(['cooperation']);
 
+const router: Router = useRouter();
+const flashMsgState = useFlashMsgState();
+const validState = useValidState();
+
 onMounted(() => {
   axios
     .get(route('admin.userList.index'))
@@ -28,6 +37,16 @@ onMounted(() => {
       lasetPage.value = users.last_page;
       userList.value = users.data;
       loading.value = true;
+    })
+    .catch((errors: AxiosError<UserSearch>) => {
+      const statusCode: number | undefined = errors.response?.status;
+
+      if (statusCode === 401) return;
+
+      if (statusCode !== 422) {
+        flashMsgState.setShowMsg(err.system, 'error');
+        router.push({ name: 'top' });
+      }
     });
 });
 
@@ -58,12 +77,35 @@ const extract = (pageNum: number) => {
     reqUrl += `&usageStatus=${usageStatus?.value}`;
   }
 
-  axios.get(reqUrl).then((response: AxiosResponse<UserListPager>) => {
-    const users = response.data.users;
-    currentPage.value = users.current_page;
-    lasetPage.value = users.last_page;
-    userList.value = users.data;
-  });
+  validState.init();
+  axios
+    .get(reqUrl)
+    .then((response: AxiosResponse<UserListPager>) => {
+      const users = response.data.users;
+      currentPage.value = users.current_page;
+      lasetPage.value = users.last_page;
+      userList.value = users.data;
+    })
+    .catch((errors: AxiosError<UserSearch>) => {
+      const statusCode: number | undefined = errors.response?.status;
+
+      if (statusCode === 401) return;
+
+      if (statusCode !== 422) {
+        flashMsgState.setShowMsg(err.system, 'error');
+        router.push({ name: 'top' });
+      }
+
+      const validErros: { [key: string]: string[] } | undefined =
+        errors.response?.data.errors;
+
+      for (const key in validErros) {
+        validState.setValid(key, {
+          fails: true,
+          msg: validErros[key].shift() as string,
+        });
+      }
+    });
 };
 </script>
 
