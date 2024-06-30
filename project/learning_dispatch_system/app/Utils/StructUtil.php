@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Common;
+namespace App\Utils;
 
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class StructService
+class StructUtil
 {
     public static function paginate(
         Collection|array $items,

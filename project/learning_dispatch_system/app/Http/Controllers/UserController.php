@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Dto\User\GeneralSearchDTO;
 use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\SearchRequest;
 use App\Services\UserService;
+use App\Http\Controllers\Traits\RtnCodeMsg;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+    use RtnCodeMsg;
+
     public function __construct(
         private UserService $service
     ){}
@@ -93,5 +98,29 @@ class UserController extends Controller
         return response()->json([
             'user_id' => $userId
         ]);
+    }
+
+    public function apiIndex(SearchRequest $req): JsonResponse
+    {
+        try {
+            $validated = $req->validated();
+
+            $searchDto = new GeneralSearchDTO(
+                $validated['email'] ?? null,
+                $validated['name'] ?? null,
+                $validated['usageStatus'] ?? null,
+            );
+
+            $users = $this->service->selectUsers($searchDto);
+        } catch (\Exception) {
+            $this->setErrorField();
+            return response()->json([
+                'msg' => $this->msg
+            ], $this->statusCode);
+        }
+
+        return response()->json([
+            'users' => $users
+        ], Response::HTTP_OK);
     }
 }

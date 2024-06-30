@@ -34,9 +34,11 @@ Route::prefix('admin')->name('admin.')->group(function() {
         Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::get('/user-list/index', [AdminUserController::class, 'index'])->name('userList.index');
+        Route::get('/general-user-list/index', [UserController::class, 'apiIndex'])->name('generalUserList.index');
 
         Route::prefix('parts-data')->name('partsData.')->group(function() {
             Route::get('usage-status', [PartsGetManagementController::class, 'usageStatusGroup'])->name('usageStatus');
+            Route::get('user-enums', [PartsGetManagementController::class, 'userEnumsGroup'])->name('userEnums');
         });
     });
 });

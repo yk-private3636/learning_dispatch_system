@@ -2,14 +2,21 @@
 
 namespace App\Repositories;
 
+use App\Dto\Interface\UserSearchDTOInterface;
 use App\Models\GeneralUser;
 use App\Repositories\AbstractRepository;
+use App\Repositories\Interface\UserInterfaceRepository;
+use App\Repositories\Traits\SelectStatus;
+use App\Repositories\Traits\SelectNameMethod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Collection;
 
-class GeneralUsersRepository extends AbstractRepository
+class GeneralUsersRepository extends AbstractRepository implements UserInterfaceRepository
 {
+    use SelectStatus, SelectNameMethod;
+
     public function getModelClass(): string
     {
         return GeneralUser::class;
@@ -91,4 +98,42 @@ class GeneralUsersRepository extends AbstractRepository
         ->inRandomOrder()
         ->first();
     }
+
+    public function selectUserList(UserSearchDTOInterface $dto): Collection
+    {
+        $query = $this->model->select([
+            'user_id AS id',
+            'email',
+            $this->selectFullName(),
+            $this->selectUsageStatus()
+        ]);
+
+        $query = $this->search($query, $dto)
+                ->orderBy('created_at');
+
+        return $query->get();
+    }
+
+    private function search(Builder $query, UserSearchDTOInterface $dto): Builder
+    {
+        $email       = $dto->getEmail();
+        $name        = $dto->getName();
+        $usageStatus = $dto->getUsageStatus();
+
+        if($email !== null){
+            $query = $query->where('email', 'like', "%{$email}%");
+        }
+
+        if($name !== null){
+            $query = $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"])
+                        ->orWhereRaw("CONCAT(family_name, ' ', name) LIKE ?", ["%{$name}%"]);
+        }
+
+        if($usageStatus !== null){
+            $query = $query->where('usage_status', $usageStatus);
+        }
+
+        return $query;
+    }
+
 }

@@ -2,10 +2,10 @@
 
 namespace App\Services\Admin;
 
-use App\Dto\User\AdminSearchDTO;
+use App\Dto\Interface\UserSearchDTOInterface;
 use App\Models\AdminUser;
 use App\Services\Abstract\UserAbstract;
-use App\Services\Common\StructService;
+use App\Utils\StructUtil;
 use App\Repositories\AdminUsersRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -16,13 +16,12 @@ class UserService extends UserAbstract
     )
     {}
 
-    public function selectUsers(AdminSearchDTO $userDto): LengthAwarePaginator
+    public function selectUsers(UserSearchDTOInterface $userDto): LengthAwarePaginator
     {
         $users = $this->adminUser->selectUserList($userDto);
         
-        return StructService::paginate($users);
+        return StructUtil::paginate($users);
     }
-
 
     public function regist(array $registData): AdminUser
     {

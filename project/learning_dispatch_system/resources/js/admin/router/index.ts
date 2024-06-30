@@ -53,7 +53,7 @@ const router = createRouter({
     {
       path: path.userList,
       name: 'userList',
-      component: () => import('../views/userList/admin.vue'),
+      component: () => import('../views/userList/index.vue'),
     },
     {
       path: '/:pathMatch(.*)*',

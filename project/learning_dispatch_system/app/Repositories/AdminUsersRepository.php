@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Dto\User\AdminSearchDTO;
+use App\Dto\Interface\UserSearchDTOInterface;
 use App\Models\AdminUser;
 use App\Repositories\AbstractRepository;
+use App\Repositories\Interface\UserInterfaceRepository;
 use App\Repositories\ResetPasswordTokenRepository;
 use App\Repositories\Traits\SelectStatus;
 use App\Repositories\Traits\SelectNameMethod;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Collection;
 
-class AdminUsersRepository extends AbstractRepository
+class AdminUsersRepository extends AbstractRepository implements UserInterfaceRepository
 {
     use SelectStatus, SelectNameMethod;
 
@@ -74,7 +75,7 @@ class AdminUsersRepository extends AbstractRepository
                 ->first();
     }
 
-    public function selectUserList(AdminSearchDTO $dto): Collection
+    public function selectUserList(UserSearchDTOInterface $dto): Collection
     {
         $query = $this->model->select([
             'id',
@@ -142,7 +143,7 @@ class AdminUsersRepository extends AbstractRepository
                 ->delete();
     }
 
-    private function search(Builder $query, AdminSearchDTO $dto): Builder
+    private function search(Builder $query, UserSearchDTOInterface $dto): Builder
     {
         $email       = $dto->getEmail();
         $name        = $dto->getName();

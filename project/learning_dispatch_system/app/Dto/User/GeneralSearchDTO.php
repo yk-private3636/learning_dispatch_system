@@ -4,7 +4,7 @@ namespace App\Dto\User;
 
 use App\Dto\Interface\UserSearchDTOInterface;
 
-class AdminSearchDTO implements UserSearchDTOInterface
+class GeneralSearchDTO implements UserSearchDTOInterface
 {
     public function __construct(
         private ?string $email,

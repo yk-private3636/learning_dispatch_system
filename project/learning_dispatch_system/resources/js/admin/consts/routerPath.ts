@@ -6,4 +6,3 @@ export const top: string = prefix + '/top';
 export const loginForget: string = prefix + '/login/forget';
 export const passwordReset: string = prefix + '/password/reset/:token';
 export const userList: string = prefix + '/user-list';
-export const generalUserList: string = prefix + '/user-list/general';

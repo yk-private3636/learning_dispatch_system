@@ -30,6 +30,6 @@ return [
 	'exception' => [
 		'retryThresholdExceed' => 'リトライ回数が閾値を超えました。',
 		'lackException' => '扱っているパラメータが欠けています。',
-		'argvArrInvalidException' => '想定外の配列の中身です。'
+		'improperParamException' => '不適切なパラメータです。'
 	]
 ];

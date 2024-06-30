@@ -9,7 +9,6 @@ import { authGuard } from './guards/authGuard.ts';
 import { useFlashMsgState } from './stores/flashMsgState.ts';
 import { err } from './consts/message.ts';
 
-
 const app = createApp(App);
 const pinia = createPinia();
 
@@ -52,7 +51,7 @@ window.addEventListener('unhandledrejection', (event) => {
     return;
   }
 
-  if(statusCode === 500) {
+  if (statusCode === 500) {
     flashMsgState.setShowMsg(err.system, 'error');
     router.push({ name: 'top' });
   }

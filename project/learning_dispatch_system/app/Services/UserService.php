@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Dto\Interface\UserSearchDTOInterface;
 use App\Models\GeneralUser;
 use App\Services\Abstract\UserAbstract;
 use App\Repositories\GeneralUsersRepository;
+use App\Utils\StructUtil;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService extends UserAbstract
 {
@@ -27,4 +30,11 @@ class UserService extends UserAbstract
 			'name'        => $registData['name'],
 		]);
 	}
+
+    public function selectUsers(UserSearchDTOInterface $userDto): LengthAwarePaginator
+    {
+        $users = $this->generalUser->selectUserList($userDto);
+        
+        return StructUtil::paginate($users);
+    }
 }

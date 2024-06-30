@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Dto\User\AdminSearchDTO;
 use App\Services\Admin\UserService;
-use App\Http\Requests\Admin\User\SearchRequest;
+use App\Http\Requests\SearchRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\RtnCodeMsg;
 use Illuminate\Http\Request;
