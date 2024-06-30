@@ -9,7 +9,7 @@ use Illuminate\Database\Query\Builder;
 
 trait EmailRule
 {
-	const EMAIL_MAX_DIGITS = 255;
+	protected const EMAIL_MAX_DIGITS = 255;
 
 	public function getEmailRule(): array
 	{

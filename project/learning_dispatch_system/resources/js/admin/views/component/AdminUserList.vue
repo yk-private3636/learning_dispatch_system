@@ -37,16 +37,6 @@ onMounted(() => {
       lasetPage.value = users.last_page;
       userList.value = users.data;
       loading.value = true;
-    })
-    .catch((errors: AxiosError<UserSearch>) => {
-      const statusCode: number | undefined = errors.response?.status;
-
-      if (statusCode === 401) return;
-
-      if (statusCode !== 422) {
-        flashMsgState.setShowMsg(err.system, 'error');
-        router.push({ name: 'top' });
-      }
     });
 });
 

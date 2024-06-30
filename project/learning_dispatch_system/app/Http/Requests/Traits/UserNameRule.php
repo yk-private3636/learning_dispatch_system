@@ -4,8 +4,8 @@ namespace App\Http\Requests\Traits;
 
 trait UserNameRule
 {
-	private const USER_NAME_DIGITS = 30;
-	private const USER_FULL_NAME_DIGITS = 60;
+	protected const USER_NAME_DIGITS = 30;
+	protected const USER_FULL_NAME_DIGITS = 60;
 
 	public function getUserNameRule(): array
 	{

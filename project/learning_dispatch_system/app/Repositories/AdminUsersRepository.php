@@ -83,7 +83,8 @@ class AdminUsersRepository extends AbstractRepository
             $this->selectUsageStatus()
         ]);
 
-        $query = $this->search($query, $dto);
+        $query = $this->search($query, $dto)
+                ->orderBy('id');
 
         return $query->get();
     }
@@ -152,7 +153,8 @@ class AdminUsersRepository extends AbstractRepository
         }
 
         if($name !== null){
-            $query = $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"]);
+            $query = $query->whereRaw("CONCAT(family_name, name) LIKE ?", ["%{$name}%"])
+                        ->orWhereRaw("CONCAT(family_name, ' ', name) LIKE ?", ["%{$name}%"]);
         }
 
         if($usageStatus !== null){

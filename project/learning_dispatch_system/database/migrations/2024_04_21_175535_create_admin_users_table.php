@@ -25,6 +25,9 @@ return new class extends Migration
 
             $table->unique('email');
         });
+
+        // $tableName = app()->make(AdminUsersRepository::class)->tableName();
+        // DB::statement("ALTER TABLE {$tableName} MODIFY id INT(5) ZEROFILL AUTO_INCREMENT");
     }
 
     /**

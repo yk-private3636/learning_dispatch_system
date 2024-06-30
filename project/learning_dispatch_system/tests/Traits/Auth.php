@@ -4,6 +4,7 @@ namespace Tests\Traits;
 
 use App\Repositories\AdminUsersRepository;
 use App\Repositories\GeneralUsersRepository;
+use Illuminate\Foundation\Auth\User;
 
 trait Auth
 {
@@ -17,13 +18,15 @@ trait Auth
         };
     }
 
-    private function AdminAuthenticating(): void
+    private function AdminAuthenticating(): User
     {
        $app = app()->make(AdminUsersRepository::class);
 
        $user = $app->factories(1)->first();
 
        $this->actingAs($user, \UserEnum::ADMIN->guardName());
+
+       return $user;
     }
 
     private function GeneralAuthenticating(): void

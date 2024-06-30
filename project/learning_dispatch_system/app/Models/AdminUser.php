@@ -36,6 +36,11 @@ class AdminUser extends Authenticatable
     ];
 
     /** アクセサ **/
+    protected function getIdAttribute(int $value): string
+    {
+        return sprintf('%05d', $value);
+    }
+
     protected function lockDuration(): Attribute
     {
         return Attribute::make(

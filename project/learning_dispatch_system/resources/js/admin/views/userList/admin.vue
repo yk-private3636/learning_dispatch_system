@@ -38,13 +38,6 @@ onMounted(() => {
     .get(route('admin.partsData.usageStatus'))
     .then((response: AxiosResponse<UsageStatus[]>) => {
       statuses.value = response.data;
-    })
-    .catch((errors: AxiosError) => {
-      const statusCode: number | undefined = errors.response?.status;
-      if (statusCode === 401) return;
-
-      flashMsgState.setShowMsg(err.system, 'error');
-      router.push({ name: 'top' });
     });
 });
 
